@@ -27,6 +27,8 @@
     
     </dependencies>
     
+    <contributors></contributors>
+    
     <build>
     <plugins>
 

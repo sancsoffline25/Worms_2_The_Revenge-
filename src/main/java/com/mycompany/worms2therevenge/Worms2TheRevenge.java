@@ -8,9 +8,24 @@ package com.mycompany.worms2therevenge;
  *
  * @author Santiago Guinel y Lautaro Gutierrez
  */
-public class Worms2TheRevenge {
 
-    public static void main(String[] args) {
-        System.out.println("Hello World!");
+import com.mycompany.worms2therevenge.scenes.MainMenu;
+import javafx.application.Application;
+import javafx.stage.Stage;
+
+public class Worms2TheRevenge extends Application{
+
+    @Override
+    public void start(Stage stage){
+
+        MainMenu menu = new MainMenu();
+        menu.start(stage);
+
+    }
+
+    public static void main(String[] args){
+        launch(args);
     }
 }
+
+

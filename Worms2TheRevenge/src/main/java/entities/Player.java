@@ -10,10 +10,14 @@ package entities;
  */
 public class Player {
     
+    //Estadisticas Iniciales
     private int vida = 100; 
     private int reintentos = 3;
     private int ataque = 20; 
    
+    
+   //Inventario
+    private int[] items= new int[3];
     
     
 }

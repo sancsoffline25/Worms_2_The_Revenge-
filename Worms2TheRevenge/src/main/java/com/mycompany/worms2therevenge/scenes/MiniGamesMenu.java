@@ -6,9 +6,8 @@ package com.mycompany.worms2therevenge.scenes;
 
 /**
  *
- * @author Santiago Guinel
+ * @author Santiago Guinel y Lautaro Gutierrez
  */
-
 import javafx.application.Application;
 import javafx.stage.Stage;
 import javafx.scene.Scene;
@@ -19,59 +18,59 @@ import javafx.stage.Stage;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 
-public class MainMenu {
-    
-  
-    public void start(Stage stage){
+
+
+
+public class MiniGamesMenu {
+     
+        
+       public void start(Stage stage){
         
         //Titulo del juego
-        Label titulo = new Label("Worms 2 The Revenge");
+        Label titulo = new Label("Minijuegos");
         titulo.setFont(new Font(40));
         
-        //Botones
-        Button playButton = new Button("Jugar"); //Aca creamos los botones del Menú
-        Button minigamesButton = new Button("Minijuegos");
-        Button optionsButton = new Button("Opciones");
-        Button exitButton = new Button("Salir");
+        //Botones 
+        Button minigame1Button = new Button("MiniPesca"); 
+        Button minigame2Button = new Button("MiniBúsqueda");
+        Button minigame3Button = new Button("MiniAtrapada");
+        Button backButton = new Button("Volver"); 
         
         //Aca le asignamos el tamaño de los Botones
-        playButton.setPrefWidth(200);
-        minigamesButton.setPrefWidth(200);
-        optionsButton.setPrefWidth(200);
-        exitButton.setPrefWidth(200);
+        minigame1Button.setPrefWidth(160);
+        minigame2Button.setPrefWidth(160);
+        minigame3Button.setPrefWidth(160);
+        backButton.setPrefWidth(160);
         
-        //Aca le damos la función de salir al botón de sálir (una obviedad lo se)
-        exitButton.setOnAction(e -> {
-            stage.close();
+        //Aca le damos la función de volver(backButton)
+        backButton.setOnAction(e -> {
+            MainMenu menu = new MainMenu();
+            
+            menu.start(stage);
         });
         
-        
-        
-        minigamesButton.setOnAction(e -> {
-           MiniGamesMenu menu = new MiniGamesMenu();
+        minigame1Button.setOnAction(e -> {
+           MiniPesca menu = new MiniPesca();
            
            menu.start(stage);
-           
-           
-           
         });
         
-        //Aca el Layout vertical(Las VBOX tambien las ocupaba en Godot, Me traen recuerdos)
+        //Aca el Layout vertical
         VBox layout = new VBox(20);
         
         layout.getChildren().addAll( 
                 titulo,
-                playButton,
-                minigamesButton,
-                optionsButton,
-                exitButton
+                minigame1Button,
+                minigame2Button,
+                minigame3Button,
+                backButton
         ); //Aca el VBox layout se hace papá de los botones, asi los ordena
         
         layout.setAlignment(Pos.CENTER); //ponemos el layout al centro
         
         
         //Escena
-        Scene escena = new Scene(layout, 800, 600); //Ventana de la escena
+        Scene escena = new Scene(layout, 800, 600); //Parametros de la ventana
         
         stage.setTitle("Worms 2 The Revenge");
         stage.setScene(escena);
@@ -83,3 +82,6 @@ public class MainMenu {
     
     
 }
+
+
+    

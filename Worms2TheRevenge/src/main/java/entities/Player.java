@@ -19,5 +19,18 @@ public class Player {
    //Inventario
     private int[] items= new int[3];
     
+    //Metodos
+    public void perderIntento(){
+        reintentos--;
+    }
+    
+    public int getReintentos(){
+        return reintentos;
+    }
+    
+    public boolean sinIntentos(){
+        return reintentos <= 0;
+    }
+    
     
 }

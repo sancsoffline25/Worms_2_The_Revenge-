@@ -40,7 +40,9 @@ public class MainMenu {
         optionsButton.setPrefWidth(200);
         exitButton.setPrefWidth(200);
         
-        //Aca le damos la función de salir al botón de sálir (una obviedad lo se)
+        //=== funciones de los botoncitos ===
+        
+        //Aca le damos la función de salir 
         exitButton.setOnAction(e -> {
             stage.close();
         });
@@ -55,6 +57,14 @@ public class MainMenu {
            
            
         });
+        
+        playButton.setOnAction(e -> {
+            GamePlayBase menu = new GamePlayBase();
+            
+            menu.start(stage); 
+        });
+        
+        
         
         //Aca el Layout vertical(Las VBOX tambien las ocupaba en Godot, Me traen recuerdos)
         VBox layout = new VBox(20);
@@ -71,7 +81,7 @@ public class MainMenu {
         
         
         //Escena
-        Scene escena = new Scene(layout, 800, 600); //Ventana de la escena
+        Scene escena = new Scene(layout, 800, 600); //Parametros de la ventana
         
         stage.setTitle("Worms 2 The Revenge");
         stage.setScene(escena);

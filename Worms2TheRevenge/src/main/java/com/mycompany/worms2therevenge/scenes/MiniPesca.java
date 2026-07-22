@@ -22,7 +22,7 @@ public class MiniPesca {
     
     public void start(Stage stage){
         
-        Label titulo = new Label("Aca va el minijuego");
+        Label titulo = new Label("Aca va el minijuego"); //raaah
         
          //Botones 
         Button backButton = new Button("Volver"); 

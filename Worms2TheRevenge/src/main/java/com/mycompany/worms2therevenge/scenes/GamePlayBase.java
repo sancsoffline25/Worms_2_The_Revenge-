@@ -18,6 +18,8 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 
 //import entidades
@@ -36,17 +38,48 @@ public class GamePlayBase{
         
     //=== Declaración de variables a usar ===    
     
-    Button lefthand = new Button("Mano Izquierda");
-    Button righthand = new Button("Mano Derecha");
+    Button lefthand = new Button();
+    Button righthand = new Button();
+    
+    
             
     VBox root = new VBox(90);
     
-    HBox botones = new HBox(90);
+    HBox botones = new HBox(30);
     
     HBox hud = new HBox(90);
     
     Label resultado = new Label("");
     Label intentosRestantes = new Label("");
+    
+    //sprites manos
+    Image leftimage = new Image(getClass().getResourceAsStream("/Assets/Sprites/manos/frame1.png") //cargamos las imagenes
+    );
+    
+    Image rightimage = new Image(getClass().getResourceAsStream("/Assets/Sprites/manos/frame1.png")
+    );
+    
+    Image leftimageopen = new Image(getClass().getResourceAsStream("/Assets/Sprites/manos/frame3.png") //cargamos las imagenes
+    );
+    
+    Image rightimageopen = new Image(getClass().getResourceAsStream("/Assets/Sprites/manos/frame3.png")
+    );
+    
+    ImageView leftView = new ImageView(leftimage);
+    ImageView rightView = new ImageView(rightimage); //para que se vean
+    
+    leftView.setFitWidth(180);
+    leftView.setFitHeight(180);
+
+    rightView.setFitWidth(180);
+    rightView.setFitHeight(180); //tamaño de los sprites (altura y anchura)
+    
+    lefthand.setGraphic(leftView);
+    righthand.setGraphic(rightView); 
+    
+    righthand.setScaleX(-1);
+    lefthand.setStyle("-fx-background-color: transparent;");
+    righthand.setStyle("-fx-background-color: transparent;");
     
     //Organización de los Botones y Labels
     
@@ -65,9 +98,11 @@ public class GamePlayBase{
             intentosRestantes
     );
     
-    botones.setAlignment(Pos.CENTER);
+    //Posicionamiento de los contenedores
     
-    root.setAlignment(Pos.CENTER);
+    botones.setAlignment(Pos.BOTTOM_CENTER);
+    
+    root.setAlignment(Pos.BOTTOM_CENTER);
     
     hud.setAlignment(Pos.CENTER_RIGHT);
     
@@ -95,6 +130,8 @@ public class GamePlayBase{
     });
     
     righthand.setOnAction(e -> {
+        
+        
         if(manoCorrecta == 2){
            resultado.setText("Acertaste!");
        }else{
@@ -113,6 +150,29 @@ public class GamePlayBase{
         
         manoCorrecta = worms.nextInt(2) + 1;
     });
+    
+    
+    //Efectos visuales
+    lefthand.setOnMouseEntered(e -> {
+    leftView.setScaleX(1.2);
+    leftView.setScaleY(1.2);
+    });
+
+    lefthand.setOnMouseExited(e -> {
+    leftView.setScaleX(1);
+    leftView.setScaleY(1);
+    });
+    
+    righthand.setOnMouseEntered(e -> {
+       rightView.setScaleX(1.2);
+       rightView.setScaleY(1.2);
+    });
+    
+    righthand.setOnMouseExited(e -> {
+    rightView.setScaleX(1);
+    rightView.setScaleY(1);
+    });
+    
     
     
     

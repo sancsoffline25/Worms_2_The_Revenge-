@@ -48,7 +48,7 @@ public class MiniPesca {
         Scene escena = new Scene(layout,800,600);
         
         stage.setScene(escena);
-       
+     
     }
     
 }

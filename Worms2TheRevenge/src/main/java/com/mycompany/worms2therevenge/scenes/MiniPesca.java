@@ -6,7 +6,7 @@ package com.mycompany.worms2therevenge.scenes;
 
 /**
  *
- * @author Lautaro "LaroStar" Gutierrez
+ * @author Lautaro Gutierrez
  */
 import javafx.application.Application;
 import javafx.stage.Stage;
@@ -37,6 +37,7 @@ public class MiniPesca {
             menu.start(stage);
         });
       
+        
         VBox layout = new VBox(20);
         layout. setAlignment(Pos.CENTER);
         layout.getChildren().addAll(

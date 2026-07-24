@@ -13,7 +13,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Line;
 
-public class Hook {
+public class Hook{
     
     //Punto donde cuelga el anzuelo
     private final double originX;
@@ -26,8 +26,16 @@ public class Hook {
     //Representación gráfica
     private final Line line;
     private final Circle hookShape;
+    
+    // Estado del anzuelo. HookState referencia
+    private HookState state = HookState.SWINGING;
 
-    public Hook(double originX, double originY) {
+    // Movimiento del péndulo
+    private final double MAX_ANGLE = 45;
+    private double swingSpeed = 1.2;
+    private boolean movingRight = true;
+
+    public Hook(double originX, double originY){
 
         this.originX = originX;
         this.originY = originY;
@@ -46,7 +54,7 @@ public class Hook {
         updateGraphics();
     }
 
-    private void updateGraphics() {
+    private void updateGraphics(){
 
         double radians = Math.toRadians(angle);
 
@@ -63,32 +71,71 @@ public class Hook {
         hookShape.setCenterY(endY);
     }
     //Get es clave
-    public Line getLine() {
+    public Line getLine(){
         return line;
     }
 
-    public Circle getCircle() {
+    public Circle getCircle(){
         return hookShape;
     }
 
-    public double getAngle() {
+    public double getAngle(){
         return angle;
     }
 
-    public double getLength() {
+    public double getLength(){
         return length;
     }
-    //Set tambien es clave (Mentira, no lo entiendo)
-    public void setAngle(double angle) {
+    //Set tambien es clave (Ya lo entendi)
+    public void setAngle(double angle){
         this.angle = angle;
         updateGraphics();
     }
 
-    public void setLength(double length) {
+    public void setLength(double length){
         this.length = length;
         updateGraphics();
     }
 
+    public void update(){
+
+    switch (state) {
+        case SWINGING: //<-- Lo que dijo
+            if (movingRight) {
+                angle += swingSpeed;
+                if (angle >= MAX_ANGLE){
+                    angle = MAX_ANGLE;
+                    movingRight = false;
+
+                }
+
+            } else {
+
+                angle -= swingSpeed;
+
+                if (angle <= -MAX_ANGLE){
+                    angle = -MAX_ANGLE;
+                    movingRight = true;
+                }
+            }
+            break;
+            
+        case LOWERING:
+            // Se termina despues
+            break;
+            
+        case RAISING:
+            // Se termina despues
+            break;
+    }
+    updateGraphics();
+}
+    public HookState getState(){
+    return state;
+    }   
+    public void setState(HookState state){
+    this.state = state;
+    }
 }
     
 

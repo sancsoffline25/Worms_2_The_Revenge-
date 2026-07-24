@@ -8,6 +8,7 @@ package com.mycompany.worms2therevenge.scenes;
  *
  * @author Lautaro Gutierrez
  */
+import javafx.animation.AnimationTimer;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -54,6 +55,14 @@ public class MiniPesca {
         hook.getLine(),
         hook.getCircle()
         );
+        
+        AnimationTimer gameLoop = new AnimationTimer(){
+        @Override //@Santi, que es esto?
+        public void handle(long now){
+        hook.update();
+    }};
+
+        gameLoop.start();
         //No tengo que explicar esto
         Label titulo = new Label("Minijuego de Pesca");
 

@@ -7,6 +7,8 @@ package com.mycompany.worms2therevenge.scenes;
 /**
  *
  * @author Santiago Guinel
+ * Recomiendo escuchar "Chicago" de MJ mientras programas.
+ * 
  */
 import java.util.Random; //Separado al ser de Java y no JavaFX
 
@@ -20,6 +22,8 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.animation.PauseTransition;
+import javafx.util.Duration;
 
 
 //import entidades
@@ -27,39 +31,30 @@ import entities.Player;
 
 public class GamePlayBase{
     
+    // === Atributos de la clase ===
+    
     //Variables Atributo de la clase
      Random worms = new Random();
      int manoCorrecta = worms.nextInt(2) + 1;
      
      //Incorporación del jugador
      Player jugador = new Player();
+     
+     //Botones
+     Button lefthand = new Button(); 
+     Button righthand = new Button();
     
-    public void start(Stage stage){
-        
-    //=== Declaración de variables a usar ===    
-    
-    Button lefthand = new Button();
-    Button righthand = new Button();
-    
-    
-            
-    VBox root = new VBox(90);
-    
-    HBox botones = new HBox(30);
-    
-    HBox hud = new HBox(90);
-    
-    Label resultado = new Label("");
-    Label intentosRestantes = new Label("");
+    //Pausas
+    PauseTransition handTimer = new PauseTransition(Duration.millis(500));
     
     //sprites manos
-    Image leftimage = new Image(getClass().getResourceAsStream("/Assets/Sprites/manos/frame1.png") //cargamos las imagenes
+    Image leftimage = new Image(getClass().getResourceAsStream("/Assets/Sprites/manos/frame1.png") //cargamos las imagenes (manos cerradas)
     );
     
     Image rightimage = new Image(getClass().getResourceAsStream("/Assets/Sprites/manos/frame1.png")
     );
     
-    Image leftimageopen = new Image(getClass().getResourceAsStream("/Assets/Sprites/manos/frame3.png") //cargamos las imagenes
+    Image leftimageopen = new Image(getClass().getResourceAsStream("/Assets/Sprites/manos/frame3.png") //cargamos las imagenes (manos abiertas)
     );
     
     Image rightimageopen = new Image(getClass().getResourceAsStream("/Assets/Sprites/manos/frame3.png")
@@ -68,6 +63,62 @@ public class GamePlayBase{
     ImageView leftView = new ImageView(leftimage);
     ImageView rightView = new ImageView(rightimage); //para que se vean
     
+    
+    private void abrirManoDer(){
+        handTimer.stop();
+        
+        //cerrar ambas manos
+        leftView.setImage(leftimage);
+        rightView.setImage(rightimage);
+        
+        //abrir la mano derecha
+        rightView.setImage(rightimageopen);
+        
+        handTimer.setOnFinished(e ->{
+            rightView.setImage(rightimage);
+        });
+        
+        handTimer.playFromStart();
+    }
+    
+    private void abrirManoIzq(){
+        handTimer.stop();
+        
+        //cerrar ambas manos
+        leftView.setImage(leftimage);
+        rightView.setImage(rightimage);
+        
+        //abrir la mano izquierda
+        leftView.setImage(leftimageopen);
+        
+        handTimer.setOnFinished(e ->{
+            leftView.setImage(leftimage);
+        });
+        
+        handTimer.playFromStart();
+    }
+    
+    // === ACA ARRANCA LA ESCENA ===
+    public void start(Stage stage){
+        
+    //=== Declaración de variables a usar ===    
+    
+    //Contenedores
+    VBox root = new VBox(90);
+    
+    HBox botones = new HBox(30);
+    
+    HBox hud = new HBox(90);
+    
+    //Textos
+    Label resultado = new Label(""); //Te muestra si acertaste o no
+    Label intentosRestantes = new Label(""); //Te dice cuantos intentos tenes
+    
+    resultado.setFont(Font.font("Console", 25));
+    intentosRestantes.setFont(Font.font("Console", 20));
+    
+    
+    //Acomodación de los sprites
     leftView.setFitWidth(180);
     leftView.setFitHeight(180);
 
@@ -75,7 +126,7 @@ public class GamePlayBase{
     rightView.setFitHeight(180); //tamaño de los sprites (altura y anchura)
     
     lefthand.setGraphic(leftView);
-    righthand.setGraphic(rightView); 
+    righthand.setGraphic(rightView);
     
     righthand.setScaleX(-1);
     lefthand.setStyle("-fx-background-color: transparent;");
@@ -104,13 +155,16 @@ public class GamePlayBase{
     
     root.setAlignment(Pos.BOTTOM_CENTER);
     
-    hud.setAlignment(Pos.CENTER_RIGHT);
+    hud.setAlignment(Pos.BOTTOM_CENTER);
     
     //=== Lógica del Gameplay ===
     
     intentosRestantes.setText("Intentos: "+ jugador.getReintentos());
     
     lefthand.setOnAction(e -> {
+        
+        abrirManoIzq();
+        
        if(manoCorrecta == 1){
            resultado.setText("Acertaste!");
        }else{
@@ -131,6 +185,7 @@ public class GamePlayBase{
     
     righthand.setOnAction(e -> {
         
+        abrirManoDer();
         
         if(manoCorrecta == 2){
            resultado.setText("Acertaste!");

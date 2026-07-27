@@ -96,8 +96,8 @@ public class GamePlayBase{
         rightView.setImage(rightimageopen);
         
         handTimer.setOnFinished(e ->{
-            rightView.setImage(rightimage);
             wormView2.setVisible(false);
+            rightView.setImage(rightimage);
         });
         
         handTimer.playFromStart();
@@ -114,8 +114,8 @@ public class GamePlayBase{
         leftView.setImage(leftimageopen);
         
         handTimer.setOnFinished(e ->{
-            leftView.setImage(leftimage);
             wormView1.setVisible(false);
+            leftView.setImage(leftimage);
         });
         
         handTimer.playFromStart();
@@ -155,8 +155,8 @@ public class GamePlayBase{
     wormView1.setVisible(false);
     wormView2.setVisible(false);
     
-    wormView1.setTranslateY(-20);
-    wormView2.setTranslateY(-20);
+    wormView1.setTranslateY(-25);
+    wormView2.setTranslateY(-25);
     
     //-Manos
     leftView.setFitWidth(180);
@@ -267,21 +267,29 @@ public class GamePlayBase{
     lefthand.setOnMouseEntered(e -> {
     leftView.setScaleX(1.2);
     leftView.setScaleY(1.2);
+    wormView1.setScaleX(1.2);
+    wormView2.setScaleY(1.2);
     });
 
     lefthand.setOnMouseExited(e -> {
     leftView.setScaleX(1);
     leftView.setScaleY(1);
+    wormView1.setScaleX(1);
+    wormView1.setScaleY(1);
     });
     
     righthand.setOnMouseEntered(e -> {
        rightView.setScaleX(1.2);
        rightView.setScaleY(1.2);
+       wormView2.setScaleX(1.2);
+       wormView2.setScaleY(1.2);
     });
     
     righthand.setOnMouseExited(e -> {
     rightView.setScaleX(1);
     rightView.setScaleY(1);
+    wormView2.setScaleX(1);
+    wormView2.setScaleY(1);
     });
     
     

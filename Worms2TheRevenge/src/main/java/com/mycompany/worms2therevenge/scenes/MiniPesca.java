@@ -12,89 +12,82 @@ import javafx.animation.AnimationTimer;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
+import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
-import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-import javafx.scene.shape.Line;
-import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
-public class MiniPesca {
-
-    //Anzuelo(Clave)
-    private Hook hook;
-    
-    // Tamaño de la ventana
+public class MiniPesca{
+    //Tamaño de la ventana
     private final int WIDTH = 800;
     private final int HEIGHT = 600;
 
-    // Punto donde está la punta de la caña
+    //Punto donde está la punta de la caña
     private final double ORIGIN_X = 400;
     private final double ORIGIN_Y = 60;
-
-    // Objetos gráficos
+    //Objetos gráficos
     private Pane gamePane;
 
-    public void start(Stage stage) {
-        
+    public void start(Stage stage){
+
         gamePane = new Pane();
         gamePane.setPrefSize(WIDTH, HEIGHT);
-
-        // Fondo celeste
+        //Fondo celeste
         gamePane.setStyle("-fx-background-color: lightblue;");
-        
-        hook = new Hook(ORIGIN_X, ORIGIN_Y);
-        //Omega improtante, estos dos van a hacer que la cuerda balancee como en worms, boludea con los numeros si queres
-        hook.setAngle(35);
-        hook.setLength(180);
-        
+
+        Hook hook = new Hook(ORIGIN_X, ORIGIN_Y);
         //Referencia a Hook.java para los valores del anzuelo
         gamePane.getChildren().addAll(
-        hook.getLine(),
-        hook.getCircle()
+                hook.getLine(),
+                hook.getCircle()
         );
-        
-        AnimationTimer gameLoop = new AnimationTimer(){
-        @Override //@Santi, que es esto?
-        public void handle(long now){
-        hook.update();
-    }};
 
-        gameLoop.start();
-        //No tengo que explicar esto
         Label titulo = new Label("Minijuego de Pesca");
 
+        Button launchButton = new Button("Lanzar anzuelo");
         Button backButton = new Button("Volver");
 
-        backButton.setOnAction(e -> {
+        launchButton.setOnAction(e -> hook.startLowering());
 
+        backButton.setOnAction(e -> {
             MiniGamesMenu menu = new MiniGamesMenu();
             menu.start(stage);
-
         });
-        //Ajustes a la ventana. Testing, despues se cambia
+
+        HBox buttons = new HBox(10);
+        buttons.setAlignment(Pos.CENTER);
+        buttons.getChildren().addAll(launchButton, backButton);
+
         VBox top = new VBox(10);
-
         top.setAlignment(Pos.CENTER);
-
-        top.getChildren().addAll(titulo);
+        top.getChildren().add(titulo);
 
         BorderPane root = new BorderPane();
-
         root.setCenter(gamePane);
         root.setTop(top);
-        root.setBottom(backButton);
-
-        BorderPane.setAlignment(backButton, Pos.CENTER);
+        root.setBottom(buttons);
 
         Scene scene = new Scene(root, WIDTH, HEIGHT);
+
+        scene.setOnKeyPressed(e -> {
+            if (e.getCode() == KeyCode.SPACE){
+                hook.startLowering();
+            }
+        });
 
         stage.setScene(scene);
         stage.show();
 
-    }
-    
+        AnimationTimer gameLoop = new AnimationTimer(){
+            @Override //@Santi, que es esto?
+            public void handle(long now){
+                hook.update(now);
+            }
+        };
 
+        gameLoop.start();
+    }
 }

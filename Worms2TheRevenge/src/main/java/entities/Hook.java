@@ -32,8 +32,11 @@ public class Hook{
 
     // Movimiento del péndulo
     private final double MAX_ANGLE = 45;
-    private double swingSpeed = 1.2;
+    private double swingSpeedDegPerSec = 80.0;
+    private final double loweringSpeedPxPerSec = 220.0; //Alta variable, decila en voz alta
+    private final double MAX_LENGTH = 500.0;
     private boolean movingRight = true;
+    private long lastUpdateNanos = -1L;
 
     public Hook(double originX, double originY){
 
@@ -46,11 +49,55 @@ public class Hook{
 
         // Creamos los elementos gráficos
         line = new Line();
-
         hookShape = new Circle(8);
         hookShape.setFill(Color.RED);
 
         //Posición inicial
+        updateGraphics();
+    }
+    //Implementando deltatime
+     public void update(long now){
+        if (lastUpdateNanos < 0) {
+            lastUpdateNanos = now;
+            updateGraphics();
+            return;
+        }
+
+        double dt = (now - lastUpdateNanos) / 1_000_000_000.0;
+        lastUpdateNanos = now;
+
+        switch (state){
+            case SWINGING:
+                double delta = swingSpeedDegPerSec * dt;
+
+                if (movingRight){
+                    angle += delta;
+                    if (angle >= MAX_ANGLE){
+                        angle = MAX_ANGLE;
+                        movingRight = false;
+                    }
+                }else{
+                    angle -= delta;
+                    if (angle <= -MAX_ANGLE){
+                        angle = -MAX_ANGLE;
+                        movingRight = true;
+                    }
+                }
+                break;
+
+            case LOWERING:
+                length += loweringSpeedPxPerSec * dt;
+                if (length >= MAX_LENGTH){
+                    length = MAX_LENGTH;
+                    //Mas tarde hago que suba, quiero ir a dormir.
+                }
+                break;
+
+            case RAISING:
+                //Aca hago que suba. Despues.
+                break;
+        }
+
         updateGraphics();
     }
 
@@ -69,6 +116,12 @@ public class Hook{
 
         hookShape.setCenterX(endX);
         hookShape.setCenterY(endY);
+    }
+    
+    public void startLowering(){
+        if(state == HookState.SWINGING){
+            state = HookState.LOWERING;
+        }
     }
     //Get es clave
     public Line getLine(){
@@ -96,40 +149,6 @@ public class Hook{
         this.length = length;
         updateGraphics();
     }
-
-    public void update(){
-
-    switch (state) {
-        case SWINGING: //<-- Lo que dijo
-            if (movingRight) {
-                angle += swingSpeed;
-                if (angle >= MAX_ANGLE){
-                    angle = MAX_ANGLE;
-                    movingRight = false;
-
-                }
-
-            } else {
-
-                angle -= swingSpeed;
-
-                if (angle <= -MAX_ANGLE){
-                    angle = -MAX_ANGLE;
-                    movingRight = true;
-                }
-            }
-            break;
-            
-        case LOWERING:
-            // Se termina despues
-            break;
-            
-        case RAISING:
-            // Se termina despues
-            break;
-    }
-    updateGraphics();
-}
     public HookState getState(){
     return state;
     }   

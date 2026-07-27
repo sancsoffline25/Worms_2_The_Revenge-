@@ -21,6 +21,8 @@ import javafx.scene.shape.Line;
 import javafx.scene.control.Label;
 import javafx.stage.Stage;
 
+import entities.Hook;
+
 public class MiniPesca {
 
     //Anzuelo(Clave)

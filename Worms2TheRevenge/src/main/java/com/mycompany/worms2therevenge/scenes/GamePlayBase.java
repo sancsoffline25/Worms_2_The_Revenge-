@@ -24,10 +24,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
-
+import javafx.scene.layout.StackPane;
 
 //import entidades
 import entities.Player;
+
 
 public class GamePlayBase{
     
@@ -36,6 +37,13 @@ public class GamePlayBase{
     //Variables Atributo de la clase
      Random worms = new Random();
      int manoCorrecta = worms.nextInt(2) + 1;
+     
+     Random sprites = new Random();
+     int wormsprites = sprites.nextInt(3) + 1;
+     
+     //StackPanes
+     StackPane leftHandPane = new StackPane();
+     StackPane rightHandPane = new StackPane();
      
      //Incorporación del jugador
      Player jugador = new Player();
@@ -60,9 +68,22 @@ public class GamePlayBase{
     Image rightimageopen = new Image(getClass().getResourceAsStream("/Assets/Sprites/manos/frame3.png")
     );
     
+    //sprites gusanos
+    Image worm1 = new Image(getClass().getResourceAsStream("/Assets/Sprites/worms/gusano1.png")); //aca van los gusanitos facheros
+    Image worm2 = new Image(getClass().getResourceAsStream("/Assets/Sprites/worms/gusano2.png"));
+    
+    
+    //ImageView Manos
     ImageView leftView = new ImageView(leftimage);
     ImageView rightView = new ImageView(rightimage); //para que se vean
     
+    //ImageView gusanos
+    ImageView wormView1 = new ImageView(worm1);
+    ImageView wormView2 = new ImageView(worm2);
+    
+    
+    
+    //Metodos
     
     private void abrirManoDer(){
         handTimer.stop();
@@ -76,6 +97,7 @@ public class GamePlayBase{
         
         handTimer.setOnFinished(e ->{
             rightView.setImage(rightimage);
+            wormView2.setVisible(false);
         });
         
         handTimer.playFromStart();
@@ -93,12 +115,15 @@ public class GamePlayBase{
         
         handTimer.setOnFinished(e ->{
             leftView.setImage(leftimage);
+            wormView1.setVisible(false);
         });
         
         handTimer.playFromStart();
     }
     
+
     // === ACA ARRANCA LA ESCENA ===
+    
     public void start(Stage stage){
         
     //=== Declaración de variables a usar ===    
@@ -119,26 +144,55 @@ public class GamePlayBase{
     
     
     //Acomodación de los sprites
+    
+    //-Gusanos
+    wormView1.setFitWidth(70);
+    wormView1.setFitHeight(70);
+    
+    wormView2.setFitWidth(70);
+    wormView2.setFitHeight(70);
+    
+    wormView1.setVisible(false);
+    wormView2.setVisible(false);
+    
+    wormView1.setTranslateY(-20);
+    wormView2.setTranslateY(-20);
+    
+    //-Manos
     leftView.setFitWidth(180);
     leftView.setFitHeight(180);
 
     rightView.setFitWidth(180);
     rightView.setFitHeight(180); //tamaño de los sprites (altura y anchura)
     
-    lefthand.setGraphic(leftView);
+    lefthand.setGraphic(leftView); //para poner las imagenes dentro de los botones
     righthand.setGraphic(rightView);
     
     righthand.setScaleX(-1);
     lefthand.setStyle("-fx-background-color: transparent;");
     righthand.setStyle("-fx-background-color: transparent;");
     
-    //Organización de los Botones y Labels
+    //Organización de los Botones, Labels y StackPane
     
     root.getChildren().addAll(
             resultado,
             botones,
             hud
     );
+    
+     leftHandPane.getChildren().addAll(
+            leftView,
+            wormView1
+    );
+    
+    rightHandPane.getChildren().addAll(
+            rightView,
+            wormView2
+    );
+    
+    
+    lefthand.setGraphic(leftHandPane);
+    righthand.setGraphic(rightHandPane);
     
     botones.getChildren().addAll(
             lefthand,
@@ -167,6 +221,7 @@ public class GamePlayBase{
         
        if(manoCorrecta == 1){
            resultado.setText("Acertaste!");
+           wormView1.setVisible(true);
        }else{
            resultado.setText("Respuesta incorrecta");
            jugador.perderIntento();
@@ -189,6 +244,7 @@ public class GamePlayBase{
         
         if(manoCorrecta == 2){
            resultado.setText("Acertaste!");
+           wormView2.setVisible(true);
        }else{
            resultado.setText("Respuesta incorrecta");
            jugador.perderIntento();

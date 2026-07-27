@@ -21,6 +21,7 @@ public class Hook{
     private final double originY;
 
     //Estado del anzuelo
+    private final double INITIAL_LENGTH = 120;
     private double length;
     private double angle;
 
@@ -28,24 +29,32 @@ public class Hook{
     private final Line line;
     private final Circle hookShape;
     
-    // Estado del anzuelo. HookState referencia
+    //Estado del anzuelo. HookState referencia
     private HookState state = HookState.SWINGING;
 
-    // Movimiento del péndulo
+    //Movimiento del péndulo
     private final double MAX_ANGLE = 45;
     private double swingSpeedDegPerSec = 80.0;
-    private final double loweringSpeedPxPerSec = 220.0; //Alta variable, decila en voz alta
+    
+    //Subida y bajada del anzuelo
+    private final double loweringSpeedPxPerSec = 260.0; //Alta variable, decila en voz alta
+    private final double raisingSpeedPxPerSec = 520.0;
+    
+    //Nose, no lo toques
     private final double MAX_LENGTH = 500.0;
     private boolean movingRight = true;
     private long lastUpdateNanos = -1L;
 
+    //Posicion del hook en la ventana
+    private double hookX;
+    private double hookY;
     public Hook(double originX, double originY){
 
         this.originX = originX;
         this.originY = originY;
 
         //Estado inicial
-        this.length = 120;
+        this.length = INITIAL_LENGTH;
         this.angle = 0;
 
         // Creamos los elementos gráficos
@@ -88,14 +97,24 @@ public class Hook{
 
             case LOWERING:
                 length += loweringSpeedPxPerSec * dt;
-                if (length >= MAX_LENGTH){
-                    length = MAX_LENGTH;
-                    //Mas tarde hago que suba, quiero ir a dormir.
+                if (hookY >= 560) {
+                    state = HookState.RAISING;
+                if (hookX <= 0 || hookX >= 800) {
+                state = HookState.RAISING;
+                }
+                    
                 }
                 break;
 
             case RAISING:
-                //Aca hago que suba. Despues.
+               
+                length -= raisingSpeedPxPerSec * dt;
+                
+                if (length <= INITIAL_LENGTH) {
+                    length = INITIAL_LENGTH;
+                    state = HookState.SWINGING;
+
+                } 
                 break;
         }
 
@@ -106,17 +125,17 @@ public class Hook{
 
         double radians = Math.toRadians(angle);
 
-        double endX = originX + Math.sin(radians) * length;
-        double endY = originY + Math.cos(radians) * length;
+        hookX = originX + Math.sin(radians) * length;
+        hookY = originY + Math.cos(radians) * length;
 
         line.setStartX(originX);
         line.setStartY(originY);
 
-        line.setEndX(endX);
-        line.setEndY(endY);
+        line.setEndX(hookX);
+        line.setEndY(hookY);
 
-        hookShape.setCenterX(endX);
-        hookShape.setCenterY(endY);
+        hookShape.setCenterX(hookX);
+        hookShape.setCenterY(hookY);
     }
     
     public void startLowering(){

@@ -25,9 +25,11 @@ import javafx.scene.image.ImageView;
 import javafx.animation.PauseTransition;
 import javafx.util.Duration;
 import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 
 //import entidades
 import entities.Player;
+import entities.Enemy; 
 
 
 public class GamePlayBase{
@@ -42,11 +44,15 @@ public class GamePlayBase{
      int wormsprites = sprites.nextInt(3) + 1;
      
      //StackPanes
+     StackPane oldmanPane = new StackPane();
      StackPane leftHandPane = new StackPane();
      StackPane rightHandPane = new StackPane();
      
      //Incorporación del jugador
      Player jugador = new Player();
+     
+     //Incorporación del enemigo
+     Enemy viejo = new Enemy();
      
      //Botones
      Button lefthand = new Button(); 
@@ -68,6 +74,7 @@ public class GamePlayBase{
     Image rightimageopen = new Image(getClass().getResourceAsStream("/Assets/Sprites/manos/frame3.png")
     );
     
+    
     //sprites gusanos
     Image worm1 = new Image(getClass().getResourceAsStream("/Assets/Sprites/worms/gusano1.png")); //aca van los gusanitos facheros
     Image worm2 = new Image(getClass().getResourceAsStream("/Assets/Sprites/worms/gusano2.png"));
@@ -81,6 +88,12 @@ public class GamePlayBase{
     ImageView wormView1 = new ImageView(worm1);
     ImageView wormView2 = new ImageView(worm2);
     
+    //sprites enemigo
+     Image enemieIdleSprite = new Image(getClass().getResourceAsStream("/Assets/Sprites/viejo/prototipo.png"));
+    
+     //ImageView enemigo
+     ImageView enemyIdle = new ImageView(enemieIdleSprite);
+    
     
     
     //Metodos
@@ -91,6 +104,10 @@ public class GamePlayBase{
         //cerrar ambas manos
         leftView.setImage(leftimage);
         rightView.setImage(rightimage);
+        
+        //ocultar gusanos
+        wormView1.setVisible(false);
+        wormView2.setVisible(false);
         
         //abrir la mano derecha
         rightView.setImage(rightimageopen);
@@ -109,6 +126,10 @@ public class GamePlayBase{
         //cerrar ambas manos
         leftView.setImage(leftimage);
         rightView.setImage(rightimage);
+        
+        //ocultar gusanos
+        wormView1.setVisible(false);
+        wormView2.setVisible(false);
         
         //abrir la mano izquierda
         leftView.setImage(leftimageopen);
@@ -131,7 +152,9 @@ public class GamePlayBase{
     //Contenedores
     VBox root = new VBox(90);
     
-    HBox botones = new HBox(30);
+    root.setStyle("-fx-background-color: black;");
+    
+    HBox botones = new HBox(240);
     
     HBox hud = new HBox(90);
     
@@ -140,7 +163,12 @@ public class GamePlayBase{
     Label intentosRestantes = new Label(""); //Te dice cuantos intentos tenes
     
     resultado.setFont(Font.font("Console", 25));
+    resultado.setTextFill(Color.WHITE);
+    
+    resultado.setTranslateY(100);
+    
     intentosRestantes.setFont(Font.font("Console", 20));
+    intentosRestantes.setTextFill(Color.WHITE);
     
     
     //Acomodación de los sprites
@@ -169,30 +197,27 @@ public class GamePlayBase{
     righthand.setGraphic(rightView);
     
     righthand.setScaleX(-1);
+    
+    lefthand.setTranslateY(100);
+    righthand.setTranslateY(100);
+    
     lefthand.setStyle("-fx-background-color: transparent;");
     righthand.setStyle("-fx-background-color: transparent;");
+    
+    //-Enemigo
+    enemyIdle.setFitWidth(700);
+    enemyIdle.setFitHeight(700);
+    
+    enemyIdle.setTranslateY(450);
     
     //Organización de los Botones, Labels y StackPane
     
     root.getChildren().addAll(
+            oldmanPane,
             resultado,
             botones,
             hud
     );
-    
-     leftHandPane.getChildren().addAll(
-            leftView,
-            wormView1
-    );
-    
-    rightHandPane.getChildren().addAll(
-            rightView,
-            wormView2
-    );
-    
-    
-    lefthand.setGraphic(leftHandPane);
-    righthand.setGraphic(rightHandPane);
     
     botones.getChildren().addAll(
             lefthand,
@@ -202,6 +227,27 @@ public class GamePlayBase{
     hud.getChildren().add(
             intentosRestantes
     );
+    
+    leftHandPane.getChildren().addAll(
+            leftView,
+            wormView1
+    );
+    
+    rightHandPane.getChildren().addAll(
+            rightView,
+            wormView2
+    );
+    
+    oldmanPane.getChildren().addAll(
+            enemyIdle,
+            leftHandPane,
+            rightHandPane
+    );
+
+    //SetGraphic Manos
+    lefthand.setGraphic(leftHandPane);
+    righthand.setGraphic(rightHandPane);
+    
     
     //Posicionamiento de los contenedores
     

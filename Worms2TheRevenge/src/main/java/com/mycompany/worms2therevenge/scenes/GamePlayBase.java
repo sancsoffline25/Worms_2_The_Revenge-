@@ -26,11 +26,15 @@ import javafx.animation.PauseTransition;
 import javafx.util.Duration;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.media.AudioClip; 
+
 
 //import entidades
 import entities.Player;
-import entities.Enemy; 
+import entities.Enemy;
 
+//import recursos (por asi decirle)
+import ui.DialogueBlox;
 
 public class GamePlayBase{
     
@@ -41,7 +45,7 @@ public class GamePlayBase{
      int manoCorrecta = worms.nextInt(2) + 1;
      
      Random sprites = new Random();
-     int wormsprites = sprites.nextInt(3) + 1;
+     int wormsprites = sprites.nextInt(3) + 1; //una herramienta secreta que nos ayudará mas tarde
      
      //StackPanes
      StackPane oldmanPane = new StackPane();
@@ -52,7 +56,7 @@ public class GamePlayBase{
      Player jugador = new Player();
      
      //Incorporación del enemigo
-     Enemy viejo = new Enemy();
+     Enemy viejo = new Enemy(); //una herramienta secreta que nos ayudará mas tarde x2
      
      //Botones
      Button lefthand = new Button(); 
@@ -89,7 +93,7 @@ public class GamePlayBase{
     ImageView wormView2 = new ImageView(worm2);
     
     //sprites enemigo
-     Image enemieIdleSprite = new Image(getClass().getResourceAsStream("/Assets/Sprites/viejo/prototipo.png"));
+     Image enemieIdleSprite = new Image(getClass().getResourceAsStream("/Assets/Sprites/viejo/oldman.png"));
     
      //ImageView enemigo
      ImageView enemyIdle = new ImageView(enemieIdleSprite);
@@ -165,7 +169,7 @@ public class GamePlayBase{
     resultado.setFont(Font.font("Console", 25));
     resultado.setTextFill(Color.WHITE);
     
-    resultado.setTranslateY(100);
+    resultado.setTranslateY(155);
     
     intentosRestantes.setFont(Font.font("Console", 20));
     intentosRestantes.setTextFill(Color.WHITE);
@@ -174,11 +178,11 @@ public class GamePlayBase{
     //Acomodación de los sprites
     
     //-Gusanos
-    wormView1.setFitWidth(70);
-    wormView1.setFitHeight(70);
+    wormView1.setFitWidth(60);
+    wormView1.setFitHeight(60);
     
-    wormView2.setFitWidth(70);
-    wormView2.setFitHeight(70);
+    wormView2.setFitWidth(60);
+    wormView2.setFitHeight(60);
     
     wormView1.setVisible(false);
     wormView2.setVisible(false);
@@ -187,11 +191,11 @@ public class GamePlayBase{
     wormView2.setTranslateY(-25);
     
     //-Manos
-    leftView.setFitWidth(180);
-    leftView.setFitHeight(180);
+    leftView.setFitWidth(160);
+    leftView.setFitHeight(160);
 
-    rightView.setFitWidth(180);
-    rightView.setFitHeight(180); //tamaño de los sprites (altura y anchura)
+    rightView.setFitWidth(160);
+    rightView.setFitHeight(160); //tamaño de los sprites (altura y anchura)
     
     lefthand.setGraphic(leftView); //para poner las imagenes dentro de los botones
     righthand.setGraphic(rightView);
@@ -208,7 +212,10 @@ public class GamePlayBase{
     enemyIdle.setFitWidth(700);
     enemyIdle.setFitHeight(700);
     
-    enemyIdle.setTranslateY(450);
+    enemyIdle.setTranslateY(470
+    
+    );
+    enemyIdle.setTranslateX(-50);
     
     //Organización de los Botones, Labels y StackPane
     

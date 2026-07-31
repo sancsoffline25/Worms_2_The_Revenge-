@@ -38,7 +38,7 @@ public class MiniPesca{
         //Fondo celeste
         gamePane.setStyle("-fx-background-color: lightblue;");
 
-        Hook hook = new Hook(ORIGIN_X, ORIGIN_Y);
+        Hook hook = new Hook(ORIGIN_X, ORIGIN_Y,HEIGHT - 50);
         //Referencia a Hook.java para los valores del anzuelo
         gamePane.getChildren().addAll(
                 hook.getLine(),

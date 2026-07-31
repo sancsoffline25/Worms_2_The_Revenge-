@@ -6,14 +6,8 @@ package entities;
 
 /**
  *
- * @author Santiago GUi
+ * @author laros
  */
-
-import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
-
-public class Enemy {
+public class FishManager {
     
-    //Pronto variables propias del enemigo
-    //No tienes enemigos, nadie tiene enemigos.
 }

@@ -48,10 +48,13 @@ public class Hook{
     //Posicion del hook en la ventana
     private double hookX;
     private double hookY;
-    public Hook(double originX, double originY){
+    private final double bottomLimit;
+    
+    public Hook(double originX, double originY, double bottomLimit){
 
         this.originX = originX;
         this.originY = originY;
+        this.bottomLimit = bottomLimit;
 
         //Estado inicial
         this.length = INITIAL_LENGTH;
@@ -97,13 +100,14 @@ public class Hook{
 
             case LOWERING:
                 length += loweringSpeedPxPerSec * dt;
-                if (hookY >= 560) {
+                if (hookY >= bottomLimit) {
                     state = HookState.RAISING;
+                  
+                }
                 if (hookX <= 0 || hookX >= 800) {
                 state = HookState.RAISING;
                 }
-                    
-                }
+                  
                 break;
 
             case RAISING:

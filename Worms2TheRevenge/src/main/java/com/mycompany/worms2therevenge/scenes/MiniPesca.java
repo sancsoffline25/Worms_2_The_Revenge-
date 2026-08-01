@@ -8,6 +8,7 @@ package com.mycompany.worms2therevenge.scenes;
  *
  * @author Lautaro Gutierrez
  */
+import entities.Fish;
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -30,10 +31,16 @@ public class MiniPesca{
     private final double ORIGIN_Y = 60;
     //Objetos gráficos
     private Pane gamePane;
-
+    
+    
+    
     public void start(Stage stage){
-
+       
         gamePane = new Pane();
+        
+        //Pez! No preguntes porque esta tan arriba
+        Fish fish = new Fish(470,420);
+        gamePane.getChildren().add(fish.getSprite());
         gamePane.setPrefSize(WIDTH, HEIGHT);
         //Fondo celeste
         gamePane.setStyle("-fx-background-color: lightblue;");
@@ -44,7 +51,7 @@ public class MiniPesca{
                 hook.getLine(),
                 hook.getCircle()
         );
-
+        
         Label titulo = new Label("Minijuego de Pesca");
 
         Button launchButton = new Button("Lanzar anzuelo");
@@ -85,9 +92,24 @@ public class MiniPesca{
             @Override //@Santi, que es esto?
             public void handle(long now){
                 hook.update(now);
+                if(!fish.isCaptured()){
+                    if(fish.isTouching(
+                            hook.getHookX(),
+                            hook.getHookY())){
+                        fish.capture();
+                        hook.catchFish();
+                    }
+                }
+                fish.update(
+                hook.getHookX(),
+                hook.getHookY());
             }
+            
+            
         };
 
         gameLoop.start();
     }
+    //Aca se introducen los peces
+    
 }

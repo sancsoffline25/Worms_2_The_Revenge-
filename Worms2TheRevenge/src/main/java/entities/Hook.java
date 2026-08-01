@@ -179,5 +179,23 @@ public class Hook{
     public void setState(HookState state){
     this.state = state;
     }
+    public void catchFish() {
+
+    if (state == HookState.LOWERING) {
+        state = HookState.RAISING;
+    }
+
+}
+    //"Getters" para llamar variables hacia "Fish"
+    public double getHookX(){
+
+    return hookX;
+
+    }
+    public double getHookY(){
+
+    return hookY;
+
+    }
 }
 

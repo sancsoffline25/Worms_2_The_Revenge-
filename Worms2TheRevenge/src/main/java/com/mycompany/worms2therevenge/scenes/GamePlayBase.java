@@ -8,7 +8,7 @@ package com.mycompany.worms2therevenge.scenes;
  *
  * @author Santiago Guinel
  * Recomiendo escuchar "Chicago" de MJ mientras programas.
- * 
+ * Concuerdo
  */
 import java.util.Random; //Separado al ser de Java y no JavaFX
 

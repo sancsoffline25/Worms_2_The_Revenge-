@@ -97,9 +97,10 @@ public class GamePlayBase{
     
      //ImageView enemigo
      ImageView enemyIdle = new ImageView(enemieIdleSprite);
-    
-    
-    
+     
+     //Dialogo del enemigo
+     DialogueBlox dialogo = new DialogueBlox();
+
     //Metodos
     
     private void abrirManoDer(){
@@ -146,6 +147,20 @@ public class GamePlayBase{
         handTimer.playFromStart();
     }
     
+    //Dialogo Introducción
+    private void mostrarIntro1(){
+    
+            dialogo.mostrar("Viejo", "hola pequeño... ¿estas buscando a tus amigos? Juguemos un rato...");
+            
+            PauseTransition esperaDialogo = new PauseTransition(Duration.seconds(4));
+            
+            esperaDialogo.setOnFinished(e -> {
+                dialogo.ocultar();
+            });
+            
+        esperaDialogo.play();
+    }
+    
 
     // === ACA ARRANCA LA ESCENA ===
     
@@ -162,6 +177,9 @@ public class GamePlayBase{
     
     HBox hud = new HBox(90);
     
+    VBox dialogueContainer= new VBox(90);
+    dialogueContainer.setTranslateY(-400);
+    
     //Textos
     Label resultado = new Label(""); //Te muestra si acertaste o no
     Label intentosRestantes = new Label(""); //Te dice cuantos intentos tenes
@@ -169,7 +187,7 @@ public class GamePlayBase{
     resultado.setFont(Font.font("Console", 25));
     resultado.setTextFill(Color.WHITE);
     
-    resultado.setTranslateY(155);
+    resultado.setTranslateY(60);
     
     intentosRestantes.setFont(Font.font("Console", 20));
     intentosRestantes.setTextFill(Color.WHITE);
@@ -202,8 +220,8 @@ public class GamePlayBase{
     
     righthand.setScaleX(-1);
     
-    lefthand.setTranslateY(100);
-    righthand.setTranslateY(100);
+    lefthand.setTranslateY(-15);
+    righthand.setTranslateY(-15);
     
     lefthand.setStyle("-fx-background-color: transparent;");
     righthand.setStyle("-fx-background-color: transparent;");
@@ -221,6 +239,7 @@ public class GamePlayBase{
     
     root.getChildren().addAll(
             oldmanPane,
+            dialogueContainer,
             resultado,
             botones,
             hud
@@ -250,6 +269,9 @@ public class GamePlayBase{
             leftHandPane,
             rightHandPane
     );
+    
+        
+    dialogueContainer.getChildren().add(dialogo);
 
     //SetGraphic Manos
     lefthand.setGraphic(leftHandPane);
@@ -263,6 +285,8 @@ public class GamePlayBase{
     root.setAlignment(Pos.BOTTOM_CENTER);
     
     hud.setAlignment(Pos.BOTTOM_CENTER);
+    
+    dialogueContainer.setAlignment(Pos.TOP_LEFT);
     
     //=== Lógica del Gameplay ===
     
@@ -349,11 +373,12 @@ public class GamePlayBase{
     
     
     //Escena
-       Scene escena = new Scene(root, 800, 600); //Parametros de la ventana
+       Scene escena = new Scene(root, 1280, 720); //Parametros de la ventana
         
         stage.setTitle("Worms 2 The Revenge");
         stage.setScene(escena);
         stage.show(); //Mostrar Escena 
+        mostrarIntro1();
     
 }
     

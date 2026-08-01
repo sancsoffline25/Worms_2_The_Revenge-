@@ -47,12 +47,19 @@ public class DialogueBlox extends VBox{
                 nombre,
                 texto
         );
+        
+        setVisible(false);
     }
     
-    public void mostrat(String quien, String mensaje){
+    public void mostrar(String quien, String mensaje){
         nombre.setText(quien);
         texto.setText(mensaje);
         setVisible(true);
+    }
+    
+    public void ocultar(){
+    setVisible(false);
+    
     }
     
     

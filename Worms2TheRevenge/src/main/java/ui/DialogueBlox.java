@@ -14,6 +14,8 @@ import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import javafx.animation.PauseTransition;
+import javafx.util.Duration;
 
 public class DialogueBlox extends VBox{
     
@@ -61,6 +63,5 @@ public class DialogueBlox extends VBox{
     setVisible(false);
     
     }
-    
     
 }

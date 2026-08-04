@@ -32,6 +32,7 @@ import javafx.scene.media.AudioClip;
 //import entidades
 import entities.Player;
 import entities.Enemy;
+import sounds.oldmansounds;
 
 //import recursos (por asi decirle)
 import ui.DialogueBlox;
@@ -57,6 +58,10 @@ public class GamePlayBase{
      
      //Incorporación del enemigo
      Enemy viejo = new Enemy(); //una herramienta secreta que nos ayudará mas tarde x2
+     
+     //Sonidos del enemigo
+     oldmansounds viejoSonidos = new oldmansounds(); 
+     
      
      //Botones
      Button lefthand = new Button(); 
@@ -147,18 +152,63 @@ public class GamePlayBase{
         handTimer.playFromStart();
     }
     
-    //Dialogo Introducción
-    private void mostrarIntro1(){
     
-            dialogo.mostrar("Viejo", "hola pequeño... ¿estas buscando a tus amigos? Juguemos un rato...");
+    //Dialogo Inicial
+    public void dialogoIntro(){ 
+    
+        //Dialogo1
+        dialogo.mostrar("Viejo", "Hola pequeño... ¿Buscas a tus amigos?");
+        viejoSonidos.playDialogue1();
+        PauseTransition pausa1 = new PauseTransition(Duration.seconds(6));
+        
+        //desactivamos los botones
+        righthand.setDisable(true);
+        lefthand.setDisable(true);
+        //y hacemos las manos invisibles
+        righthand.setVisible(false);
+        lefthand.setVisible(false);
+        
+        pausa1.setOnFinished (e -> {
+            //Dialogo2
+            dialogo.mostrar("Viejo", "Juguemos algo...¿si?");
+            viejoSonidos.playDialogue2();
             
-            PauseTransition esperaDialogo = new PauseTransition(Duration.seconds(4));
+            PauseTransition pausa2 = new PauseTransition(Duration.seconds(5));
             
-            esperaDialogo.setOnFinished(e -> {
+            pausa2.setOnFinished(e2 -> {
+                //aca mostramos las manos
+                righthand.setVisible(true);
+                lefthand.setVisible(true);
+                
+               //Dialogo3
+               dialogo.mostrar("Viejo", "Dime ¿en que mano tengo al gusano?");
+               viejoSonidos.playDialogue3();
+               
+               PauseTransition pausa3 = new PauseTransition(Duration.seconds(6));
+               
+               pausa3.setOnFinished(e3 -> {
+                //Dialogo4
+                dialogo.mostrar("Viejo", "Si adivinas 20 veces, quizás te los devuelva.");
+                viejoSonidos.playDialogue4();
+                
+                PauseTransition pausa4 = new PauseTransition(Duration.seconds(6));
+                
+                pausa4.setOnFinished(e4 -> {
+                righthand.setDisable(false);
+                lefthand.setDisable(false);
                 dialogo.ocultar();
+                }); 
+                
+                pausa4.play();
+               });
+               
+               pausa3.play();
             });
             
-        esperaDialogo.play();
+            pausa2.play();
+        });
+        
+       pausa1.play();
     }
     
 
@@ -286,7 +336,7 @@ public class GamePlayBase{
     
     hud.setAlignment(Pos.BOTTOM_CENTER);
     
-    dialogueContainer.setAlignment(Pos.TOP_LEFT);
+    dialogueContainer.setAlignment(Pos.TOP_CENTER);
     
     //=== Lógica del Gameplay ===
     
@@ -378,8 +428,7 @@ public class GamePlayBase{
         stage.setTitle("Worms 2 The Revenge");
         stage.setScene(escena);
         stage.show(); //Mostrar Escena 
-        mostrarIntro1();
-    
+        dialogoIntro();
 }
     
 }

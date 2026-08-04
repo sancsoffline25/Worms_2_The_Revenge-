@@ -38,10 +38,13 @@ public class DialogueBlox extends VBox{
         
         setMaxWidth(500);
         
-        nombre.setFont(Font.font("Console", 20));
+        Font nombreFont = Font.loadFont(getClass().getResourceAsStream("/Assets/Fonts/VT323-Regular.ttf"), 28);
+        Font textoFont = Font.loadFont(getClass().getResourceAsStream("/Assets/Fonts/VT323-Regular.ttf"), 24);
+        
+        nombre.setFont(nombreFont);
         nombre.setTextFill(Color.YELLOW);
         
-        texto.setFont(Font.font("Console", 16));
+        texto.setFont(textoFont);
         texto.setTextFill(Color.WHITE);
         texto.setWrapText(true);
         

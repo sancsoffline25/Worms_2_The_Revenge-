@@ -184,7 +184,7 @@ public class GamePlayBase{
                dialogo.mostrar("Viejo", "Dime ¿en que mano tengo al gusano?");
                viejoSonidos.playDialogue3();
                
-               PauseTransition pausa3 = new PauseTransition(Duration.seconds(6));
+               PauseTransition pausa3 = new PauseTransition(Duration.seconds(5));
                
                pausa3.setOnFinished(e3 -> {
                 //Dialogo4

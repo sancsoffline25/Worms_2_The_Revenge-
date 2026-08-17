@@ -9,6 +9,8 @@ package com.mycompany.worms2therevenge.scenes;
  * @author Lautaro Gutierrez
  */
 import entities.Fish;
+import entities.FishType;
+import entities.HookState;
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -32,14 +34,16 @@ public class MiniPesca{
     //Objetos gráficos
     private Pane gamePane;
     
-    
-    
     public void start(Stage stage){
        
         gamePane = new Pane();
         
         //Pez! No preguntes porque esta tan arriba
-        Fish fish = new Fish(470,420);
+        Fish fish = new Fish(
+        470,
+        420,
+        FishType.BASIC
+        );
         gamePane.getChildren().add(fish.getSprite());
         gamePane.setPrefSize(WIDTH, HEIGHT);
         //Fondo celeste
@@ -87,27 +91,35 @@ public class MiniPesca{
 
         stage.setScene(scene);
         stage.show();
+        long[] lastFrameTime = {-1L};
+        AnimationTimer gameLoop = new AnimationTimer() {
 
-        AnimationTimer gameLoop = new AnimationTimer(){
-            @Override //@Santi, que es esto?
-            public void handle(long now){
-                hook.update(now);
-                if(!fish.isCaptured()){
-                    if(fish.isTouching(
-                            hook.getHookX(),
-                            hook.getHookY())){
-                        fish.capture();
-                        hook.catchFish();
-                    }
-                }
-                fish.update(
-                hook.getHookX(),
-                hook.getHookY());
+    @Override
+    public void handle(long now) {
+
+        if (lastFrameTime[0] < 0) {
+            lastFrameTime[0] = now;
+            return;
+        }
+        double dt = (now - lastFrameTime[0]) / 1_000_000_000.0;
+        lastFrameTime[0] = now;
+        hook.update(now);
+        if (!fish.isCaptured()) {
+            if (fish.isTouching(
+                    hook.getHookX(),
+                    hook.getHookY())) {
+                fish.capture();
+                hook.setState(HookState.RAISING);
             }
-            
-            
-        };
-
+        }
+        fish.update(
+                hook.getHookX(),
+                hook.getHookY(),
+                dt //???
+                //Santi, ayuda.
+        );
+    }
+    };
         gameLoop.start();
     }
     //Aca se introducen los peces

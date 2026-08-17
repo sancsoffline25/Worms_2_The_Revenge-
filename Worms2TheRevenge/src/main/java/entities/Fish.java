@@ -17,14 +17,21 @@ public class Fish{
     //Posicion otra ves
     private double x;
     private double y;
+    
+    private final FishType type;
 
     private boolean captured = false;
     //Aca van despues los dibujos todos feos del Bilbo
     private Circle sprite;
+    //Los peces se mueven
+    private final double movementSpeed = 100.0;
+    private final double screenWidth = 800.0;
+    private boolean movingRight = true;
     
-    public Fish(double x, double y){
+    public Fish(double x, double y, FishType type){
     this.x = x;
     this.y = y;
+    this.type = type;
     sprite = new Circle(12);
     sprite.setFill(Color.GREEN);
 
@@ -49,13 +56,44 @@ public class Fish{
     public boolean isCaptured(){
     return captured;
     }
-    public void update(double hookX, double hookY){
-    if(captured){
-    x = hookX;
-    y = hookY;
-    
+    public void update(double hookX, double hookY, double dt) {
+
+    if (captured) {
+
+        x = hookX;
+        y = hookY;
+
+    } else {
+        if (movingRight) {
+            x += movementSpeed * dt;
+        }else{
+            x -= movementSpeed * dt;
+        }
+        checkScreenBounds();
+    }
     updateGraphics();
-    }}
-    
-}
+    }
+    private void checkScreenBounds(){
+    if (movingRight && x > screenWidth + 20) {
+        x = -20;
+    }else{ 
+        if (!movingRight && x < -20) {
+        x = screenWidth + 20;
+    }}}
+    public void setMovingRight(boolean movingRight) {
+    this.movingRight = movingRight;
+    }
+    public boolean isMovingRight() {
+    return movingRight;
+    }
+    public FishType getType() {
+    return type;
+    }
+    public int getValue() {
+    return type.getValue();
+    }
+    public int getDifficulty() {
+    return type.getDifficulty();
+    }
+ }
 

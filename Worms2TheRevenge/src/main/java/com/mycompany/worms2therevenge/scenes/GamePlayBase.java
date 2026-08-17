@@ -39,14 +39,13 @@ import ui.DialogueBlox;
 
 public class GamePlayBase{
     
-    // === Atributos de la clase ===
+ // === Atributos de la clase ===
     
     //Variables Atributo de la clase
      Random worms = new Random();
      int manoCorrecta = worms.nextInt(2) + 1;
      
      Random sprites = new Random();
-     int wormsprites = sprites.nextInt(3) + 1; //una herramienta secreta que nos ayudará mas tarde
      
      //StackPanes
      StackPane oldmanPane = new StackPane();
@@ -87,6 +86,7 @@ public class GamePlayBase{
     //sprites gusanos
     Image worm1 = new Image(getClass().getResourceAsStream("/Assets/Sprites/worms/gusano1.png")); //aca van los gusanitos facheros
     Image worm2 = new Image(getClass().getResourceAsStream("/Assets/Sprites/worms/gusano2.png"));
+    Image worm3 = new Image(getClass().getResourceAsStream("/Assets/Sprites/worms/gusano3.png"));
     
     
     //ImageView Manos
@@ -94,9 +94,9 @@ public class GamePlayBase{
     ImageView rightView = new ImageView(rightimage); //para que se vean
     
     //ImageView gusanos
-    ImageView wormView1 = new ImageView(worm1);
-    ImageView wormView2 = new ImageView(worm2);
-    
+    ImageView wormViewLeft = new ImageView();
+    ImageView wormViewRight = new ImageView();
+
     //sprites enemigo
      Image enemieIdleSprite = new Image(getClass().getResourceAsStream("/Assets/Sprites/viejo/oldman.png"));
     
@@ -116,14 +116,14 @@ public class GamePlayBase{
         rightView.setImage(rightimage);
         
         //ocultar gusanos
-        wormView1.setVisible(false);
-        wormView2.setVisible(false);
+        wormViewRight.setVisible(false);
+        wormViewLeft.setVisible(false);
         
         //abrir la mano derecha
         rightView.setImage(rightimageopen);
         
         handTimer.setOnFinished(e ->{
-            wormView2.setVisible(false);
+            wormViewRight.setVisible(false);
             rightView.setImage(rightimage);
         });
         
@@ -138,18 +138,31 @@ public class GamePlayBase{
         rightView.setImage(rightimage);
         
         //ocultar gusanos
-        wormView1.setVisible(false);
-        wormView2.setVisible(false);
+        wormViewLeft.setVisible(false);
+        wormViewRight.setVisible(false);
         
         //abrir la mano izquierda
         leftView.setImage(leftimageopen);
         
         handTimer.setOnFinished(e ->{
-            wormView1.setVisible(false);
+            wormViewLeft.setVisible(false);
             leftView.setImage(leftimage);
         });
         
         handTimer.playFromStart();
+    }
+    
+    private Image elegirGusano(){
+        
+        int wormsprites = sprites.nextInt(3) + 1;
+        
+        if(wormsprites == 1){
+            return worm1; 
+        }else if(wormsprites== 2){
+            return worm2;
+        }else{
+            return worm3; 
+        }
     }
     
     
@@ -221,7 +234,11 @@ public class GamePlayBase{
     //Contenedores
     VBox root = new VBox(90);
     
-    root.setStyle("-fx-background-color: black;");
+    root.setStyle("-fx-background-image: url('/Assets/Backgrounds/GamePlayBase/fondoTestEdit.png');" +
+    "-fx-background-size: cover;" +
+    "-fx-background-position: center center;" +
+    "-fx-background-repeat: no-repeat;"    
+    );
     
     HBox botones = new HBox(240);
     
@@ -239,24 +256,23 @@ public class GamePlayBase{
     
     resultado.setTranslateY(60);
     
-    intentosRestantes.setFont(Font.font("Console", 20));
+    Font textoFont = Font.loadFont(getClass().getResourceAsStream("/Assets/Fonts/VT323-Regular.ttf"), 24);
+    intentosRestantes.setFont(textoFont);
     intentosRestantes.setTextFill(Color.WHITE);
     
     
     //Acomodación de los sprites
     
     //-Gusanos
-    wormView1.setFitWidth(60);
-    wormView1.setFitHeight(60);
+    wormViewLeft.setFitWidth(60);
+    wormViewLeft.setFitHeight(60);
+    wormViewLeft.setVisible(false);
+    wormViewLeft.setTranslateY(-25);
     
-    wormView2.setFitWidth(60);
-    wormView2.setFitHeight(60);
-    
-    wormView1.setVisible(false);
-    wormView2.setVisible(false);
-    
-    wormView1.setTranslateY(-25);
-    wormView2.setTranslateY(-25);
+    wormViewRight.setFitWidth(60);
+    wormViewRight.setFitHeight(60);
+    wormViewRight.setVisible(false);
+    wormViewRight.setTranslateY(-25);
     
     //-Manos
     leftView.setFitWidth(160);
@@ -306,12 +322,12 @@ public class GamePlayBase{
     
     leftHandPane.getChildren().addAll(
             leftView,
-            wormView1
+            wormViewLeft
     );
     
     rightHandPane.getChildren().addAll(
             rightView,
-            wormView2
+            wormViewRight
     );
     
     oldmanPane.getChildren().addAll(
@@ -348,7 +364,8 @@ public class GamePlayBase{
         
        if(manoCorrecta == 1){
            resultado.setText("Acertaste!");
-           wormView1.setVisible(true);
+           wormViewLeft.setImage(elegirGusano());
+           wormViewLeft.setVisible(true);
        }else{
            resultado.setText("Respuesta incorrecta");
            jugador.perderIntento();
@@ -371,7 +388,8 @@ public class GamePlayBase{
         
         if(manoCorrecta == 2){
            resultado.setText("Acertaste!");
-           wormView2.setVisible(true);
+           wormViewRight.setImage(elegirGusano());
+           wormViewRight.setVisible(true);
        }else{
            resultado.setText("Respuesta incorrecta");
            jugador.perderIntento();
@@ -394,29 +412,29 @@ public class GamePlayBase{
     lefthand.setOnMouseEntered(e -> {
     leftView.setScaleX(1.2);
     leftView.setScaleY(1.2);
-    wormView1.setScaleX(1.2);
-    wormView2.setScaleY(1.2);
+    wormViewLeft.setScaleX(1.2);
+    wormViewRight.setScaleY(1.2);
     });
 
     lefthand.setOnMouseExited(e -> {
     leftView.setScaleX(1);
     leftView.setScaleY(1);
-    wormView1.setScaleX(1);
-    wormView1.setScaleY(1);
+    wormViewLeft.setScaleX(1);
+    wormViewLeft.setScaleY(1);
     });
     
     righthand.setOnMouseEntered(e -> {
        rightView.setScaleX(1.2);
        rightView.setScaleY(1.2);
-       wormView2.setScaleX(1.2);
-       wormView2.setScaleY(1.2);
+       wormViewRight.setScaleX(1.2);
+       wormViewRight.setScaleY(1.2);
     });
     
     righthand.setOnMouseExited(e -> {
     rightView.setScaleX(1);
     rightView.setScaleY(1);
-    wormView2.setScaleX(1);
-    wormView2.setScaleY(1);
+    wormViewRight.setScaleX(1);
+    wormViewRight.setScaleY(1);
     });
     
     

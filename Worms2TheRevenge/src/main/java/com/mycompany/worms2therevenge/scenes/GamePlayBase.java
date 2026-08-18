@@ -26,17 +26,19 @@ import javafx.animation.PauseTransition;
 import javafx.util.Duration;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.media.AudioClip; 
-
+import javafx.scene.media.AudioClip;
+import javafx.animation.FadeTransition;
+import javafx.scene.control.OverrunStyle;
 
 //import entidades
 import entities.Player;
 import entities.Enemy;
-import javafx.scene.control.OverrunStyle;
-import sounds.oldmansounds;
 
 //import recursos (por asi decirle)
 import ui.DialogueBlox;
+import sounds.oldmansounds;
+import animations.ScreenTransitions;
+import ui.ButtonCreator;
 
 public class GamePlayBase{
     
@@ -66,11 +68,13 @@ public class GamePlayBase{
      //Sonidos del enemigo
      oldmansounds viejoSonidos = new oldmansounds(); 
      
+     //Transiciones bonitas
+     ScreenTransitions transitions = new ScreenTransitions();
      
      //Botones
      Button lefthand = new Button(); 
      Button righthand = new Button();
-    
+     
     //Pausas
     PauseTransition handTimer = new PauseTransition(Duration.millis(500));
     
@@ -104,6 +108,8 @@ public class GamePlayBase{
 
     //sprites enemigo
      Image enemieIdleSprite = new Image(getClass().getResourceAsStream("/Assets/Sprites/viejo/oldman.png"));
+     Image enemieTalkSprite = new Image(getClass().getResourceAsStream("/Assets/Sprites/viejo/oldmanTalk.png"));
+     Image enemieEvilTalkSprite = new Image(getClass().getResourceAsStream("/Assets/Sprites/viejo/oldmanEvilTalk.png")); 
     
      //ImageView enemigo
      ImageView enemyIdle = new ImageView(enemieIdleSprite);
@@ -173,7 +179,9 @@ public class GamePlayBase{
     
     //Dialogo Inicial
     public void dialogoIntro(){ 
-    
+         //Viejo hablando sprite
+         enemyIdle.setImage(enemieTalkSprite); 
+         
         //Dialogo1
         dialogo.mostrar("Viejo", "Hola pequeño... ¿Buscas a tus amigos?");
         viejoSonidos.playDialogue1();
@@ -215,6 +223,7 @@ public class GamePlayBase{
                 righthand.setDisable(false);
                 lefthand.setDisable(false);
                 dialogo.ocultar();
+                enemyIdle.setImage(enemieIdleSprite); 
                 }); 
                 
                 pausa4.play();
@@ -229,6 +238,29 @@ public class GamePlayBase{
        pausa1.play();
     }
     
+    public void dialogoGameOver(){
+        
+        PauseTransition pausaGO = new PauseTransition(Duration.seconds(2));
+        
+        pausaGO.setOnFinished(e ->{
+            //Cambio sprite hablando
+            enemyIdle.setImage(enemieEvilTalkSprite);
+            
+            //Dialogo perdiste
+            dialogo.mostrar("Viejo", "Pequeño...creo que no entendiste la metáfora");
+            viejoSonidos.playDialogueGO();
+        
+            PauseTransition pausaGO2 = new PauseTransition(Duration.seconds(8));
+        
+        pausaGO2.setOnFinished(e2 ->{
+            dialogo.ocultar();
+            enemyIdle.setImage(enemieIdleSprite);
+        });
+        
+        pausaGO2.play();
+        });
+        pausaGO.play();
+    }
 
     // === ACA ARRANCA LA ESCENA ===
     
@@ -236,21 +268,28 @@ public class GamePlayBase{
         
     //=== Declaración de variables a usar ===    
     
+    
+    //StackPane contenedor padre
+    StackPane escenaFinal = new StackPane();
+    
     //Contenedores
     VBox root = new VBox(90);
+     escenaFinal.getChildren().add(root);
     
-    root.setStyle("-fx-background-image: url('/Assets/Backgrounds/GamePlayBase/fondoTestEdit.png');" +
+    root.setStyle("-fx-background-image: url('/Assets/Backgrounds/GamePlayBase/fondoTest.jpg');" +
     "-fx-background-size: cover;" +
     "-fx-background-position: center center;" +
     "-fx-background-repeat: no-repeat;"    
-    );
+    ); //CSS para que el fondo quede bien
     
-    HBox botones = new HBox(240);
+    HBox botones = new HBox(240); //manos
     
     HBox hud = new HBox(90);
     
     VBox dialogueContainer= new VBox(90);
-    dialogueContainer.setTranslateY(-400);
+    dialogueContainer.setTranslateY(-250);
+    
+    VBox buttonContainer = new VBox(10); //botones literales
     
     //Textos
     Font textoFont = Font.loadFont(getClass().getResourceAsStream("/Assets/Fonts/VT323-Regular.ttf"), 44);
@@ -270,6 +309,11 @@ public class GamePlayBase{
     wormsFounded.setFont(textoFont);
     wormsFounded.setTextFill(Color.WHITE); 
     
+     //Botones UI
+     ButtonCreator botonmaker = new ButtonCreator();
+     StackPane botonVolver = botonmaker.crearBoton("Volver", textoFont);
+     StackPane botonMiniPesca = botonmaker.crearBoton("MiniPesca", textoFont);
+     
     
     //Acomodación de los sprites
     
@@ -296,8 +340,8 @@ public class GamePlayBase{
     
     righthand.setScaleX(-1);
     
-    lefthand.setTranslateY(-15);
-    righthand.setTranslateY(-15);
+    lefthand.setTranslateY(25);
+    righthand.setTranslateY(25);
     
     lefthand.setStyle("-fx-background-color: transparent;");
     righthand.setStyle("-fx-background-color: transparent;");
@@ -306,9 +350,7 @@ public class GamePlayBase{
     enemyIdle.setFitWidth(700);
     enemyIdle.setFitHeight(700);
     
-    enemyIdle.setTranslateY(470
-    
-    );
+    enemyIdle.setTranslateY(600);
     enemyIdle.setTranslateX(-50);
     
     //Organización de los Botones, Labels y StackPane
@@ -321,6 +363,11 @@ public class GamePlayBase{
             hud
     );
     
+    buttonContainer.getChildren().addAll(
+            botonVolver,
+            botonMiniPesca
+    );
+    
     botones.getChildren().addAll(
             lefthand,
             righthand
@@ -328,7 +375,8 @@ public class GamePlayBase{
     
     hud.getChildren().addAll(
             intentosRestantes,
-            wormsFounded
+            wormsFounded,
+            buttonContainer
     );
     
     leftHandPane.getChildren().addAll(
@@ -349,6 +397,7 @@ public class GamePlayBase{
     
         
     dialogueContainer.getChildren().add(dialogo);
+    
 
     //SetGraphic Manos
     lefthand.setGraphic(leftHandPane);
@@ -363,12 +412,28 @@ public class GamePlayBase{
     
     hud.setAlignment(Pos.BOTTOM_CENTER);
     
+    escenaFinal.setAlignment(Pos.BOTTOM_CENTER);
+    
     dialogueContainer.setAlignment(Pos.TOP_CENTER);
     
     //=== Lógica del Gameplay ===
     
     intentosRestantes.setText("Intentos: "+ jugador.getReintentos());
     wormsFounded.setText("Gusanos " + gusanosEncontrados + "/20");
+    
+    //función Botones UI
+    botonVolver.setOnMouseClicked(e ->{
+        MainMenu menu = new MainMenu();
+        
+        menu.start(stage); 
+    });
+    
+    botonMiniPesca.setOnMouseClicked(e ->{
+        MiniPesca menu = new MiniPesca();
+        
+        menu.start(stage);
+    });
+    
     
     lefthand.setOnAction(e -> {
         
@@ -393,7 +458,30 @@ public class GamePlayBase{
         lefthand.setVisible(false);
         righthand.setVisible(false);
         resultado.setText("Game Over");
+        dialogoGameOver();
+        return;
         }
+       
+         
+          // --- GOOD ENDING ---
+        if(gusanosEncontrados >= 20){
+        resultado.setText("Ganaste"); //le decimos que gano
+        
+        //y le ocultamos las manos
+        lefthand.setDisable(true); 
+        righthand.setDisable(true);
+        lefthand.setVisible(false);
+        righthand.setVisible(false);
+        //Cambiamos de escena
+       FadeTransition transicion = transitions.fadeOutWhite(escenaFinal, 2);
+
+        transicion.setOnFinished(e2 -> {
+            GoodEnding menu = new GoodEnding();
+            menu.start(stage);
+        });
+
+        return;
+    }
        
        manoCorrecta = worms.nextInt(2) + 1;
     });
@@ -421,15 +509,11 @@ public class GamePlayBase{
         lefthand.setVisible(false);
         righthand.setVisible(false);
         resultado.setText("Game Over");
+        dialogoGameOver();
         return;
         }
         
-        manoCorrecta = worms.nextInt(2) + 1;
-    });
-    
-    //=== FINALES POSIBLES ===
-    
-    // --- GOOD ENDING - el jugador consigue los 20 gusanos
+          // --- GOOD ENDING ---
         if(gusanosEncontrados >= 20){
         resultado.setText("Ganaste"); //le decimos que gano
         
@@ -438,9 +522,23 @@ public class GamePlayBase{
         righthand.setDisable(true);
         lefthand.setVisible(false);
         righthand.setVisible(false);
+        //Cambiamos de escena
+       FadeTransition transicion = transitions.fadeOutWhite(escenaFinal, 2);
+
+        transicion.setOnFinished(e2 -> {
+            GoodEnding menu = new GoodEnding();
+            menu.start(stage);
+        });
+
+        return;
     }
     
+        
+        manoCorrecta = worms.nextInt(2) + 1;
+    });
+
     //=== EXTRA ===
+    
     //Efectos visuales
     lefthand.setOnMouseEntered(e -> {
     leftView.setScaleX(1.2);
@@ -474,12 +572,15 @@ public class GamePlayBase{
     
     
     //Escena
-       Scene escena = new Scene(root, 1280, 720); //Parametros de la ventana
+       Scene escena = new Scene(escenaFinal); //Parametros de la ventana
         
         stage.setTitle("Worms 2 The Revenge");
         stage.setScene(escena);
+        stage.setFullScreenExitHint("");
+        stage.setFullScreen(true); //pantalla completa
         stage.show(); //Mostrar Escena 
+        transitions.fadeInBlack(escenaFinal, 2);
         dialogoIntro();
-}
+    }
     
 }

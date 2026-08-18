@@ -119,10 +119,12 @@ public class MiniGamesMenu {
         
         
         //Escena
-        Scene escena = new Scene(layout, 1280, 720); //Parametros de la ventana
+        Scene escena = new Scene(layout); //Parametros de la ventana
         
         stage.setTitle("Worms 2 The Revenge");
         stage.setScene(escena);
+        stage.setFullScreenExitHint("");
+        stage.setFullScreen(true);
         stage.show(); //Mostrar Escena
         
         

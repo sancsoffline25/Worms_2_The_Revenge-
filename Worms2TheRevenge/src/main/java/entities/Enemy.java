@@ -13,7 +13,11 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
 public class Enemy {
-    
-    //Pronto variables propias del enemigo
-    //No tienes enemigos, nadie tiene enemigos.
+
+//stats
+ private int vida = 200;
+ private int ataque = 25; 
+
+ //sprites
+ Image idleEnemy = new Image(getClass().getResourceAsStream("/Assets/Sprites/bossfight/viejopixel/oldmanidlepixel.png"));
 }

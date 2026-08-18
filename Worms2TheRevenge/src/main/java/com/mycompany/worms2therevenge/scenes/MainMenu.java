@@ -81,13 +81,11 @@ public class MainMenu {
         
         //Botones
         StackPane playButton = crearBoton("Jugar", textoFont);
-        StackPane minigamesButton = crearBoton("Minijuegos", textoFont);
         StackPane optionsButton = crearBoton("Opciones", textoFont);
         StackPane exitButton = crearBoton("Salir", textoFont);
         
         //Aca le asignamos el tamaño de los Botones
         playButton.setPrefWidth(200);
-        minigamesButton.setPrefWidth(200);
         optionsButton.setPrefWidth(200);
         exitButton.setPrefWidth(200);
         
@@ -96,14 +94,6 @@ public class MainMenu {
         exitButton.setOnMouseClicked(e -> {
              stage.close();
         });
-
-
-        minigamesButton.setOnMouseClicked(e -> {
-            MiniGamesMenu menu = new MiniGamesMenu();
-    
-            menu.start(stage);
-        });
-
 
         playButton.setOnMouseClicked(e -> {
             GamePlayBase menu = new GamePlayBase();
@@ -121,7 +111,6 @@ public class MainMenu {
         layout.getChildren().addAll( 
                 titulo,
                 playButton,
-                minigamesButton,
                 optionsButton,
                 exitButton
         ); //Aca el VBox layout se hace papá de los botones, asi los ordena
@@ -130,10 +119,12 @@ public class MainMenu {
         
         
         //Escena
-        Scene escena = new Scene(layout, 1280, 720); //Parametros de la ventana
+        Scene escena = new Scene(layout); //Parametros de la ventana
         
         stage.setTitle("Worms 2 The Revenge");
         stage.setScene(escena);
+        stage.setFullScreenExitHint("");
+        stage.setFullScreen(true);
         stage.show(); //Mostrar Escena
         
               

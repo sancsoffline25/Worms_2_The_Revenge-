@@ -9,30 +9,81 @@ package com.mycompany.worms2therevenge.scenes;
  * @author Santiago Guinel
  */
 
-import javafx.application.Application;
-import javafx.stage.Stage;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.geometry.Pos;
-import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 
 public class MainMenu {
+    Font textoFont = Font.loadFont(getClass().getResourceAsStream("/Assets/Fonts/VT323-Regular.ttf"), 28);
     
+    private StackPane crearBoton(String texto, Font fuente) {
+
+    Image botonImage = new Image(
+        getClass().getResourceAsStream("/Assets/ui/botonBase.png.png")
+    );
+    
+    Image botonHoverImage = new Image(
+        getClass().getResourceAsStream("/Assets/ui/botonBaseHover.png")
+    );
+    
+    Image botonPressedImage = new Image(
+        getClass().getResourceAsStream("/Assets/ui/botonBasePressed.png")
+    );
+
+    ImageView botonView = new ImageView(botonImage);
+    botonView.setFitWidth(256);
+    botonView.setFitHeight(64);
+
+    Label textoBoton = new Label(texto);
+    textoBoton.setFont(fuente);
+    textoBoton.setTextFill(Color.BLACK);
+
+    StackPane boton = new StackPane(
+        botonView,
+        textoBoton
+    ); //Función plantilla para crear botones
+
+        //Mouse encima
+        boton.setOnMouseEntered(e ->{
+            botonView.setImage(botonHoverImage);
+        });
+        
+        //Mouse fuera
+        boton.setOnMouseExited(e ->{
+            botonView.setImage(botonImage);
+        });
+        
+        boton.setOnMousePressed(e ->{
+            botonView.setImage(botonPressedImage);
+        });
+        
+        boton.setOnMouseReleased(e ->{
+            botonView.setImage(botonImage);
+        });
+    
+    return boton;
+    }
   
     public void start(Stage stage){
         
         //Titulo del juego
+        Font tituloFont = Font.loadFont(getClass().getResourceAsStream("/Assets/Fonts/VT323-Regular.ttf"), 44);
         Label titulo = new Label("Worms 2 The Revenge");
-        titulo.setFont(new Font(40));
+        titulo.setFont(tituloFont);
+        titulo.setTextFill(Color.WHITE);
         
         //Botones
-        Button playButton = new Button("Jugar"); //Aca creamos los botones del Menú
-        Button minigamesButton = new Button("Minijuegos");
-        Button optionsButton = new Button("Opciones");
-        Button exitButton = new Button("Salir");
+        StackPane playButton = crearBoton("Jugar", textoFont);
+        StackPane minigamesButton = crearBoton("Minijuegos", textoFont);
+        StackPane optionsButton = crearBoton("Opciones", textoFont);
+        StackPane exitButton = crearBoton("Salir", textoFont);
         
         //Aca le asignamos el tamaño de los Botones
         playButton.setPrefWidth(200);
@@ -42,32 +93,30 @@ public class MainMenu {
         
         //=== funciones de los botoncitos ===
         
-        //Aca le damos la función de salir 
-        exitButton.setOnAction(e -> {
-            stage.close();
+        exitButton.setOnMouseClicked(e -> {
+             stage.close();
         });
-        
-        
-        
-        minigamesButton.setOnAction(e -> {
-           MiniGamesMenu menu = new MiniGamesMenu();
-           
-           menu.start(stage);
-           
-           
-           
+
+
+        minigamesButton.setOnMouseClicked(e -> {
+            MiniGamesMenu menu = new MiniGamesMenu();
+    
+            menu.start(stage);
         });
-        
-        playButton.setOnAction(e -> {
+
+
+        playButton.setOnMouseClicked(e -> {
             GamePlayBase menu = new GamePlayBase();
+    
+            menu.start(stage);
             
-            menu.start(stage); 
         });
         
         
         
         //Aca el Layout vertical(Las VBOX tambien las ocupaba en Godot, Me traen recuerdos)
         VBox layout = new VBox(20);
+        layout.setStyle("-fx-background-color: black;");
         
         layout.getChildren().addAll( 
                 titulo,
@@ -81,15 +130,14 @@ public class MainMenu {
         
         
         //Escena
-        Scene escena = new Scene(layout, 800, 600); //Parametros de la ventana
+        Scene escena = new Scene(layout, 1280, 720); //Parametros de la ventana
         
         stage.setTitle("Worms 2 The Revenge");
         stage.setScene(escena);
         stage.show(); //Mostrar Escena
         
-        
-        
-}
+              
+    }
     
     
 }

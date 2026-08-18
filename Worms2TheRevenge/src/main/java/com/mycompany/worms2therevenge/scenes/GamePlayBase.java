@@ -32,6 +32,7 @@ import javafx.scene.media.AudioClip;
 //import entidades
 import entities.Player;
 import entities.Enemy;
+import javafx.scene.control.OverrunStyle;
 import sounds.oldmansounds;
 
 //import recursos (por asi decirle)
@@ -54,6 +55,10 @@ public class GamePlayBase{
      
      //Incorporación del jugador
      Player jugador = new Player();
+     
+     //gusanos encontrados por el jugador
+    int gusanosEncontrados = 0;
+     
      
      //Incorporación del enemigo
      Enemy viejo = new Enemy(); //una herramienta secreta que nos ayudará mas tarde x2
@@ -248,17 +253,22 @@ public class GamePlayBase{
     dialogueContainer.setTranslateY(-400);
     
     //Textos
+    Font textoFont = Font.loadFont(getClass().getResourceAsStream("/Assets/Fonts/VT323-Regular.ttf"), 44);
+    
     Label resultado = new Label(""); //Te muestra si acertaste o no
     Label intentosRestantes = new Label(""); //Te dice cuantos intentos tenes
+    Label wormsFounded = new Label(""); //cartelito para los gusanos encontrados
     
-    resultado.setFont(Font.font("Console", 25));
+    
+    resultado.setFont(textoFont);
     resultado.setTextFill(Color.WHITE);
-    
     resultado.setTranslateY(60);
     
-    Font textoFont = Font.loadFont(getClass().getResourceAsStream("/Assets/Fonts/VT323-Regular.ttf"), 24);
     intentosRestantes.setFont(textoFont);
     intentosRestantes.setTextFill(Color.WHITE);
+    
+    wormsFounded.setFont(textoFont);
+    wormsFounded.setTextFill(Color.WHITE); 
     
     
     //Acomodación de los sprites
@@ -316,8 +326,9 @@ public class GamePlayBase{
             righthand
     );
     
-    hud.getChildren().add(
-            intentosRestantes
+    hud.getChildren().addAll(
+            intentosRestantes,
+            wormsFounded
     );
     
     leftHandPane.getChildren().addAll(
@@ -357,6 +368,7 @@ public class GamePlayBase{
     //=== Lógica del Gameplay ===
     
     intentosRestantes.setText("Intentos: "+ jugador.getReintentos());
+    wormsFounded.setText("Gusanos " + gusanosEncontrados + "/20");
     
     lefthand.setOnAction(e -> {
         
@@ -364,6 +376,10 @@ public class GamePlayBase{
         
        if(manoCorrecta == 1){
            resultado.setText("Acertaste!");
+           
+           gusanosEncontrados++;
+           wormsFounded.setText("Gusanos " + gusanosEncontrados + "/20");
+           
            wormViewLeft.setImage(elegirGusano());
            wormViewLeft.setVisible(true);
        }else{
@@ -387,8 +403,12 @@ public class GamePlayBase{
         abrirManoDer();
         
         if(manoCorrecta == 2){
-           resultado.setText("Acertaste!");
-           wormViewRight.setImage(elegirGusano());
+           resultado.setText("Acertaste!"); //Pone el texto
+           
+           gusanosEncontrados++;
+           wormsFounded.setText("Gusanos " + gusanosEncontrados + "/20"); //suma los gusanos
+
+           wormViewRight.setImage(elegirGusano()); //muestra la mano y el gusano
            wormViewRight.setVisible(true);
        }else{
            resultado.setText("Respuesta incorrecta");
@@ -407,7 +427,20 @@ public class GamePlayBase{
         manoCorrecta = worms.nextInt(2) + 1;
     });
     
+    //=== FINALES POSIBLES ===
     
+    // --- GOOD ENDING - el jugador consigue los 20 gusanos
+        if(gusanosEncontrados >= 20){
+        resultado.setText("Ganaste"); //le decimos que gano
+        
+        //y le ocultamos las manos
+        lefthand.setDisable(true); 
+        righthand.setDisable(true);
+        lefthand.setVisible(false);
+        righthand.setVisible(false);
+    }
+    
+    //=== EXTRA ===
     //Efectos visuales
     lefthand.setOnMouseEntered(e -> {
     leftView.setScaleX(1.2);

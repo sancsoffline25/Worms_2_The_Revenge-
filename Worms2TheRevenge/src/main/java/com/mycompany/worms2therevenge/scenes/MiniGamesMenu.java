@@ -15,6 +15,10 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
 
 
 
@@ -22,32 +26,78 @@ import javafx.scene.control.Button;
 public class MiniGamesMenu {
      
         
+        Font textoFont = Font.loadFont(getClass().getResourceAsStream("/Assets/Fonts/VT323-Regular.ttf"), 28);
+    
+    private StackPane crearBoton(String texto, Font fuente) {
+
+    Image botonImage = new Image(
+        getClass().getResourceAsStream("/Assets/ui/botonBase.png.png")
+    );
+    
+    Image botonHoverImage = new Image(
+        getClass().getResourceAsStream("/Assets/ui/botonBaseHover.png")
+    );
+    
+    Image botonPressedImage = new Image(
+        getClass().getResourceAsStream("/Assets/ui/botonBasePressed.png")
+    );
+
+    ImageView botonView = new ImageView(botonImage);
+    botonView.setFitWidth(256);
+    botonView.setFitHeight(64);
+
+    Label textoBoton = new Label(texto);
+    textoBoton.setFont(fuente);
+    textoBoton.setTextFill(Color.BLACK);
+
+    StackPane boton = new StackPane(
+        botonView,
+        textoBoton
+    ); //Función plantilla para crear botones
+
+        //Mouse encima
+        boton.setOnMouseEntered(e ->{
+            botonView.setImage(botonHoverImage);
+        });
+        
+        //Mouse fuera
+        boton.setOnMouseExited(e ->{
+            botonView.setImage(botonImage);
+        });
+        
+        boton.setOnMousePressed(e ->{
+            botonView.setImage(botonPressedImage);
+        });
+        
+        boton.setOnMouseReleased(e ->{
+            botonView.setImage(botonImage);
+        });
+    
+    return boton;
+    }
+        
        public void start(Stage stage){
         
         //Titulo del juego
+        Font tituloFont = Font.loadFont(getClass().getResourceAsStream("/Assets/Fonts/VT323-Regular.ttf"), 44);
         Label titulo = new Label("Minijuegos");
-        titulo.setFont(new Font(40));
+        titulo.setFont(tituloFont);
+        titulo.setTextFill(Color.WHITE);
         
-        //Botones 
-        Button minigame1Button = new Button("MiniPesca"); 
-        Button minigame2Button = new Button("MiniBúsqueda");
-        Button minigame3Button = new Button("MiniAtrapada");
-        Button backButton = new Button("Volver"); 
-        
-        //Aca le asignamos el tamaño de los Botones
-        minigame1Button.setPrefWidth(160);
-        minigame2Button.setPrefWidth(160);
-        minigame3Button.setPrefWidth(160);
-        backButton.setPrefWidth(160);
-        
+        //Botones
+        StackPane minigame1Button = crearBoton("MiniPesca", textoFont);
+        StackPane minigame2Button = crearBoton("MiniBúsqueda", textoFont);
+        StackPane minigame3Button = crearBoton("MiniAtrapada", textoFont);
+        StackPane backButton = crearBoton("Volver", textoFont);
+
         //Aca le damos la función de volver(backButton)
-        backButton.setOnAction(e -> {
+        backButton.setOnMouseClicked(e -> {
             MainMenu menu = new MainMenu();
             
             menu.start(stage);
         });
         
-        minigame1Button.setOnAction(e -> {
+        minigame1Button.setOnMouseClicked(e -> {
            MiniPesca menu = new MiniPesca();
            
            menu.start(stage);
@@ -55,6 +105,7 @@ public class MiniGamesMenu {
         
         //Aca el Layout vertical
         VBox layout = new VBox(20);
+        layout.setStyle("-fx-background-color: black;");
         
         layout.getChildren().addAll( 
                 titulo,
@@ -68,7 +119,7 @@ public class MiniGamesMenu {
         
         
         //Escena
-        Scene escena = new Scene(layout, 800, 600); //Parametros de la ventana
+        Scene escena = new Scene(layout, 1280, 720); //Parametros de la ventana
         
         stage.setTitle("Worms 2 The Revenge");
         stage.setScene(escena);

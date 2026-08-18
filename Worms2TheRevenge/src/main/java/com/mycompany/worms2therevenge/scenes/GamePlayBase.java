@@ -8,7 +8,7 @@ package com.mycompany.worms2therevenge.scenes;
  *
  * @author Santiago Guinel
  * Recomiendo escuchar "Chicago" de MJ mientras programas.
- * 
+ * Recomiendo escuchar "Cicada" de Good Kid, en general. Hacen buenos temas.
  */
 import java.util.Random; //Separado al ser de Java y no JavaFX
 

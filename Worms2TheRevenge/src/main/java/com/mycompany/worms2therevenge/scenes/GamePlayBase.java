@@ -8,7 +8,7 @@ package com.mycompany.worms2therevenge.scenes;
  *
  * @author Santiago Guinel
  * Recomiendo escuchar "Chicago" de MJ mientras programas.
- * Recomiendo escuchar "Cicada" de Good Kid, en general. Hacen buenos temas.
+ * 
  */
 import java.util.Random; //Separado al ser de Java y no JavaFX
 
@@ -38,6 +38,7 @@ import entities.Enemy;
 import ui.DialogueBlox;
 import sounds.oldmansounds;
 import animations.ScreenTransitions;
+import javafx.scene.input.KeyCode;
 import ui.ButtonCreator;
 
 public class GamePlayBase{
@@ -74,6 +75,13 @@ public class GamePlayBase{
      //Botones
      Button lefthand = new Button(); 
      Button righthand = new Button();
+     
+     //Botones UI
+     Font botonFont = Font.loadFont(getClass().getResourceAsStream("/Assets/Fonts/VT323-Regular.ttf"), 28);
+     ButtonCreator botonmaker = new ButtonCreator();
+     StackPane botonVolver = botonmaker.crearBoton("Volver", botonFont);
+     StackPane botonMiniPesca = botonmaker.crearBoton("MiniPesca", botonFont);
+     
      
     //Pausas
     PauseTransition handTimer = new PauseTransition(Duration.millis(500));
@@ -190,6 +198,10 @@ public class GamePlayBase{
         //desactivamos los botones
         righthand.setDisable(true);
         lefthand.setDisable(true);
+        
+        //botones UI tambien
+        botonMiniPesca.setVisible(false);
+        
         //y hacemos las manos invisibles
         righthand.setVisible(false);
         lefthand.setVisible(false);
@@ -222,6 +234,7 @@ public class GamePlayBase{
                 pausa4.setOnFinished(e4 -> {
                 righthand.setDisable(false);
                 lefthand.setDisable(false);
+                botonMiniPesca.setVisible(true);
                 dialogo.ocultar();
                 enemyIdle.setImage(enemieIdleSprite); 
                 }); 
@@ -238,7 +251,7 @@ public class GamePlayBase{
        pausa1.play();
     }
     
-    public void dialogoGameOver(){
+    public void dialogoGameOver(Runnable alTerminar){
         
         PauseTransition pausaGO = new PauseTransition(Duration.seconds(2));
         
@@ -254,12 +267,23 @@ public class GamePlayBase{
         
         pausaGO2.setOnFinished(e2 ->{
             dialogo.ocultar();
-            enemyIdle.setImage(enemieIdleSprite);
+            enemyIdle.setImage(enemieIdleSprite); 
+            
+            alTerminar.run();
         });
         
         pausaGO2.play();
         });
         pausaGO.play();
+    }
+   
+    public void esperaBossFight(){
+        PauseTransition pausaBF = new PauseTransition(Duration.seconds(8));
+        
+        pausaBF.setOnFinished(e ->{
+            //finaliza la pausa
+        });
+        pausaBF.play();
     }
 
     // === ACA ARRANCA LA ESCENA ===
@@ -309,11 +333,6 @@ public class GamePlayBase{
     wormsFounded.setFont(textoFont);
     wormsFounded.setTextFill(Color.WHITE); 
     
-     //Botones UI
-     ButtonCreator botonmaker = new ButtonCreator();
-     StackPane botonVolver = botonmaker.crearBoton("Volver", textoFont);
-     StackPane botonMiniPesca = botonmaker.crearBoton("MiniPesca", textoFont);
-     
     
     //Acomodación de los sprites
     
@@ -364,8 +383,8 @@ public class GamePlayBase{
     );
     
     buttonContainer.getChildren().addAll(
-            botonVolver,
-            botonMiniPesca
+            botonMiniPesca,
+            botonVolver
     );
     
     botones.getChildren().addAll(
@@ -458,7 +477,12 @@ public class GamePlayBase{
         lefthand.setVisible(false);
         righthand.setVisible(false);
         resultado.setText("Game Over");
-        dialogoGameOver();
+        
+        dialogoGameOver(() ->{
+        BossFight menu = new BossFight();
+        menu.start(stage);
+        });
+        
         return;
         }
        
@@ -509,7 +533,12 @@ public class GamePlayBase{
         lefthand.setVisible(false);
         righthand.setVisible(false);
         resultado.setText("Game Over");
-        dialogoGameOver();
+        
+        dialogoGameOver(() ->{
+        BossFight menu = new BossFight();
+        menu.start(stage);
+        });
+        
         return;
         }
         
@@ -574,6 +603,15 @@ public class GamePlayBase{
     //Escena
        Scene escena = new Scene(escenaFinal); //Parametros de la ventana
         
+       escena.setOnKeyPressed(e -> {
+
+        if (e.getCode() == KeyCode.O){ //atajo bossfight
+
+        BossFight menu = new BossFight();
+        menu.start(stage);
+             }
+        });
+       
         stage.setTitle("Worms 2 The Revenge");
         stage.setScene(escena);
         stage.setFullScreenExitHint("");

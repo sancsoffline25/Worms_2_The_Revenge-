@@ -17,6 +17,7 @@ import javafx.stage.Stage;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 
@@ -120,6 +121,15 @@ public class MainMenu {
         
         //Escena
         Scene escena = new Scene(layout); //Parametros de la ventana
+        
+        escena.setOnKeyPressed(e -> {
+
+        if (e.getCode() == KeyCode.L){ //esto para vos lauty
+
+        MiniGamesMenu menu = new MiniGamesMenu();
+        menu.start(stage);
+             }
+        });
         
         stage.setTitle("Worms 2 The Revenge");
         stage.setScene(escena);

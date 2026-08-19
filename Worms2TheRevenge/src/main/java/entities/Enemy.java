@@ -19,5 +19,25 @@ public class Enemy {
  private int ataque = 25; 
 
  //sprites
- Image idleEnemy = new Image(getClass().getResourceAsStream("/Assets/Sprites/bossfight/viejopixel/oldmanidlepixel.png"));
+ private Image idleEnemy = new Image(getClass().getResourceAsStream("/Assets/Sprites/bossfight/viejopixel/oldmanidlepixel.png"));
+ 
+ //=== Metodos ===
+ 
+ //-- Sprites
+ public Image getIdleSprite(){
+     return idleEnemy;
+ }
+ //-- vida, ataque y daño
+ public int getVida(){
+     return vida;
+  }
+ 
+ public int getAtaque(){
+     return ataque;
+ }
+ 
+ public void recibirDanio(int cantidad){
+     vida -= cantidad;
+ }
+ 
 }

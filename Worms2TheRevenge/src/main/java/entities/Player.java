@@ -86,5 +86,28 @@ public class Player {
         return y;
     }
     
+    //-- colisiones con la BattleBox
+    public void limitarMovimiento(
+        double limiteIzquierdo,
+        double limiteDerecho,
+        double limiteSuperior,
+        double limiteInferior){
+
+    if(x < limiteIzquierdo){
+        x = limiteIzquierdo;
+    }
+
+    if(x > limiteDerecho){
+        x = limiteDerecho;
+    }
+
+    if(y < limiteSuperior){
+        y = limiteSuperior;
+    }
+
+    if(y > limiteInferior){
+        y = limiteInferior;
+        }
+    }
     
 }

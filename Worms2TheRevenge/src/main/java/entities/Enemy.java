@@ -18,8 +18,12 @@ public class Enemy {
  private int vida = 200;
  private int ataque = 25; 
 
+ 
  //sprites
  private Image idleEnemy = new Image(getClass().getResourceAsStream("/Assets/Sprites/bossfight/viejopixel/oldmanidlepixel.png"));
+ private Image DamageEnemy = new Image(getClass().getResourceAsStream("/Assets/Sprites/bossfight/viejopixel/oldmanDamaged.png"));
+ private Image veryDamagedEnemy = new Image(getClass().getResourceAsStream("/Assets/Sprites/bossfight/viejopixel/oldmanidleVeryDamaged.png"));
+ private Image veryDamagedEnemyTalk = new Image(getClass().getResourceAsStream("/Assets/Sprites/bossfight/viejopixel/oldmanidleVeryDamagedTalk.png"));
  
  //=== Metodos ===
  
@@ -27,6 +31,19 @@ public class Enemy {
  public Image getIdleSprite(){
      return idleEnemy;
  }
+
+ public Image getDamageSprite(){
+     return DamageEnemy;
+ }
+ 
+ public Image getVeryDamagedSprite(){
+     return veryDamagedEnemy;
+ }
+ 
+ public Image getLastSprite(){
+     return veryDamagedEnemyTalk;
+ }
+ 
  //-- vida, ataque y daño
  public int getVida(){
      return vida;
@@ -39,5 +56,6 @@ public class Enemy {
  public void recibirDanio(int cantidad){
      vida -= cantidad;
  }
+ 
  
 }

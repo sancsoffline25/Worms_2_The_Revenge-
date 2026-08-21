@@ -39,4 +39,34 @@ public class oldmansounds {
         dialogueLineGO.play();
     }
     
+    //detener dialogos
+    public void stopDialogue1(){
+        dialogueLine1.stop();
+    }
+    
+    public void stopDialogue2(){
+        dialogueLine2.stop();
+    }
+    
+    public void stopDialogue3(){
+        dialogueLine3.stop();
+    }
+    
+    public void stopDialogue4(){
+        dialogueLine4.stop();
+    }
+    
+    public void stopDialogueGO(){
+        dialogueLineGO.stop();
+    }
+    
+    //detener todos los díalogos
+    public void stopAllDialogues(){
+        dialogueLine1.stop();
+        dialogueLine2.stop();
+        dialogueLine3.stop();
+        dialogueLine4.stop();
+        dialogueLineGO.stop();
+    }
+    
 }

@@ -70,6 +70,10 @@ public class Player {
         vida -= cantidad;
     }
     
+    public boolean estaMuyHerido(){
+        return vida <= 25;
+    }
+    
     //-- movimiento
     public void mover(double dx, double dy){
         x+= dx;

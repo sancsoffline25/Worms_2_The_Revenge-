@@ -606,7 +606,10 @@ public class GamePlayBase{
        escena.setOnKeyPressed(e -> {
 
         if (e.getCode() == KeyCode.O){ //atajo bossfight
-
+            
+            //callar el dialogo
+            viejoSonidos.stopAllDialogues();
+            
         BossFight menu = new BossFight();
         menu.start(stage);
              }

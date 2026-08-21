@@ -24,6 +24,7 @@ import entities.Player;
 
 //Recursos(Animaciones)
 import animations.EnemyAttackAnimations;
+import animations.PlayerStatusAnimations;
 
 /**
  *
@@ -36,6 +37,7 @@ public class BossFight{
     //Traemos a las entidades protagonistas
     Player jugador = new Player();
     Enemy viejo = new Enemy();
+    EnemyAttackAnimations viejoAnim = new EnemyAttackAnimations();
     
     //Sprites de las entidades
     ImageView playerView = new ImageView(jugador.getIdleSprite());
@@ -47,6 +49,9 @@ public class BossFight{
     
     //Animaciones de ataque(Viejo)
     EnemyAttackAnimations ataques = new EnemyAttackAnimations();
+    
+    //Animaciones de los estados del jugador
+    PlayerStatusAnimations statusAnimations = new PlayerStatusAnimations();
     
     //Velocidad del jugador
     double velocidad = 5;
@@ -239,7 +244,8 @@ public class BossFight{
          movimiento.start();
     
         //Animación de ataque(testing)
-        ataques.ataqueHorizontal(escenaFinal, spawnHorizontalRight, spawnHorizontalLeft);
+        ataques.ataqueHorizontalDer(escenaFinal, spawnHorizontalRight, spawnHorizontalLeft, 2.5, playerView, jugador);
+        ataques.ataqueVerticalDown(escenaFinal, spawnVerticalTop, spawnVerticalDown, 4.5, playerView, jugador);
         
         
         stage.setTitle("Worms 2: The Revenge");

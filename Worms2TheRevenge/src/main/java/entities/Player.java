@@ -21,6 +21,12 @@ public class Player {
     private Image idleHearthSprite = new Image(getClass().getResourceAsStream("/Assets/Sprites/bossfight/player/PlayerPixel.png"));
     private Image damagedHearthSprite = new Image(getClass().getResourceAsStream("/Assets/Sprites/bossfight/player/PlayerPixelDamaged.png"));
     private Image tiredHearthSprite = new Image(getClass().getResourceAsStream("/Assets/Sprites/bossfight/player/PlayerPixelTired.png"));
+    
+    //sprites de muerte
+    private Image deathFrame1 = new Image(getClass().getResourceAsStream("/Assets/Sprites/bossfight/player/PlayerDieFrame1.png"));
+    private Image deathFrame2 = new Image(getClass().getResourceAsStream("/Assets/Sprites/bossfight/player/PlayerDieFrame2.png"));
+    private Image deathFrame3 = new Image(getClass().getResourceAsStream("/Assets/Sprites/bossfight/player/PlayerDieFrame3.png"));
+    private Image deathFrame4 = new Image(getClass().getResourceAsStream("/Assets/Sprites/bossfight/player/PlayerDieFrameExtra.png"));
    
     //posición eje x y eje y
     private double x = 0;
@@ -55,6 +61,22 @@ public class Player {
     
     public Image getTiredSprite(){
         return tiredHearthSprite; 
+    }
+    
+    public Image getDeathFrame1(){
+        return deathFrame1;
+    }
+    
+    public Image getDeathFrame2(){
+        return deathFrame2;
+    }
+    
+    public Image getDeathFrame3(){
+        return deathFrame3;
+    }
+    
+    public Image getDeathExtraFrame(){
+        return deathFrame4;
     }
     
     //-- vida, ataque y daño

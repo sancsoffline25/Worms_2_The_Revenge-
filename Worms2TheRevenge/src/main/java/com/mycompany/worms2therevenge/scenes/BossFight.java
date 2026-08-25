@@ -87,8 +87,9 @@ public class BossFight{
     StackPane spawnerContainer = new StackPane();
     HBox hud = new HBox(20);
     
-    //Booleano para las teclas
+    //Booleanos
     boolean[] teclas = new boolean[4]; //esto nos va servir para generar un movimiento fluído
+    boolean playerDied = false;
     
     final int ARRIBA = 0;
     final int ABAJO = 1;
@@ -329,7 +330,10 @@ public class BossFight{
 
         @Override
         public void handle(long ahora){
-
+         
+        //check, si el jugador esta muerto no se puede mover
+        if(!playerDied){
+            
         if (teclas[ARRIBA]) {
             jugador.mover(0, -velocidad);
         }
@@ -349,10 +353,29 @@ public class BossFight{
         //Colision del jugador
         jugador.limitarMovimiento(-376, 376, -177, 177);
         
+            }
+        
         //Actualización visual
         playerView.setTranslateX(jugador.getX());
         playerView.setTranslateY(jugador.getY());
-            }  
+        
+        //Detectar muerte
+        if (jugador.getVida() <= 0 && !playerDied){
+
+            playerDied = true;
+
+            //Detenemos las teclas
+            teclas[ARRIBA] = false;
+            teclas[ABAJO] = false;
+            teclas[IZQUIERDA] = false;
+            teclas[DERECHA] = false;
+
+            //Animación de muerte
+            statusAnimations.mostrarMuerte(jugador, playerView);
+        
+                }
+        
+            }
         
         };
 

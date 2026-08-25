@@ -145,8 +145,7 @@ public class MainMenu {
         stage.setFullScreenExitHint("");
         stage.setFullScreen(true);
         stage.show(); //Mostrar Escena
-        
-              
+    
     }
     
     

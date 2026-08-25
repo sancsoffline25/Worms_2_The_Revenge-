@@ -224,7 +224,8 @@ public class EnemyAttackAnimations {
             statusAnimations.mostrarDanio(jugador, playerView);
             playerSonidos.damageSoundEffect();
             statusAnimations.actualizarBarra(jugador, playerBar, playerBarView);
-
+            
+            System.out.println("Vida restante: " + jugador.getVida()); 
             stop();
             }
          }
@@ -285,7 +286,8 @@ public class EnemyAttackAnimations {
             statusAnimations.mostrarDanio(jugador, playerView);
             playerSonidos.damageSoundEffect();
             statusAnimations.actualizarBarra(jugador, playerBar, playerBarView);
-
+            
+            System.out.println("Vida restante: " + jugador.getVida()); 
             stop();
             }
          }
@@ -351,7 +353,8 @@ public class EnemyAttackAnimations {
             statusAnimations.mostrarDanio(jugador, playerView);
             playerSonidos.damageSoundEffect();
             statusAnimations.actualizarBarra(jugador, playerBar, playerBarView);
-
+            
+            System.out.println("Vida restante: " + jugador.getVida()); 
             stop();
             }
          }
@@ -415,6 +418,7 @@ public class EnemyAttackAnimations {
             playerSonidos.damageSoundEffect();
             statusAnimations.actualizarBarra(jugador, playerBar, playerBarView);
 
+            System.out.println("Vida restante: " + jugador.getVida()); 
             stop();
             }
          }
@@ -477,7 +481,8 @@ public class EnemyAttackAnimations {
             statusAnimations.mostrarDanio(jugador, playerView);
             playerSonidos.damageSoundEffect();
             statusAnimations.actualizarBarra(jugador, playerBar, playerBarView);
-
+            
+            System.out.println("Vida restante: " + jugador.getVida()); 
             stop();
             }
          }
@@ -541,6 +546,7 @@ public class EnemyAttackAnimations {
             playerSonidos.damageSoundEffect();
             statusAnimations.actualizarBarra(jugador, playerBar, playerBarView);
 
+            System.out.println("Vida restante: " + jugador.getVida()); 
             stop();
             }
          }

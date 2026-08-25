@@ -39,14 +39,15 @@ public class PlayerStatusAnimations{
     
     public void actualizarBarra(Player jugador, PlayerHealthBar playerBar, ImageView playerBarView){
         
-        if(jugador.getVida() <= 25){
+        if(jugador.getVida() <= 0){
+            playerBarView.setImage(playerBar.getHealthBarEmptySprite());
+        }
+        else if(jugador.getVida() <= 25){
             playerBarView.setImage(playerBar.getBarSpriteMinus75());
         }else if(jugador.getVida() <= 50){
             playerBarView.setImage(playerBar.getBarSpriteMinus50());
         }else if(jugador.getVida() <= 75){
             playerBarView.setImage(playerBar.getBarSpriteMinus25());
-        }else{
-            playerBarView.setImage(playerBar.getHealthBarEmptySprite());
         }
     }
     

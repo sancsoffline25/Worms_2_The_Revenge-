@@ -68,6 +68,10 @@ public class Player {
     
     public void recibirDanio(int cantidad){
         vida -= cantidad;
+        
+        if (vida < 0){
+        vida = 0;
+        }
     }
     
     public boolean estaMuyHerido(){

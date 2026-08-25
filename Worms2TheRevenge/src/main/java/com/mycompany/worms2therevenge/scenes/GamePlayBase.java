@@ -455,8 +455,8 @@ public class GamePlayBase{
     escenaFinal.setAlignment(Pos.BOTTOM_CENTER);
     
     dialogueContainer.setAlignment(Pos.TOP_CENTER);
-    dialogueContainer.setTranslateY(-80);
-    dialogueContainer.setTranslateX(330);
+    dialogueContainer.setTranslateY(-175);
+    dialogueContainer.setTranslateX(0);
     
     //=== Lógica del Gameplay ===
     

@@ -131,6 +131,15 @@ public class MainMenu {
              }
         });
         
+        escena.setOnKeyPressed(e -> {
+
+        if (e.getCode() == KeyCode.O){ //atajo bossfight
+              
+        BossFight menu = new BossFight();
+        menu.start(stage);
+             }
+        });
+        
         stage.setTitle("Worms 2 The Revenge");
         stage.setScene(escena);
         stage.setFullScreenExitHint("");

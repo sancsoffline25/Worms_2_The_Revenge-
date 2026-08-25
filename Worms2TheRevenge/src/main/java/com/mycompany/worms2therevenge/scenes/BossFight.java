@@ -84,7 +84,6 @@ public class BossFight{
     
     //Contenedores extra
     VBox viejoContainer = new VBox(20);
-    HBox controlsContainer = new HBox(90);
     StackPane spawnerContainer = new StackPane();
     HBox hud = new HBox(20);
     
@@ -97,11 +96,32 @@ public class BossFight{
     final int DERECHA = 3; //int no modificables
     
     // === FASES DE ATAQUE ===
-    //Tambien les podes llamar patrones pero yo los llame asi xd
+    //Tambien les podes llamar patrones pero yo los llame asi :D 
     
-    public void ataqueFase1(StackPane escena){
-    //Primer sección de ataques
-    //Ataques horizontales
+    //--Primer sección de ataques--
+    //en esta sección hay ataques mas básicos
+    public void ataque1Fase1(StackPane escena){
+        ataques.ataqueHorizontalIzq(escena, spawnHorizontalLeft, spawnHorizontalRight, 3.0, playerView, jugador, playerBar, playerBarView);
+    }
+    
+    public void ataque1Fase2(StackPane escena){
+        ataques.ataqueHorizontalDer(escena, spawnHorizontalRight, spawnHorizontalLeft, 3.0, playerView, jugador, playerBar, playerBarView);
+    }
+    
+    public void ataque1Fase3(StackPane escena){
+        ataques.ataqueVerticalTop(escena, spawnVerticalTop, spawnVerticalDown, 2.5, playerView, jugador, playerBar, playerBarView);
+    }
+    
+    public void ataque1Fase4(StackPane escena){
+        ataques.ataqueVerticalDown(escena, spawnVerticalDown, spawnVerticalTop, 2.5, playerView, jugador, playerBar, playerBarView);
+    }
+    
+    
+    //--Segunda sección de ataques--
+    //en esta sección hay ataques mas completos
+    
+    public void ataque2Fase1(StackPane escena){
+    //Ataques Combinados
     
         ataques.ataqueHorizontalDer(escena, spawnHorizontalRight, spawnHorizontalLeft, 2.5, playerView, jugador, playerBar, playerBarView);
     
@@ -109,25 +129,50 @@ public class BossFight{
     
     }
     
-    //Combinadas
-    public void ataqueFase2(StackPane escena){
+    public void ataque2Fase2(StackPane escena){
         ataques.ataqueVerticalTop(escena, spawnVerticalTop, spawnVerticalDown, 2.5, playerView, jugador, playerBar, playerBarView);
         ataques.ataqueHorizontalIzq(escena, spawnHorizontalLeft, spawnHorizontalRight, 3.0, playerView, jugador, playerBar, playerBarView);
         
     }
     
-    public void ataqueFase3(StackPane escena){
+    public void ataque2Fase3(StackPane escena){
         ataques.ataqueHorizontalDer(escena, spawnHorizontalRight, spawnHorizontalLeft, 2.5, playerView, jugador, playerBar, playerBarView);
-        ataques.ataqueDiagonalDownIzq(escena, spawnDiagonalDownLeft, spawnDiagonalTopRight, 3.0, playerView, jugador, playerBar, playerBarView);
         ataques.ataqueVerticalDown(escena, spawnVerticalDown, spawnVerticalTop, 2.5, playerView, jugador, playerBar, playerBarView);
     }
     
-    public void ataqueFase4(StackPane escena){
+    public void ataque2Fase4(StackPane escena){
         ataques.ataqueVerticalTop(escena, spawnVerticalTop, spawnVerticalDown, 2.5, playerView, jugador, playerBar, playerBarView);
         ataques.ataqueHorizontalDer(escena, spawnHorizontalRight, spawnHorizontalLeft, 3.0, playerView, jugador, playerBar, playerBarView);
         ataques.ataqueHorizontalIzq(escena, spawnHorizontalLeft, spawnHorizontalRight, 3.0, playerView, jugador, playerBar, playerBarView);
     }
     
+    //Sincronizadas
+    public void ataque2Fase5(StackPane escena){
+        ataques.ataqueHorizontalIzq(escena, spawnHorizontalLeft, spawnHorizontalRight, 3.0, playerView, jugador, playerBar, playerBarView);
+        ataques.ataqueHorizontalDer(escena, spawnHorizontalRight, spawnHorizontalLeft, 2.5, playerView, jugador, playerBar, playerBarView);
+        ataques.ataqueVerticalTop(escena, spawnVerticalTop, spawnVerticalDown, 2.5, playerView, jugador, playerBar, playerBarView);
+        ataques.ataqueVerticalDown(escena, spawnVerticalDown, spawnVerticalTop, 2.5, playerView, jugador, playerBar, playerBarView);
+        
+    }
+    
+    public void ataque2Fase6(StackPane escena){
+        ataques.ataqueDiagonalDownIzq(escena, spawnDiagonalDownLeft, spawnDiagonalTopRight, 3.0, playerView, jugador, playerBar, playerBarView);
+        ataques.ataqueDiagonalDownDer(escena, spawnDiagonalDownRight, spawnDiagonalTopLeft, 2.5, playerView, jugador, playerBar, playerBarView);
+        ataques.ataqueDiagonalTopDer(escena, spawnDiagonalTopRight, spawnDiagonalDownLeft, 2.5, playerView, jugador, playerBar, playerBarView);
+        ataques.ataqueDiagonalTopIzq(escena, spawnDiagonalTopLeft, spawnDiagonalDownRight, 3.0, playerView, jugador, playerBar, playerBarView);
+    }
+    //uno dificil (5 + 6 = ataquefase7)
+    public void ataque2Fase7(StackPane escena){
+        ataques.ataqueDiagonalDownIzq(escena, spawnDiagonalDownLeft, spawnDiagonalTopRight, 3.0, playerView, jugador, playerBar, playerBarView);
+        ataques.ataqueDiagonalDownDer(escena, spawnDiagonalDownRight, spawnDiagonalTopLeft, 2.5, playerView, jugador, playerBar, playerBarView);
+        ataques.ataqueDiagonalTopDer(escena, spawnDiagonalTopRight, spawnDiagonalDownLeft, 2.5, playerView, jugador, playerBar, playerBarView);
+        ataques.ataqueDiagonalTopIzq(escena, spawnDiagonalTopLeft, spawnDiagonalDownRight, 3.0, playerView, jugador, playerBar, playerBarView);
+        
+        ataques.ataqueHorizontalIzq(escena, spawnHorizontalLeft, spawnHorizontalRight, 3.0, playerView, jugador, playerBar, playerBarView);
+        ataques.ataqueHorizontalDer(escena, spawnHorizontalRight, spawnHorizontalLeft, 2.5, playerView, jugador, playerBar, playerBarView);
+        ataques.ataqueVerticalTop(escena, spawnVerticalTop, spawnVerticalDown, 2.5, playerView, jugador, playerBar, playerBarView);
+        ataques.ataqueVerticalDown(escena, spawnVerticalDown, spawnVerticalTop, 2.5, playerView, jugador, playerBar, playerBarView);
+    }
     
 
     public void start(Stage stage){
@@ -139,7 +184,6 @@ public class BossFight{
         
         //Identación contenedores extras
         viejoContainer.getChildren().add(viejoView);
-        controlsContainer.getChildren().add(controlsView);
         hud.getChildren().add(playerBarView);
         spawnerContainer.getChildren().addAll(
                 spawnHorizontalRight,
@@ -165,7 +209,6 @@ public class BossFight{
              
         //Posicionamiento
         viejoContainer.setAlignment(Pos.TOP_CENTER);
-        controlsContainer.setAlignment(Pos.CENTER_LEFT);
         spawnerContainer.setAlignment(Pos.CENTER);
         hud.setAlignment(Pos.BOTTOM_CENTER);
         
@@ -185,7 +228,7 @@ public class BossFight{
         spawnVerticalTop.setTranslateY(-270);
         
         spawnVerticalDown.setTranslateX(0);
-        spawnVerticalDown.setTranslateY(450);
+        spawnVerticalDown.setTranslateY(270);
         
         //--Spawners Diagonales
         spawnDiagonalTopRight.setTranslateX(600);
@@ -195,10 +238,10 @@ public class BossFight{
         spawnDiagonalTopLeft.setTranslateY(-270);
         
         spawnDiagonalDownRight.setTranslateX(600);
-        spawnDiagonalDownRight.setTranslateY(450);
+        spawnDiagonalDownRight.setTranslateY(270);
         
         spawnDiagonalDownLeft.setTranslateX(-600);
-        spawnDiagonalDownLeft.setTranslateY(450);
+        spawnDiagonalDownLeft.setTranslateY(270);
 
          //ajustamo los sprites a su medida correspondiente
         playerView.setFitWidth(48);
@@ -314,8 +357,9 @@ public class BossFight{
         };
 
          movimiento.start();
-    
-       ataqueFase4(escenaFinal);
+        
+        //testing
+        ataque2Fase7(escenaFinal);
         
         stage.setTitle("Worms 2: The Revenge");
         stage.setScene(escena);

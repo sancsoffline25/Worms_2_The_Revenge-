@@ -17,6 +17,9 @@ import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
+import javafx.animation.PauseTransition;
+import javafx.util.Duration;
+
 
 //Entidades
 import entities.Enemy;
@@ -25,7 +28,7 @@ import entities.Player;
 //Recursos(Animaciones)
 import animations.EnemyAttackAnimations;
 import animations.PlayerStatusAnimations;
-
+import ui.PlayerHealthBar;
 /**
  *
  * @author Santiago Guinel
@@ -39,9 +42,15 @@ public class BossFight{
     Enemy viejo = new Enemy();
     EnemyAttackAnimations viejoAnim = new EnemyAttackAnimations();
     
+    //Barra de vida del jugador
+    PlayerHealthBar playerBar = new PlayerHealthBar();
+    
     //Sprites de las entidades
     ImageView playerView = new ImageView(jugador.getIdleSprite());
     ImageView viejoView = new ImageView(viejo.getIdleSprite());
+    
+    //Sprite barra de vida
+    ImageView playerBarView = new ImageView(playerBar.getHealthBarFullSprite());
     
     //Sprite controles
     Image controles = new Image(getClass().getResourceAsStream("/Assets/Sprites/bossfight/controls/controls.png"));
@@ -59,17 +68,25 @@ public class BossFight{
     //BattleBox
     Rectangle battleBox= new Rectangle(800, 400);
     
-    //Spawners points
+    //Spawners points base
     Circle spawnHorizontalRight = new Circle(5, Color.RED);
     Circle spawnHorizontalLeft = new Circle(5, Color.RED);
     
-    Circle spawnVerticalTop = new Circle(5, Color.GREEN);
+    Circle spawnVerticalTop = new Circle(5, Color.RED);
     Circle spawnVerticalDown = new Circle(5, Color.RED);
+    
+    //Spawners points diagonales
+    Circle spawnDiagonalTopRight = new Circle(5, Color.BLUE);
+    Circle spawnDiagonalTopLeft = new Circle(5, Color.BLUE);
+
+    Circle spawnDiagonalDownRight = new Circle(5, Color.BLUE);
+    Circle spawnDiagonalDownLeft = new Circle(5, Color.BLUE);
     
     //Contenedores extra
     VBox viejoContainer = new VBox(20);
     HBox controlsContainer = new HBox(90);
     StackPane spawnerContainer = new StackPane();
+    HBox hud = new HBox(20);
     
     //Booleano para las teclas
     boolean[] teclas = new boolean[4]; //esto nos va servir para generar un movimiento fluído
@@ -78,6 +95,38 @@ public class BossFight{
     final int ABAJO = 1;
     final int IZQUIERDA = 2;
     final int DERECHA = 3; //int no modificables
+    
+    // === FASES DE ATAQUE ===
+    //Tambien les podes llamar patrones pero yo los llame asi xd
+    
+    public void ataqueFase1(StackPane escena){
+    //Primer sección de ataques
+    //Ataques horizontales
+    
+        ataques.ataqueHorizontalDer(escena, spawnHorizontalRight, spawnHorizontalLeft, 2.5, playerView, jugador, playerBar, playerBarView);
+    
+        ataques.ataqueHorizontalIzq(escena, spawnHorizontalLeft, spawnHorizontalRight, 3.0, playerView, jugador, playerBar, playerBarView);
+    
+    }
+    
+    //Combinadas
+    public void ataqueFase2(StackPane escena){
+        ataques.ataqueVerticalTop(escena, spawnVerticalTop, spawnVerticalDown, 2.5, playerView, jugador, playerBar, playerBarView);
+        ataques.ataqueHorizontalIzq(escena, spawnHorizontalLeft, spawnHorizontalRight, 3.0, playerView, jugador, playerBar, playerBarView);
+        
+    }
+    
+    public void ataqueFase3(StackPane escena){
+        ataques.ataqueHorizontalDer(escena, spawnHorizontalRight, spawnHorizontalLeft, 2.5, playerView, jugador, playerBar, playerBarView);
+        ataques.ataqueDiagonalDownIzq(escena, spawnDiagonalDownLeft, spawnDiagonalTopRight, 3.0, playerView, jugador, playerBar, playerBarView);
+        ataques.ataqueVerticalDown(escena, spawnVerticalDown, spawnVerticalTop, 2.5, playerView, jugador, playerBar, playerBarView);
+    }
+    
+    public void ataqueFase4(StackPane escena){
+        ataques.ataqueVerticalTop(escena, spawnVerticalTop, spawnVerticalDown, 2.5, playerView, jugador, playerBar, playerBarView);
+        ataques.ataqueHorizontalDer(escena, spawnHorizontalRight, spawnHorizontalLeft, 3.0, playerView, jugador, playerBar, playerBarView);
+        ataques.ataqueHorizontalIzq(escena, spawnHorizontalLeft, spawnHorizontalRight, 3.0, playerView, jugador, playerBar, playerBarView);
+    }
     
     
 
@@ -91,11 +140,16 @@ public class BossFight{
         //Identación contenedores extras
         viejoContainer.getChildren().add(viejoView);
         controlsContainer.getChildren().add(controlsView);
+        hud.getChildren().add(playerBarView);
         spawnerContainer.getChildren().addAll(
                 spawnHorizontalRight,
                 spawnHorizontalLeft,
                 spawnVerticalTop,
-                spawnVerticalDown
+                spawnVerticalDown,
+                spawnDiagonalTopRight,
+                spawnDiagonalTopLeft,
+                spawnDiagonalDownRight,
+                spawnDiagonalDownLeft
         );
         
         //Contenedor principal
@@ -105,13 +159,15 @@ public class BossFight{
                 battleBox,
                 controlsView,
                 playerView,
+                hud,
                 spawnerContainer
         );
-        
+             
         //Posicionamiento
         viejoContainer.setAlignment(Pos.TOP_CENTER);
         controlsContainer.setAlignment(Pos.CENTER_LEFT);
         spawnerContainer.setAlignment(Pos.CENTER);
+        hud.setAlignment(Pos.BOTTOM_CENTER);
         
         controlsView.setTranslateX(-800);
         
@@ -130,6 +186,19 @@ public class BossFight{
         
         spawnVerticalDown.setTranslateX(0);
         spawnVerticalDown.setTranslateY(450);
+        
+        //--Spawners Diagonales
+        spawnDiagonalTopRight.setTranslateX(600);
+        spawnDiagonalTopRight.setTranslateY(-270);
+        
+        spawnDiagonalTopLeft.setTranslateX(-600);
+        spawnDiagonalTopLeft.setTranslateY(-270);
+        
+        spawnDiagonalDownRight.setTranslateX(600);
+        spawnDiagonalDownRight.setTranslateY(450);
+        
+        spawnDiagonalDownLeft.setTranslateX(-600);
+        spawnDiagonalDownLeft.setTranslateY(450);
 
          //ajustamo los sprites a su medida correspondiente
         playerView.setFitWidth(48);
@@ -140,15 +209,18 @@ public class BossFight{
         
         viejoView.setTranslateY(10);
         
-        controlsView.setFitWidth(64);
-        controlsView.setFitHeight(64);
+        controlsView.setFitWidth(200);
+        controlsView.setFitHeight(200);
+        
+        playerBarView.setFitWidth(200);
+        playerBarView.setFitHeight(50);
         
         escenaFinal.setStyle("-fx-background-color: black");
         
         //Escena
         Scene escena = new Scene(escenaFinal);
         
-        //=== Lógica del game play ===
+        //=== Lógica del gameplay ===
         
         
         //--movimiento del jugador
@@ -243,10 +315,7 @@ public class BossFight{
 
          movimiento.start();
     
-        //Animación de ataque(testing)
-        ataques.ataqueHorizontalDer(escenaFinal, spawnHorizontalRight, spawnHorizontalLeft, 2.5, playerView, jugador);
-        ataques.ataqueVerticalDown(escenaFinal, spawnVerticalTop, spawnVerticalDown, 4.5, playerView, jugador);
-        
+       ataqueFase4(escenaFinal);
         
         stage.setTitle("Worms 2: The Revenge");
         stage.setScene(escena);

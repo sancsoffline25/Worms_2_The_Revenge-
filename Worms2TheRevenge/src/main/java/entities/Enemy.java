@@ -24,6 +24,7 @@ public class Enemy {
  private Image DamageEnemy = new Image(getClass().getResourceAsStream("/Assets/Sprites/bossfight/viejopixel/oldmanDamaged.png"));
  private Image veryDamagedEnemy = new Image(getClass().getResourceAsStream("/Assets/Sprites/bossfight/viejopixel/oldmanidleVeryDamaged.png"));
  private Image veryDamagedEnemyTalk = new Image(getClass().getResourceAsStream("/Assets/Sprites/bossfight/viejopixel/oldmanidleVeryDamagedTalk.png"));
+ private Image protectedEnemy = new Image(getClass().getResourceAsStream("/Assets/Sprites/bossfight/viejopixel/oldmanprotected.png"));
  
  //=== Metodos ===
  
@@ -42,6 +43,10 @@ public class Enemy {
  
  public Image getLastSprite(){
      return veryDamagedEnemyTalk;
+ }
+ 
+ public Image getProtectedSprite(){
+     return protectedEnemy;
  }
  
  //-- vida, ataque y daño

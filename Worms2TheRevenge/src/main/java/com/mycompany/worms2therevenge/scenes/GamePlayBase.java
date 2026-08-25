@@ -532,7 +532,7 @@ public class GamePlayBase{
         if(jugador.sinIntentos()){
         lefthand.setVisible(false);
         righthand.setVisible(false);
-        resultado.setText("Game Over");
+        resultado.setText("Sin Reintentos");
         
         dialogoGameOver(() ->{
         BossFight menu = new BossFight();
@@ -596,9 +596,7 @@ public class GamePlayBase{
     wormViewRight.setScaleX(1);
     wormViewRight.setScaleY(1);
     });
-    
-    
-    
+     
     
     //Escena
        Scene escena = new Scene(escenaFinal); //Parametros de la ventana

@@ -303,7 +303,7 @@ public class GamePlayBase{
     
     //Contenedores
     VBox root = new VBox(90);
-     escenaFinal.getChildren().add(root);
+    escenaFinal.getChildren().add(root);
     
     Image fondo = new Image(
     getClass().getResource(
@@ -455,6 +455,8 @@ public class GamePlayBase{
     escenaFinal.setAlignment(Pos.BOTTOM_CENTER);
     
     dialogueContainer.setAlignment(Pos.TOP_CENTER);
+    dialogueContainer.setTranslateY(-80);
+    dialogueContainer.setTranslateX(330);
     
     //=== Lógica del Gameplay ===
     
@@ -620,7 +622,7 @@ public class GamePlayBase{
      
     
     //Escena
-       Scene escena = new Scene(escenaFinal); //Parametros de la ventana
+       Scene escena = new Scene(escenaFinal); 
         
        escena.setOnKeyPressed(e -> {
 

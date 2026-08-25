@@ -212,8 +212,8 @@ public class BossFight{
         controlsView.setFitWidth(200);
         controlsView.setFitHeight(200);
         
-        playerBarView.setFitWidth(200);
-        playerBarView.setFitHeight(50);
+        playerBarView.setFitWidth(256);
+        playerBarView.setFitHeight(64);
         
         escenaFinal.setStyle("-fx-background-color: black");
         

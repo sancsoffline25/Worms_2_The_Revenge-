@@ -39,6 +39,11 @@ import ui.DialogueBlox;
 import sounds.oldmansounds;
 import animations.ScreenTransitions;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import ui.ButtonCreator;
 
 public class GamePlayBase{
@@ -300,11 +305,27 @@ public class GamePlayBase{
     VBox root = new VBox(90);
      escenaFinal.getChildren().add(root);
     
-    root.setStyle("-fx-background-image: url('/Assets/Backgrounds/GamePlayBase/fondoTest.jpg');" +
-    "-fx-background-size: cover;" +
-    "-fx-background-position: center center;" +
-    "-fx-background-repeat: no-repeat;"    
-    ); //CSS para que el fondo quede bien
+    Image fondo = new Image(
+    getClass().getResource(
+        "/Assets/Backgrounds/GamePlayBase/fondoTestEdit.png"
+        ).toExternalForm()
+    );
+
+    BackgroundImage backgroundImage = new BackgroundImage(
+    fondo,
+    BackgroundRepeat.NO_REPEAT,
+    BackgroundRepeat.NO_REPEAT,
+    BackgroundPosition.CENTER,
+    new BackgroundSize(
+        100, 100,
+        true, true,
+        false, true
+        )
+    );
+
+     
+    root.setBackground(new Background(backgroundImage)); //cambie lo del fondo para mas adelante
+
     
     HBox botones = new HBox(240); //manos
     

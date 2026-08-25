@@ -15,8 +15,10 @@ import javafx.util.Duration;
 import javafx.animation.AnimationTimer;
 
 
-//entidades afectadas
+//entidades incorporadas
 import entities.Player;
+import sounds.oldmansounds;
+import sounds.playersounds;
 import ui.PlayerHealthBar;
 
 /**
@@ -45,7 +47,9 @@ public class EnemyAttackAnimations {
     PlayerStatusAnimations statusAnimations = new PlayerStatusAnimations();
     PlayerHealthBar playerBar = new PlayerHealthBar();
     
-    
+    //Efectos de sonido
+    oldmansounds viejoSonidos = new oldmansounds();
+    playersounds playerSonidos = new playersounds();
     
     //--Ataque horizontal derecha
     public void ataqueHorizontalDer(
@@ -65,6 +69,7 @@ public class EnemyAttackAnimations {
         TranslateTransition ataque = new TranslateTransition(Duration.seconds(duracionAtaque), mano);
         
         escena.getChildren().add(mano);
+        viejoSonidos.throwHandEffect();
         
         
         //Points2D
@@ -92,6 +97,7 @@ public class EnemyAttackAnimations {
             if (mano.getBoundsInParent().intersects(playerView.getBoundsInParent())){
             jugador.recibirDanio(25);
             statusAnimations.mostrarDanio(jugador, playerView);
+            playerSonidos.damageSoundEffect();
             statusAnimations.actualizarBarra(jugador, playerBar, playerBarView);
 
             stop();
@@ -126,6 +132,8 @@ public class EnemyAttackAnimations {
         TranslateTransition ataque = new TranslateTransition(Duration.seconds(duracionAtaque), mano);
         
         escena.getChildren().add(mano);
+        viejoSonidos.throwHandEffect(); //reproduce el sonido de la mano apareciendo
+        
         
         //Points2D
         Point2D inicio = escena.sceneToLocal(
@@ -152,6 +160,7 @@ public class EnemyAttackAnimations {
             if (mano.getBoundsInParent().intersects(playerView.getBoundsInParent())){
             jugador.recibirDanio(25);
             statusAnimations.mostrarDanio(jugador, playerView);
+            playerSonidos.damageSoundEffect();
             statusAnimations.actualizarBarra(jugador, playerBar, playerBarView);
 
             stop();
@@ -186,6 +195,7 @@ public class EnemyAttackAnimations {
         TranslateTransition ataque = new TranslateTransition(Duration.seconds(duracionAtaque), mano);
         
         escena.getChildren().add(mano);
+        viejoSonidos.throwHandEffect();
         
         //Points2D
         Point2D inicio = escena.sceneToLocal(
@@ -212,6 +222,7 @@ public class EnemyAttackAnimations {
             if (mano.getBoundsInParent().intersects(playerView.getBoundsInParent())){
             jugador.recibirDanio(25);
             statusAnimations.mostrarDanio(jugador, playerView);
+            playerSonidos.damageSoundEffect();
             statusAnimations.actualizarBarra(jugador, playerBar, playerBarView);
 
             stop();
@@ -245,6 +256,7 @@ public class EnemyAttackAnimations {
         TranslateTransition ataque = new TranslateTransition(Duration.seconds(duracionAtaque), mano);
         
         escena.getChildren().add(mano);
+        viejoSonidos.throwHandEffect();
         
         //Points2D
         Point2D inicio = escena.sceneToLocal(
@@ -271,6 +283,7 @@ public class EnemyAttackAnimations {
             if (mano.getBoundsInParent().intersects(playerView.getBoundsInParent())){
             jugador.recibirDanio(25);
             statusAnimations.mostrarDanio(jugador, playerView);
+            playerSonidos.damageSoundEffect();
             statusAnimations.actualizarBarra(jugador, playerBar, playerBarView);
 
             stop();
@@ -308,6 +321,7 @@ public class EnemyAttackAnimations {
         TranslateTransition ataque = new TranslateTransition(Duration.seconds(duracionAtaque), mano);
         
         escena.getChildren().add(mano);
+        viejoSonidos.throwHandEffect();
         
         
         //Points2D
@@ -335,6 +349,7 @@ public class EnemyAttackAnimations {
             if (mano.getBoundsInParent().intersects(playerView.getBoundsInParent())){
             jugador.recibirDanio(25);
             statusAnimations.mostrarDanio(jugador, playerView);
+            playerSonidos.damageSoundEffect();
             statusAnimations.actualizarBarra(jugador, playerBar, playerBarView);
 
             stop();
@@ -369,6 +384,7 @@ public class EnemyAttackAnimations {
         TranslateTransition ataque = new TranslateTransition(Duration.seconds(duracionAtaque), mano);
         
         escena.getChildren().add(mano);
+        viejoSonidos.throwHandEffect();
         
         
         //Points2D
@@ -396,6 +412,7 @@ public class EnemyAttackAnimations {
             if (mano.getBoundsInParent().intersects(playerView.getBoundsInParent())){
             jugador.recibirDanio(25);
             statusAnimations.mostrarDanio(jugador, playerView);
+            playerSonidos.damageSoundEffect();
             statusAnimations.actualizarBarra(jugador, playerBar, playerBarView);
 
             stop();
@@ -430,6 +447,7 @@ public class EnemyAttackAnimations {
         TranslateTransition ataque = new TranslateTransition(Duration.seconds(duracionAtaque), mano);
         
         escena.getChildren().add(mano);
+        viejoSonidos.throwHandEffect();
         
         
         //Points2D
@@ -457,6 +475,7 @@ public class EnemyAttackAnimations {
             if (mano.getBoundsInParent().intersects(playerView.getBoundsInParent())){
             jugador.recibirDanio(25);
             statusAnimations.mostrarDanio(jugador, playerView);
+            playerSonidos.damageSoundEffect();
             statusAnimations.actualizarBarra(jugador, playerBar, playerBarView);
 
             stop();
@@ -491,6 +510,7 @@ public class EnemyAttackAnimations {
         TranslateTransition ataque = new TranslateTransition(Duration.seconds(duracionAtaque), mano);
         
         escena.getChildren().add(mano);
+        viejoSonidos.throwHandEffect();
         
         
         //Points2D
@@ -518,6 +538,7 @@ public class EnemyAttackAnimations {
             if (mano.getBoundsInParent().intersects(playerView.getBoundsInParent())){
             jugador.recibirDanio(25);
             statusAnimations.mostrarDanio(jugador, playerView);
+            playerSonidos.damageSoundEffect();
             statusAnimations.actualizarBarra(jugador, playerBar, playerBarView);
 
             stop();

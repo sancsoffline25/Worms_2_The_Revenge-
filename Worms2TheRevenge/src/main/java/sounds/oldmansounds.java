@@ -13,12 +13,17 @@ import javafx.scene.media.AudioClip;
 
 public class oldmansounds {
     
+    //Sonidos dialogos
     private final AudioClip dialogueLine1 = new AudioClip(getClass().getResource("/Assets/Sonidos/Dialogos/DialogoIntro1.wav").toExternalForm());
     private final AudioClip dialogueLine2 = new AudioClip(getClass().getResource("/Assets/Sonidos/Dialogos/DialogoIntro2.wav").toExternalForm());
     private final AudioClip dialogueLine3 = new AudioClip(getClass().getResource("/Assets/Sonidos/Dialogos/DialogoIntro3.wav").toExternalForm());
     private final AudioClip dialogueLine4 = new AudioClip(getClass().getResource("/Assets/Sonidos/Dialogos/DialogoIntro4.wav").toExternalForm());
     private final AudioClip dialogueLineGO = new AudioClip(getClass().getResource("/Assets/Sonidos/Dialogos/SinReintentos.wav").toExternalForm()); 
     
+    //Efectos de sonido
+    private final AudioClip tirarMano = new AudioClip(getClass().getResource("/Assets/Sonidos/SFX/throwHands.wav").toExternalForm());
+    
+    //Metodos
     public void playDialogue1(){
         dialogueLine1.play();
     }
@@ -67,6 +72,12 @@ public class oldmansounds {
         dialogueLine3.stop();
         dialogueLine4.stop();
         dialogueLineGO.stop();
+    }
+    
+    //Efectos de sonido play()
+    
+    public void throwHandEffect(){
+        tirarMano.play();
     }
     
 }

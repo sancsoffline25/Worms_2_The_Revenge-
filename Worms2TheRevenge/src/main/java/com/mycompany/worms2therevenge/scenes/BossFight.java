@@ -29,6 +29,7 @@ import entities.Player;
 import animations.EnemyAttackAnimations;
 import animations.PlayerStatusAnimations;
 import ui.PlayerHealthBar;
+import ui.ResolutionManager;
 /**
  *
  * @author Santiago Guinel
@@ -199,6 +200,10 @@ public class BossFight{
         
         //Contenedor principal
         StackPane escenaFinal = new StackPane();
+        escenaFinal.setPrefSize(1920, 1080);
+        escenaFinal.setMinSize(1920, 1080);
+        escenaFinal.setMaxSize(1920, 1080);
+    
         escenaFinal.getChildren().addAll(
                 viejoContainer,
                 battleBox,
@@ -262,7 +267,7 @@ public class BossFight{
         escenaFinal.setStyle("-fx-background-color: black");
         
         //Escena
-        Scene escena = new Scene(escenaFinal);
+        Scene escena = ResolutionManager.crearEscena(escenaFinal);
         
         //=== Lógica del gameplay ===
         
@@ -386,8 +391,7 @@ public class BossFight{
         
         stage.setTitle("Worms 2: The Revenge");
         stage.setScene(escena);
-        stage.setFullScreenExitHint("");
-        stage.setFullScreen(true);
+        stage.setFullScreen(true); //pantalla completa
         stage.show();
     }
     

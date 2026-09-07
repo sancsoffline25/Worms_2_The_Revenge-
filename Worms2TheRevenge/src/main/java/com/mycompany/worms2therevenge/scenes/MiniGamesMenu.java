@@ -19,6 +19,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import ui.ResolutionManager;
 
 
 
@@ -26,7 +27,7 @@ import javafx.scene.paint.Color;
 public class MiniGamesMenu {
      
         
-        Font textoFont = Font.loadFont(getClass().getResourceAsStream("/Assets/Fonts/VT323-Regular.ttf"), 28);
+    Font textoFont = Font.loadFont(getClass().getResourceAsStream("/Assets/Fonts/VT323-Regular.ttf"), 28);
     
     private StackPane crearBoton(String texto, Font fuente) {
 
@@ -117,14 +118,21 @@ public class MiniGamesMenu {
         
         layout.setAlignment(Pos.CENTER); //ponemos el layout al centro
         
+        // Contenedor de resolución base
+        StackPane escenaFinal = new StackPane();
+
+        escenaFinal.setPrefSize(1920, 1080);
+        escenaFinal.setMinSize(1920, 1080);
+        escenaFinal.setMaxSize(1920, 1080);
+
+        escenaFinal.getChildren().add(layout);
         
         //Escena
-        Scene escena = new Scene(layout); //Parametros de la ventana
+        Scene escena = ResolutionManager.crearEscena(escenaFinal); //Parametros de la ventana
         
         stage.setTitle("Worms 2 The Revenge");
         stage.setScene(escena);
-        stage.setFullScreenExitHint("");
-        stage.setFullScreen(true);
+        stage.setFullScreen(true); //pantalla completa
         stage.show(); //Mostrar Escena
         
         

@@ -20,6 +20,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import ui.ResolutionManager;
 
 public class MainMenu {
     Font textoFont = Font.loadFont(getClass().getResourceAsStream("/Assets/Fonts/VT323-Regular.ttf"), 28);
@@ -118,22 +119,26 @@ public class MainMenu {
         
         layout.setAlignment(Pos.CENTER); //ponemos el layout al centro
         
+        // Contenedor de resolución base
+        StackPane escenaFinal = new StackPane();
+
+        escenaFinal.setPrefSize(1920, 1080);
+        escenaFinal.setMinSize(1920, 1080);
+        escenaFinal.setMaxSize(1920, 1080);
+
+        escenaFinal.getChildren().add(layout);
+        
         
         //Escena
-        Scene escena = new Scene(layout); //Parametros de la ventana
+        Scene escena = ResolutionManager.crearEscena(escenaFinal); //Parametros de la ventana
         
         escena.setOnKeyPressed(e -> {
 
-        if (e.getCode() == KeyCode.L){ //esto para vos lauty
+        if(e.getCode() == KeyCode.L){ //esto para vos lauty
 
         MiniGamesMenu menu = new MiniGamesMenu();
         menu.start(stage);
-             }
-        });
-        
-        escena.setOnKeyPressed(e -> {
-
-        if (e.getCode() == KeyCode.O){ //atajo bossfight
+             }else if(e.getCode() == KeyCode.O){ //atajo bossfight
               
         BossFight menu = new BossFight();
         menu.start(stage);
@@ -142,8 +147,6 @@ public class MainMenu {
         
         stage.setTitle("Worms 2 The Revenge");
         stage.setScene(escena);
-        stage.setFullScreenExitHint("");
-        stage.setFullScreen(true);
         stage.show(); //Mostrar Escena
     
     }

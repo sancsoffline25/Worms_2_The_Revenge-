@@ -45,6 +45,7 @@ import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import ui.ButtonCreator;
+import ui.ResolutionManager;
 
 public class GamePlayBase{
     
@@ -300,6 +301,9 @@ public class GamePlayBase{
     
     //StackPane contenedor padre
     StackPane escenaFinal = new StackPane();
+    escenaFinal.setPrefSize(1920, 1080);
+    escenaFinal.setMinSize(1920, 1080);
+    escenaFinal.setMaxSize(1920, 1080);
     
     //Contenedores
     VBox root = new VBox(90);
@@ -622,7 +626,7 @@ public class GamePlayBase{
      
     
     //Escena
-       Scene escena = new Scene(escenaFinal); 
+       Scene escena = ResolutionManager.crearEscena(escenaFinal);
         
        escena.setOnKeyPressed(e -> {
 
@@ -638,7 +642,6 @@ public class GamePlayBase{
        
         stage.setTitle("Worms 2 The Revenge");
         stage.setScene(escena);
-        stage.setFullScreenExitHint("");
         stage.setFullScreen(true); //pantalla completa
         stage.show(); //Mostrar Escena 
         transitions.fadeInBlack(escenaFinal, 2);

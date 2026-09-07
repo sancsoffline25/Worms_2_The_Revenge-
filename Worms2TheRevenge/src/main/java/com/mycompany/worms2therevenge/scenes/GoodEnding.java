@@ -25,6 +25,7 @@ import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
+import ui.ResolutionManager;
 
 public class GoodEnding {
     
@@ -113,6 +114,13 @@ public class GoodEnding {
         fade.setMouseTransparent(true); //con esto el fade ignora al mouse para que no bloquee los botones
         StackPane escenaFinal = new StackPane();
         
+        // resolución base
+        escenaFinal.setPrefSize(1920, 1080);
+        escenaFinal.setMinSize(1920, 1080);
+        escenaFinal.setMaxSize(1920, 1080);
+
+        escenaFinal.getChildren().add(layout);
+        
         escenaFinal.getChildren().addAll(
                 layout,
                 fade
@@ -176,8 +184,9 @@ public class GoodEnding {
         creditos.setAlignment(Pos.CENTER);
         
         
+        
         //Escena
-        Scene escena = new Scene(escenaFinal, 1280, 720);
+        Scene escena = ResolutionManager.crearEscena(escenaFinal);
         
         //Musica
         Media musica = new Media(getClass().getResource("/Assets/Musica/LEASE_GoodEnding.mp3").toExternalForm()); //cargo la musica
@@ -196,6 +205,7 @@ public class GoodEnding {
         
         stage.setTitle("Worms 2: The Revenge");
         stage.setScene(escena);
+        stage.setFullScreen(true); //pantalla completa
         stage.show();
         
     }

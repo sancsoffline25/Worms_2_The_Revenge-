@@ -20,8 +20,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
+import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import ui.ResolutionManager;
 
 public class MiniPesca{
     //Tamaño de la ventana
@@ -80,8 +82,17 @@ public class MiniPesca{
         root.setCenter(gamePane);
         root.setTop(top);
         root.setBottom(buttons);
+        
+        // Contenedor de resolución base
+        StackPane escenaFinal = new StackPane();
 
-        Scene scene = new Scene(root, WIDTH, HEIGHT);
+        escenaFinal.setPrefSize(1920, 1080);
+        escenaFinal.setMinSize(1920, 1080);
+        escenaFinal.setMaxSize(1920, 1080);
+
+        escenaFinal.getChildren().add(root);
+
+        Scene scene = ResolutionManager.crearEscena(escenaFinal);
 
         scene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.SPACE){

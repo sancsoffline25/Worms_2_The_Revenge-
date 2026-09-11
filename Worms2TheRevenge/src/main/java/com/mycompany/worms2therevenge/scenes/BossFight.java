@@ -200,9 +200,20 @@ public class BossFight{
         
         //Contenedor principal
         StackPane escenaFinal = new StackPane();
-        escenaFinal.setPrefSize(1920, 1080);
-        escenaFinal.setMinSize(1920, 1080);
-        escenaFinal.setMaxSize(1920, 1080);
+        escenaFinal.setPrefSize(
+        ResolutionManager.BASE_WIDTH,
+        ResolutionManager.BASE_HEIGHT
+        );
+
+        escenaFinal.setMinSize(
+        ResolutionManager.BASE_WIDTH,
+        ResolutionManager.BASE_HEIGHT
+        );
+
+        escenaFinal.setMaxSize(
+        ResolutionManager.BASE_WIDTH,
+        ResolutionManager.BASE_HEIGHT
+        );
     
         escenaFinal.getChildren().addAll(
                 viejoContainer,

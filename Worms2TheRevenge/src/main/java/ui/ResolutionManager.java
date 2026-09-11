@@ -16,14 +16,17 @@ import javafx.scene.paint.Color;
 
 public class ResolutionManager {
 
-    public static final double BASE_WIDTH = 1920;
-    public static final double BASE_HEIGHT = 1080;
+    // Resolución base del juego (4:3)
+    public static final double BASE_WIDTH = 1024;
+    public static final double BASE_HEIGHT = 768;
 
     public static Scene crearEscena(Parent contenido) {
 
+        // Pantalla completa que ocupa todo el monitor
         Pane viewport = new Pane();
         viewport.setStyle("-fx-background-color: black;");
 
+        // Contenedor que contiene el juego y permite escalarlo
         Group grupoEscalado = new Group(contenido);
         viewport.getChildren().add(grupoEscalado);
 
@@ -36,19 +39,21 @@ public class ResolutionManager {
                 return;
             }
 
+            // Calculamos cuánto podemos agrandar el juego
             double escalaX = ancho / BASE_WIDTH;
             double escalaY = alto / BASE_HEIGHT;
 
-            // Mantener proporción 16:9
+            // Mantener proporción 4:3
             double escala = Math.min(escalaX, escalaY);
 
             grupoEscalado.setScaleX(escala);
             grupoEscalado.setScaleY(escala);
 
+            // Tamaño que tendrá el juego después de escalarse
             double anchoJuego = BASE_WIDTH * escala;
             double altoJuego = BASE_HEIGHT * escala;
 
-            // Centrar el juego
+            // Centrar el juego en la pantalla
             grupoEscalado.setLayoutX(
                 (ancho - anchoJuego) / 2
             );
@@ -58,6 +63,7 @@ public class ResolutionManager {
             );
         };
 
+        // Actualizar escala si cambia el tamaño de la ventana
         viewport.widthProperty().addListener(
             (obs, viejo, nuevo) -> actualizarEscala.run()
         );

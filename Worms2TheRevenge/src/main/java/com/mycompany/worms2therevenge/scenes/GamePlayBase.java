@@ -641,10 +641,9 @@ public class GamePlayBase{
         
        escena.setOnKeyPressed(e -> {
 
-        if (e.getCode() == KeyCode.O){ //atajo bossfight
-            
-            //callar el dialogo
-            viejoSonidos.stopAllDialogues();
+        if (e.getCode() == KeyCode.O){ //atajo bossfight    
+        //callar el dialogo
+        viejoSonidos.stopAllDialogues();
             
         BossFight menu = new BossFight();
         menu.start(stage);
@@ -653,7 +652,7 @@ public class GamePlayBase{
        
         stage.setTitle("Worms 2 The Revenge");
         stage.setScene(escena);
-        stage.setFullScreen(true); //pantalla completa
+        stage.setResizable(false);
         stage.show(); //Mostrar Escena 
         transitions.fadeInBlack(escenaFinal, 2);
         dialogoIntro();

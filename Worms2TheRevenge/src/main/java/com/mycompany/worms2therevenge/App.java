@@ -20,8 +20,6 @@ public class App extends Application {
         var javafxVersion = SystemInfo.javafxVersion();
 
         
-        stage.setFullScreenExitHint("");
-        stage.setFullScreen(true);
         MainMenu menu = new MainMenu();
         
         menu.start(stage);

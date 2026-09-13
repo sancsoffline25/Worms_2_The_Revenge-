@@ -112,8 +112,7 @@ public class MiniPesca{
         });
 
         stage.setScene(scene);
-        stage.setFullScreenExitHint("");
-        stage.setFullScreen(true);
+        stage.setResizable(false);
         stage.show();
         long[] lastFrameTime = {-1L};
         AnimationTimer gameLoop = new AnimationTimer() {

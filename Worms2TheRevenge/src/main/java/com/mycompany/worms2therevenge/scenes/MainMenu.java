@@ -158,6 +158,7 @@ public class MainMenu {
         
         stage.setTitle("Worms 2 The Revenge");
         stage.setScene(escena);
+        stage.setResizable(false);
         stage.show(); //Mostrar Escena
     
     }

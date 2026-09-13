@@ -216,7 +216,7 @@ public class GoodEnding {
         
         stage.setTitle("Worms 2: The Revenge");
         stage.setScene(escena);
-        stage.setFullScreen(true); //pantalla completa
+        stage.setResizable(false);
         stage.show();
         
     }

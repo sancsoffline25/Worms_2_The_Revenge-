@@ -15,8 +15,8 @@ import javafx.scene.paint.Color;
 public class ResolutionManager {
 
     //Resolución fija del juego
-    public static final double BASE_WIDTH = 1920;
-    public static final double BASE_HEIGHT = 1080;
+    public static final double BASE_WIDTH = 1366;
+    public static final double BASE_HEIGHT = 768;
 
     public static Scene crearEscena(Parent contenido) {
 

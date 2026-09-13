@@ -348,6 +348,7 @@ public class GamePlayBase{
     
     VBox dialogueContainer= new VBox(90);
     dialogueContainer.setTranslateY(-250);
+  
     
     VBox buttonContainer = new VBox(10); //botones literales
     
@@ -395,8 +396,11 @@ public class GamePlayBase{
     
     righthand.setScaleX(-1);
     
-    lefthand.setTranslateY(25);
-    righthand.setTranslateY(25);
+    lefthand.setTranslateY(150);
+    righthand.setTranslateY(150);
+    
+    lefthand.setTranslateX(-400);
+    righthand.setTranslateX(-315);
     
     lefthand.setStyle("-fx-background-color: transparent;");
     righthand.setStyle("-fx-background-color: transparent;");
@@ -405,8 +409,8 @@ public class GamePlayBase{
     enemyIdle.setFitWidth(700);
     enemyIdle.setFitHeight(700);
     
-    enemyIdle.setTranslateY(600);
-    enemyIdle.setTranslateX(-50);
+    enemyIdle.setTranslateY(750);
+    enemyIdle.setTranslateX(-400);
     
     //Organización de los Botones, Labels y StackPane
     
@@ -470,8 +474,8 @@ public class GamePlayBase{
     escenaFinal.setAlignment(Pos.BOTTOM_CENTER);
     
     dialogueContainer.setAlignment(Pos.TOP_CENTER);
-    dialogueContainer.setTranslateY(-175);
-    dialogueContainer.setTranslateX(0);
+    dialogueContainer.setTranslateY(-15);
+    dialogueContainer.setTranslateX(-270);
     
     //=== Lógica del Gameplay ===
     

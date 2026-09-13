@@ -24,6 +24,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import ui.ResolutionManager;
+import entities.FishManager;
 
 public class MiniPesca{
     //Tamaño de la ventana
@@ -40,24 +41,47 @@ public class MiniPesca{
        
         gamePane = new Pane();
         
-        //Pez! No preguntes porque esta tan arriba
-        Fish fish = new Fish(
-        470,
-        420,
-        FishType.BASIC
-        );
-        gamePane.getChildren().add(fish.getSprite());
+       //No hay mas pez
         gamePane.setPrefSize(WIDTH, HEIGHT);
         //Fondo celeste
         gamePane.setStyle("-fx-background-color: lightblue;");
 
         Hook hook = new Hook(ORIGIN_X, ORIGIN_Y,HEIGHT - 50);
         //Referencia a Hook.java para los valores del anzuelo
+        
         gamePane.getChildren().addAll(
                 hook.getLine(),
                 hook.getCircle()
         );
         
+        FishManager fishManager = new FishManager(WIDTH);
+        //Referencia a FishManager para hacer las filas
+        fishManager.createRow(
+        220,
+        5,
+        100,
+        true
+        );
+
+        fishManager.createRow(
+        340,
+        5,
+        100,
+        false
+        );
+
+        fishManager.createRow(
+        460,
+        5,
+        100,
+        true
+        );
+
+
+        // Añadir los peces al gamePane
+        for (Fish fish : fishManager.getFishList()) {
+        gamePane.getChildren().add(fish.getSprite());
+}   
         Label titulo = new Label("Minijuego de Pesca");
 
         Button launchButton = new Button("Lanzar anzuelo");
@@ -133,24 +157,30 @@ public class MiniPesca{
         double dt = (now - lastFrameTime[0]) / 1_000_000_000.0;
         lastFrameTime[0] = now;
         hook.update(now);
-        if (!fish.isCaptured()) {
-            if (fish.isTouching(
-                    hook.getHookX(),
-                    hook.getHookY())) {
-                fish.capture();
-                hook.setState(HookState.RAISING);
-            }
-        }
-        fish.update(
-                hook.getHookX(),
-                hook.getHookY(),
-                dt //???
-                //Santi, ayuda.
+        fishManager.update(
+        hook.getHookX(),
+        hook.getHookY(),
+        dt//??? 2
         );
+         for (Fish fish : fishManager.getFishList()) {
+
+    if (!fish.isCaptured()) {
+
+        if (fish.isTouching(
+                hook.getHookX(),
+                hook.getHookY())) {
+
+            fish.capture();
+
+            hook.setState(HookState.RAISING);
+
+            break;
+        }
+    }
+}
     }
     };
         gameLoop.start();
     }
-    //Aca se introducen los peces
     
 }

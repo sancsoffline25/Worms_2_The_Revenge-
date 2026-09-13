@@ -73,6 +73,8 @@ public class Fish{
     }
     updateGraphics();
     }
+    
+    
     private void checkScreenBounds(){
     if (movingRight && x > screenWidth + 20) {
         x = -20;

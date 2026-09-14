@@ -399,8 +399,8 @@ public class GamePlayBase{
     lefthand.setTranslateY(150);
     righthand.setTranslateY(150);
     
-    lefthand.setTranslateX(-400);
-    righthand.setTranslateX(-315);
+    lefthand.setTranslateX(-375);
+    righthand.setTranslateX(-320);
     
     lefthand.setStyle("-fx-background-color: transparent;");
     righthand.setStyle("-fx-background-color: transparent;");

@@ -64,10 +64,10 @@ public class BossFight{
     PlayerStatusAnimations statusAnimations = new PlayerStatusAnimations();
     
     //Velocidad del jugador
-    double velocidad = 5;
+    double velocidad = 6;
     
     //BattleBox
-    Rectangle battleBox= new Rectangle(800, 400);
+    Rectangle battleBox= new Rectangle(600, 300);
     
     //Spawners points base
     Circle spawnHorizontalRight = new Circle(5, Color.RED);
@@ -83,12 +83,15 @@ public class BossFight{
     Circle spawnDiagonalDownRight = new Circle(5, Color.BLUE);
     Circle spawnDiagonalDownLeft = new Circle(5, Color.BLUE);
     
+    // Contenedor principal de la batalla
+    StackPane escenaFinal;
+    
     //Contenedores extra
     VBox viejoContainer = new VBox(20);
     StackPane spawnerContainer = new StackPane();
     HBox hud = new HBox(20);
     
-    //Booleanos
+    //Booleanos para anim y estados
     boolean[] teclas = new boolean[4]; //esto nos va servir para generar un movimiento fluído
     boolean playerDied = false;
     
@@ -97,24 +100,30 @@ public class BossFight{
     final int IZQUIERDA = 2;
     final int DERECHA = 3; //int no modificables
     
+    //Estados de la pelea
+    int faseActual = 1;
+    int ataqueActual = 1;
+    boolean turnoJugador = false;
+    boolean batallaTerminada = false;
+    
     // === FASES DE ATAQUE ===
     //Tambien les podes llamar patrones pero yo los llame asi :D 
     
     //--Primer sección de ataques--
     //en esta sección hay ataques mas básicos
-    public void ataque1Fase1(StackPane escena){
+    public void fase1Ataque1(StackPane escena){
         ataques.ataqueHorizontalIzq(escena, spawnHorizontalLeft, spawnHorizontalRight, 3.0, playerView, jugador, playerBar, playerBarView);
     }
     
-    public void ataque1Fase2(StackPane escena){
+    public void fase1Ataque2(StackPane escena){
         ataques.ataqueHorizontalDer(escena, spawnHorizontalRight, spawnHorizontalLeft, 3.0, playerView, jugador, playerBar, playerBarView);
     }
     
-    public void ataque1Fase3(StackPane escena){
+    public void fase1Ataque3(StackPane escena){
         ataques.ataqueVerticalTop(escena, spawnVerticalTop, spawnVerticalDown, 2.5, playerView, jugador, playerBar, playerBarView);
     }
     
-    public void ataque1Fase4(StackPane escena){
+    public void fase1Ataque4(StackPane escena){
         ataques.ataqueVerticalDown(escena, spawnVerticalDown, spawnVerticalTop, 2.5, playerView, jugador, playerBar, playerBarView);
     }
     
@@ -122,7 +131,7 @@ public class BossFight{
     //--Segunda sección de ataques--
     //en esta sección hay ataques mas completos
     
-    public void ataque2Fase1(StackPane escena){
+    public void fase2Ataque1(StackPane escena){
     //Ataques Combinados
     
         ataques.ataqueHorizontalDer(escena, spawnHorizontalRight, spawnHorizontalLeft, 2.5, playerView, jugador, playerBar, playerBarView);
@@ -131,25 +140,25 @@ public class BossFight{
     
     }
     
-    public void ataque2Fase2(StackPane escena){
+    public void fase2Ataque2(StackPane escena){
         ataques.ataqueVerticalTop(escena, spawnVerticalTop, spawnVerticalDown, 2.5, playerView, jugador, playerBar, playerBarView);
         ataques.ataqueHorizontalIzq(escena, spawnHorizontalLeft, spawnHorizontalRight, 3.0, playerView, jugador, playerBar, playerBarView);
         
     }
     
-    public void ataque2Fase3(StackPane escena){
+    public void fase2Ataque3(StackPane escena){
         ataques.ataqueHorizontalDer(escena, spawnHorizontalRight, spawnHorizontalLeft, 2.5, playerView, jugador, playerBar, playerBarView);
         ataques.ataqueVerticalDown(escena, spawnVerticalDown, spawnVerticalTop, 2.5, playerView, jugador, playerBar, playerBarView);
     }
     
-    public void ataque2Fase4(StackPane escena){
+    public void fase2Ataque4(StackPane escena){
         ataques.ataqueVerticalTop(escena, spawnVerticalTop, spawnVerticalDown, 2.5, playerView, jugador, playerBar, playerBarView);
         ataques.ataqueHorizontalDer(escena, spawnHorizontalRight, spawnHorizontalLeft, 3.0, playerView, jugador, playerBar, playerBarView);
         ataques.ataqueHorizontalIzq(escena, spawnHorizontalLeft, spawnHorizontalRight, 3.0, playerView, jugador, playerBar, playerBarView);
     }
     
     //Sincronizadas
-    public void ataque2Fase5(StackPane escena){
+    public void fase2Ataque5(StackPane escena){
         ataques.ataqueHorizontalIzq(escena, spawnHorizontalLeft, spawnHorizontalRight, 3.0, playerView, jugador, playerBar, playerBarView);
         ataques.ataqueHorizontalDer(escena, spawnHorizontalRight, spawnHorizontalLeft, 2.5, playerView, jugador, playerBar, playerBarView);
         ataques.ataqueVerticalTop(escena, spawnVerticalTop, spawnVerticalDown, 2.5, playerView, jugador, playerBar, playerBarView);
@@ -157,23 +166,81 @@ public class BossFight{
         
     }
     
-    public void ataque2Fase6(StackPane escena){
+    public void fase2Ataque6(StackPane escena){
         ataques.ataqueDiagonalDownIzq(escena, spawnDiagonalDownLeft, spawnDiagonalTopRight, 3.0, playerView, jugador, playerBar, playerBarView);
         ataques.ataqueDiagonalDownDer(escena, spawnDiagonalDownRight, spawnDiagonalTopLeft, 2.5, playerView, jugador, playerBar, playerBarView);
         ataques.ataqueDiagonalTopDer(escena, spawnDiagonalTopRight, spawnDiagonalDownLeft, 2.5, playerView, jugador, playerBar, playerBarView);
         ataques.ataqueDiagonalTopIzq(escena, spawnDiagonalTopLeft, spawnDiagonalDownRight, 3.0, playerView, jugador, playerBar, playerBarView);
     }
     //uno dificil (5 + 6 = ataquefase7)
-    public void ataque2Fase7(StackPane escena){
-        ataques.ataqueDiagonalDownIzq(escena, spawnDiagonalDownLeft, spawnDiagonalTopRight, 3.0, playerView, jugador, playerBar, playerBarView);
-        ataques.ataqueDiagonalDownDer(escena, spawnDiagonalDownRight, spawnDiagonalTopLeft, 2.5, playerView, jugador, playerBar, playerBarView);
-        ataques.ataqueDiagonalTopDer(escena, spawnDiagonalTopRight, spawnDiagonalDownLeft, 2.5, playerView, jugador, playerBar, playerBarView);
-        ataques.ataqueDiagonalTopIzq(escena, spawnDiagonalTopLeft, spawnDiagonalDownRight, 3.0, playerView, jugador, playerBar, playerBarView);
+    public void fase2Ataque7(StackPane escena){
+        ataques.ataqueDiagonalDownIzq(escena, spawnDiagonalDownLeft, spawnDiagonalTopRight, 4.5, playerView, jugador, playerBar, playerBarView);
+        ataques.ataqueDiagonalDownDer(escena, spawnDiagonalDownRight, spawnDiagonalTopLeft, 4.5, playerView, jugador, playerBar, playerBarView);
+        ataques.ataqueDiagonalTopDer(escena, spawnDiagonalTopRight, spawnDiagonalDownLeft, 4.5, playerView, jugador, playerBar, playerBarView);
+        ataques.ataqueDiagonalTopIzq(escena, spawnDiagonalTopLeft, spawnDiagonalDownRight, 4.5, playerView, jugador, playerBar, playerBarView);
         
-        ataques.ataqueHorizontalIzq(escena, spawnHorizontalLeft, spawnHorizontalRight, 3.0, playerView, jugador, playerBar, playerBarView);
+        ataques.ataqueHorizontalIzq(escena, spawnHorizontalLeft, spawnHorizontalRight, 2.5, playerView, jugador, playerBar, playerBarView);
         ataques.ataqueHorizontalDer(escena, spawnHorizontalRight, spawnHorizontalLeft, 2.5, playerView, jugador, playerBar, playerBarView);
         ataques.ataqueVerticalTop(escena, spawnVerticalTop, spawnVerticalDown, 2.5, playerView, jugador, playerBar, playerBarView);
         ataques.ataqueVerticalDown(escena, spawnVerticalDown, spawnVerticalTop, 2.5, playerView, jugador, playerBar, playerBarView);
+    }
+    
+    //Metodos estructura de la pelea
+    public void comenzarFase(){
+        turnoJugador = false;
+        
+        if(ataqueActual <= 1){
+            fase1Ataque4(escenaFinal);
+        }else if(ataqueActual<= 2){
+            fase1Ataque3(escenaFinal);
+        }else if(ataqueActual <= 3){
+            fase1Ataque2(escenaFinal);
+        }else if(ataqueActual <= 4){
+           fase1Ataque1(escenaFinal); 
+        }
+        
+        if(faseActual > 1){
+            if(ataqueActual == 1){
+                fase2Ataque1(escenaFinal);
+            }else if(ataqueActual == 2){
+                fase2Ataque2(escenaFinal);
+            }else if(ataqueActual == 3){
+                fase2Ataque3(escenaFinal);
+            }else if(ataqueActual == 4){
+                fase2Ataque4(escenaFinal);
+            }else if(ataqueActual == 5){
+                fase2Ataque5(escenaFinal);
+            }else if(ataqueActual == 6){
+                fase2Ataque6(escenaFinal);
+            }else if(ataqueActual >= 7){
+                fase2Ataque7(escenaFinal);
+                ataqueActual = 5;
+            }
+        }
+    }
+    
+    private void terminarFase(){
+        ataqueActual++;
+        if(faseActual == 1 && ataqueActual > 4){
+            faseActual++;
+            ataqueActual = 1;
+        }
+        PauseTransition espera = new PauseTransition(Duration.seconds(3.5));
+        
+        espera.setOnFinished(e->{
+            comenzarFase();
+        });
+        
+        espera.play();
+        
+    }
+    
+    private void turnoJugador(){
+    
+    }
+    
+    private void terminarBatalla(){
+        
     }
     
 
@@ -198,8 +265,6 @@ public class BossFight{
                 spawnDiagonalDownLeft
         );
         
-        //Contenedor principal
-        StackPane escenaFinal = new StackPane();
         escenaFinal.setPrefSize(
         ResolutionManager.BASE_WIDTH,
         ResolutionManager.BASE_HEIGHT
@@ -230,39 +295,42 @@ public class BossFight{
         hud.setAlignment(Pos.BOTTOM_CENTER);
         
         controlsView.setTranslateX(-800);
+        battleBox.setTranslateY(160);
         
         //== Alineamiento Spawners ==
-        
+
         //--Spawners Horizontales
-        spawnHorizontalRight.setTranslateX(600);
-        spawnHorizontalRight.setTranslateY(0);
-        
-        spawnHorizontalLeft.setTranslateX(-600);
-        spawnHorizontalLeft.setTranslateY(0);
-        
+        spawnHorizontalRight.setTranslateX(450);
+        spawnHorizontalRight.setTranslateY(160);
+
+        spawnHorizontalLeft.setTranslateX(-450);
+        spawnHorizontalLeft.setTranslateY(160);
+
+
         //--Spawners Verticales
         spawnVerticalTop.setTranslateX(0);
-        spawnVerticalTop.setTranslateY(-270);
-        
-        spawnVerticalDown.setTranslateX(0);
-        spawnVerticalDown.setTranslateY(270);
-        
-        //--Spawners Diagonales
-        spawnDiagonalTopRight.setTranslateX(600);
-        spawnDiagonalTopRight.setTranslateY(-270);
-        
-        spawnDiagonalTopLeft.setTranslateX(-600);
-        spawnDiagonalTopLeft.setTranslateY(-270);
-        
-        spawnDiagonalDownRight.setTranslateX(600);
-        spawnDiagonalDownRight.setTranslateY(270);
-        
-        spawnDiagonalDownLeft.setTranslateX(-600);
-        spawnDiagonalDownLeft.setTranslateY(270);
+        spawnVerticalTop.setTranslateY(-150);
 
+        spawnVerticalDown.setTranslateX(0);
+        spawnVerticalDown.setTranslateY(400);
+
+
+        //--Spawners Diagonales
+        spawnDiagonalTopRight.setTranslateX(450);
+        spawnDiagonalTopRight.setTranslateY(-150);
+
+        spawnDiagonalTopLeft.setTranslateX(-450);
+        spawnDiagonalTopLeft.setTranslateY(-150);
+
+        spawnDiagonalDownRight.setTranslateX(450);
+        spawnDiagonalDownRight.setTranslateY(400);
+
+        spawnDiagonalDownLeft.setTranslateX(-450);
+        spawnDiagonalDownLeft.setTranslateY(400);   
+        
          //ajustamo los sprites a su medida correspondiente
-        playerView.setFitWidth(48);
-        playerView.setFitHeight(46);
+        playerView.setFitWidth(40);
+        playerView.setFitHeight(38);
         
         viejoView.setFitWidth(370);
         viejoView.setFitHeight(420);
@@ -367,7 +435,7 @@ public class BossFight{
         }
         
         //Colision del jugador
-        jugador.limitarMovimiento(-376, 376, -177, 177);
+        jugador.limitarMovimiento(-280, 280, 31, 289);
         
             }
         
@@ -396,9 +464,6 @@ public class BossFight{
         };
 
          movimiento.start();
-        
-        //testing
-        ataque2Fase7(escenaFinal);
         
         stage.setTitle("Worms 2: The Revenge");
         stage.setScene(escena);

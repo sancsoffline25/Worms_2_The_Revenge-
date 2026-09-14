@@ -30,7 +30,7 @@ public class Player {
    
     //posición eje x y eje y
     private double x = 0;
-    private double y = 0;
+    private double y = 160;
     
    //Inventario
     private int[] items= new int[3]; //sin usar de momento

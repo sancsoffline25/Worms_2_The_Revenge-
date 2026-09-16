@@ -13,7 +13,7 @@ package entities;
 
     BASIC(
             "Pez feo",
-            10,
+            5,
             1
     );
 

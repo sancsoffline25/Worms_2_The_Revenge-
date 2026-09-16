@@ -8,6 +8,7 @@ package com.mycompany.worms2therevenge.scenes;
  *
  * @author Lautaro Gutierrez
  */
+import javafx.scene.text.Text;
 import entities.Fish;
 import entities.FishType;
 import entities.HookState;
@@ -34,6 +35,9 @@ public class MiniPesca{
     //Punto donde está la punta de la caña
     private final double ORIGIN_X = 400;
     private final double ORIGIN_Y = 60;
+    
+    //Platita
+    private int playerMoney = 0;
     //Objetos gráficos
     private Pane gamePane;
     
@@ -45,7 +49,16 @@ public class MiniPesca{
         gamePane.setPrefSize(WIDTH, HEIGHT);
         //Fondo celeste
         gamePane.setStyle("-fx-background-color: lightblue;");
-
+        
+        //Display de dinero
+        Text moneyText = new Text();
+        moneyText.setText("Dinero: $0");
+        moneyText.setX(20);
+        moneyText.setY(30);
+        moneyText.setStyle("-fx-font-size: 20px;");
+        gamePane.getChildren().add(moneyText);
+        
+        
         Hook hook = new Hook(ORIGIN_X, ORIGIN_Y,HEIGHT - 50);
         //Referencia a Hook.java para los valores del anzuelo
         
@@ -58,22 +71,22 @@ public class MiniPesca{
         //Referencia a FishManager para hacer las filas
         fishManager.createRow(
         220,
-        5,
-        100,
+        8,
+        105,
         true
         );
 
         fishManager.createRow(
         340,
-        5,
-        100,
+        8,
+        105,
         false
         );
 
         fishManager.createRow(
         460,
-        5,
-        100,
+        8,
+        105,
         true
         );
 
@@ -88,11 +101,11 @@ public class MiniPesca{
         Button backButton = new Button("Volver");
 
         launchButton.setOnAction(e -> hook.startLowering());
-
+        //Botones y funciones 
         backButton.setOnAction(e -> {
-            MiniGamesMenu menu = new MiniGamesMenu();
-            menu.start(stage);
-        });
+        GamePlayBase gamePlayBase = new GamePlayBase();
+        gamePlayBase.start(stage);
+    });
 
         HBox buttons = new HBox(10);
         buttons.setAlignment(Pos.CENTER);
@@ -114,7 +127,7 @@ public class MiniPesca{
         ResolutionManager.BASE_WIDTH,
         ResolutionManager.BASE_HEIGHT
         );
-
+        //Tamaño minimo y maximo de la ventana
         escenaFinal.setMinSize(
         ResolutionManager.BASE_WIDTH,
         ResolutionManager.BASE_HEIGHT
@@ -154,7 +167,7 @@ public class MiniPesca{
             lastFrameTime[0] = now;
             return;
         }
-        double dt = (now - lastFrameTime[0]) / 1_000_000_000.0;
+        double dt = (now - lastFrameTime[0]) / 1_000_000_000.0; //Deltatime creo
         lastFrameTime[0] = now;
         hook.update(now);
         fishManager.update(
@@ -166,12 +179,13 @@ public class MiniPesca{
 
     if (!fish.isCaptured()) {
 
-        if (fish.isTouching(
+        if (fish.isTouching( //Bloque de captura
                 hook.getHookX(),
                 hook.getHookY())) {
 
             fish.capture();
-
+            addMoney(fish.getValue());
+            moneyText.setText("Dinero: $" + getPlayerMoney());
             hook.setState(HookState.RAISING);
 
             break;
@@ -182,5 +196,21 @@ public class MiniPesca{
     };
         gameLoop.start();
     }
-    
+    //un Update para la plata
+    public int getPlayerMoney() {
+    return playerMoney;
+    }
+
+    public void addMoney(int amount) {
+    playerMoney += amount;
+    }
+
+    public boolean spendMoney(int amount) {
+    if (playerMoney >= amount) {
+        playerMoney -= amount;
+        return true;
+    }
+
+    return false;
+}
 }

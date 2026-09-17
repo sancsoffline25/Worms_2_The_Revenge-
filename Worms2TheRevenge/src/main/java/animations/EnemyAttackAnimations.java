@@ -51,515 +51,661 @@ public class EnemyAttackAnimations {
     oldmansounds viejoSonidos = new oldmansounds();
     playersounds playerSonidos = new playersounds();
     
-    //--Ataque horizontal derecha
+    //ATAQUES HORIZONTALES
+
+    //-- Ataque horizontal derecha
     public void ataqueHorizontalDer(
-            StackPane escena, 
-            Circle spawnInicio, 
-            Circle spawnFinal, 
+            StackPane escena,
+            Circle spawnInicio,
+            Circle spawnFinal,
             double duracionAtaque,
-            ImageView playerView, 
+            ImageView playerView,
             Player jugador,
             PlayerHealthBar playerBar,
             ImageView playerBarView
-            ){
-        
+    ) {
+
         ImageView mano = new ImageView(manoDerHorizontal);
-        
-        //Animacion movimiento
-        TranslateTransition ataque = new TranslateTransition(Duration.seconds(duracionAtaque), mano);
-        
+
         escena.getChildren().add(mano);
+
+        //Sonido de aparición de la mano
         viejoSonidos.throwHandEffect();
-        
-        
-        //Points2D
+
+        //Posiciones
         Point2D inicio = escena.sceneToLocal(
-        spawnInicio.localToScene(0, 0)
+                spawnInicio.localToScene(0, 0)
         );
 
         Point2D finalPos = escena.sceneToLocal(
-        spawnFinal.localToScene(0, 0)
+                spawnFinal.localToScene(0, 0)
         );
 
-        //Posición a la que deben moverse
+        //Animacion
+        TranslateTransition ataque = new TranslateTransition(
+                Duration.seconds(duracionAtaque),
+                mano
+        );
+
         ataque.setFromX(inicio.getX());
         ataque.setToX(finalPos.getX());
-        
+
         ataque.setFromY(inicio.getY());
         ataque.setToY(finalPos.getY());
-        
-        //este animation timer va a funcionar como una collisionshape o un area2D tipico
+
+        //Detección de colisión
         AnimationTimer colision = new AnimationTimer() {
 
-        @Override
-        public void handle(long ahora) {
+            @Override
+            public void handle(long ahora) {
 
-            if (mano.getBoundsInParent().intersects(playerView.getBoundsInParent())){
-            jugador.recibirDanio(25);
-            statusAnimations.mostrarDanio(jugador, playerView);
-            playerSonidos.damageSoundEffect();
-            statusAnimations.actualizarBarra(jugador, playerBar, playerBarView);
+                if (mano.getBoundsInParent().intersects(
+                        playerView.getBoundsInParent()
+                )) {
 
-            stop();
+                    jugador.recibirDanio(25);
+
+                    statusAnimations.mostrarDanio(
+                            jugador,
+                            playerView
+                    );
+
+                    playerSonidos.damageSoundEffect();
+
+                    statusAnimations.actualizarBarra(
+                            jugador,
+                            playerBar,
+                            playerBarView
+                    );
+
+                    stop();
+                }
             }
-         }
         };
-        
-        ataque.setOnFinished(e-> {
+
+        //Cuando termina el ataque
+        ataque.setOnFinished(e -> {
+
             escena.getChildren().remove(mano);
+
             colision.stop();
         });
-        
+
         colision.start();
         ataque.play();
     }
 
-    //--Ataque horizontal izquierda
+    //-- Ataque horizontal izquierda
     public void ataqueHorizontalIzq(
-            StackPane escena, 
-            Circle spawnInicio, 
-            Circle spawnFinal, 
+            StackPane escena,
+            Circle spawnInicio,
+            Circle spawnFinal,
             double duracionAtaque,
-            ImageView playerView, 
+            ImageView playerView,
             Player jugador,
             PlayerHealthBar playerBar,
             ImageView playerBarView
-    ){
-        
+    ) {
+
         ImageView mano = new ImageView(manoIzqHorizontal);
-        
-        //Animacion movimiento
-        TranslateTransition ataque = new TranslateTransition(Duration.seconds(duracionAtaque), mano);
-        
+
         escena.getChildren().add(mano);
-        viejoSonidos.throwHandEffect(); //reproduce el sonido de la mano apareciendo
-        
-        
-        //Points2D
+
+        viejoSonidos.throwHandEffect();
+
+        //Posiciones
         Point2D inicio = escena.sceneToLocal(
-        spawnInicio.localToScene(0, 0)
+                spawnInicio.localToScene(0, 0)
         );
 
         Point2D finalPos = escena.sceneToLocal(
-        spawnFinal.localToScene(0, 0)
+                spawnFinal.localToScene(0, 0)
         );
-        
-        //Posición a la que deben moverse
+
+        //Animacion
+        TranslateTransition ataque = new TranslateTransition(
+                Duration.seconds(duracionAtaque),
+                mano
+        );
+
         ataque.setFromX(inicio.getX());
         ataque.setToX(finalPos.getX());
-        
+
         ataque.setFromY(inicio.getY());
         ataque.setToY(finalPos.getY());
-        
-        //este animation timer va a funcionar como una collisionshape o un area2D tipico
+
+        //Colision
         AnimationTimer colision = new AnimationTimer() {
 
-        @Override
-        public void handle(long ahora) {
+            @Override
+            public void handle(long ahora) {
 
-            if (mano.getBoundsInParent().intersects(playerView.getBoundsInParent())){
-            jugador.recibirDanio(25);
-            statusAnimations.mostrarDanio(jugador, playerView);
-            playerSonidos.damageSoundEffect();
-            statusAnimations.actualizarBarra(jugador, playerBar, playerBarView);
+                if (mano.getBoundsInParent().intersects(
+                        playerView.getBoundsInParent()
+                )) {
 
-            stop();
+                    jugador.recibirDanio(25);
+
+                    statusAnimations.mostrarDanio(
+                            jugador,
+                            playerView
+                    );
+
+                    playerSonidos.damageSoundEffect();
+
+                    statusAnimations.actualizarBarra(
+                            jugador,
+                            playerBar,
+                            playerBarView
+                    );
+
+                    stop();
+                }
             }
-         }
         };
-        
-        ataque.setOnFinished(e-> {
+
+        ataque.setOnFinished(e -> {
+
             escena.getChildren().remove(mano);
+
             colision.stop();
         });
-        
+
         colision.start();
         ataque.play();
     }
-    
-    //--Ataque vertical Desde arriba
+
+
+    //ATAQUES VERTICALES
+
+    //-- Ataque vertical desde arriba
     public void ataqueVerticalTop(
-            StackPane escena, 
-            Circle spawnInicio, 
-            Circle spawnFinal, 
+            StackPane escena,
+            Circle spawnInicio,
+            Circle spawnFinal,
             double duracionAtaque,
-            ImageView playerView, 
+            ImageView playerView,
             Player jugador,
             PlayerHealthBar playerBar,
             ImageView playerBarView
-    ){
-        
+    ) {
+
         ImageView mano = new ImageView(manoDerVertical);
-        
-        //Animacion movimiento
-        TranslateTransition ataque = new TranslateTransition(Duration.seconds(duracionAtaque), mano);
-        
+
         escena.getChildren().add(mano);
+
         viejoSonidos.throwHandEffect();
-        
-        //Points2D
+
+        // Posiciones
         Point2D inicio = escena.sceneToLocal(
-        spawnInicio.localToScene(0, 0)
+                spawnInicio.localToScene(0, 0)
         );
 
         Point2D finalPos = escena.sceneToLocal(
-        spawnFinal.localToScene(0, 0)
+                spawnFinal.localToScene(0, 0)
         );
 
-        //Posición a la que deben moverse
+        // Animación
+        TranslateTransition ataque = new TranslateTransition(
+                Duration.seconds(duracionAtaque),
+                mano
+        );
+
         ataque.setFromX(inicio.getX());
         ataque.setToX(finalPos.getX());
-        
+
         ataque.setFromY(inicio.getY());
         ataque.setToY(finalPos.getY());
-        
-        //este animation timer va a funcionar como una collisionshape o un area2D tipico
+
+        // Colisión
         AnimationTimer colision = new AnimationTimer() {
 
-        @Override
-        public void handle(long ahora) {
+            @Override
+            public void handle(long ahora) {
 
-            if (mano.getBoundsInParent().intersects(playerView.getBoundsInParent())){
-            jugador.recibirDanio(25);
-            statusAnimations.mostrarDanio(jugador, playerView);
-            playerSonidos.damageSoundEffect();
-            statusAnimations.actualizarBarra(jugador, playerBar, playerBarView);
-            
-            System.out.println("Vida restante: " + jugador.getVida()); 
-            stop();
+                if (mano.getBoundsInParent().intersects(
+                        playerView.getBoundsInParent()
+                )) {
+
+                    jugador.recibirDanio(25);
+
+                    statusAnimations.mostrarDanio(
+                            jugador,
+                            playerView
+                    );
+
+                    playerSonidos.damageSoundEffect();
+
+                    statusAnimations.actualizarBarra(
+                            jugador,
+                            playerBar,
+                            playerBarView
+                    );
+
+                    System.out.println(
+                            "Vida restante: " + jugador.getVida()
+                    );
+
+                    stop();
+                }
             }
-         }
         };
-        
-        ataque.setOnFinished(e-> {
+
+        ataque.setOnFinished(e -> {
+
             escena.getChildren().remove(mano);
+
             colision.stop();
         });
-        
+
         colision.start();
         ataque.play();
     }
-    
+
+    //-- Ataque vertical desde abajo
     public void ataqueVerticalDown(
-            StackPane escena, 
-            Circle spawnInicio, 
-            Circle spawnFinal, 
+            StackPane escena,
+            Circle spawnInicio,
+            Circle spawnFinal,
             double duracionAtaque,
-            ImageView playerView, 
+            ImageView playerView,
             Player jugador,
             PlayerHealthBar playerBar,
             ImageView playerBarView
-    ){
-        
+    ) {
+
         ImageView mano = new ImageView(manoIzquierda);
-        
-        //Animacion movimiento
-        TranslateTransition ataque = new TranslateTransition(Duration.seconds(duracionAtaque), mano);
-        
+
         escena.getChildren().add(mano);
+
         viejoSonidos.throwHandEffect();
-        
-        //Points2D
+
+        // Posiciones
         Point2D inicio = escena.sceneToLocal(
-        spawnInicio.localToScene(0, 0)
+                spawnInicio.localToScene(0, 0)
         );
 
         Point2D finalPos = escena.sceneToLocal(
-        spawnFinal.localToScene(0, 0)
+                spawnFinal.localToScene(0, 0)
         );
 
-        //Posición a la que deben moverse
+        // Animación
+        TranslateTransition ataque = new TranslateTransition(
+                Duration.seconds(duracionAtaque),
+                mano
+        );
+
         ataque.setFromX(inicio.getX());
         ataque.setToX(finalPos.getX());
-        
+
         ataque.setFromY(inicio.getY());
         ataque.setToY(finalPos.getY());
-        
-        //este animation timer va a funcionar como una collisionshape o un area2D tipico
+
+        // Colisión
         AnimationTimer colision = new AnimationTimer() {
 
-        @Override
-        public void handle(long ahora) {
+            @Override
+            public void handle(long ahora) {
 
-            if (mano.getBoundsInParent().intersects(playerView.getBoundsInParent())){
-            jugador.recibirDanio(25);
-            statusAnimations.mostrarDanio(jugador, playerView);
-            playerSonidos.damageSoundEffect();
-            statusAnimations.actualizarBarra(jugador, playerBar, playerBarView);
-            
-            System.out.println("Vida restante: " + jugador.getVida()); 
-            stop();
+                if (mano.getBoundsInParent().intersects(
+                        playerView.getBoundsInParent()
+                )) {
+
+                    jugador.recibirDanio(25);
+
+                    statusAnimations.mostrarDanio(
+                            jugador,
+                            playerView
+                    );
+
+                    playerSonidos.damageSoundEffect();
+
+                    statusAnimations.actualizarBarra(
+                            jugador,
+                            playerBar,
+                            playerBarView
+                    );
+
+                    System.out.println(
+                            "Vida restante: " + jugador.getVida()
+                    );
+
+                    stop();
+                }
             }
-         }
         };
-        
-        ataque.setOnFinished(e-> {
+
+        ataque.setOnFinished(e -> {
+
             escena.getChildren().remove(mano);
+
             colision.stop();
         });
-        
+
         colision.start();
         ataque.play();
     }
 
-    
-    //--ATAQUES DIAGONALES--
-    
-    //--Ataque diagonal ARRIBA derecho
+    //ATAQUES DIAGONALES
+
+    //-- Ataque diagonal arriba derecha
     public void ataqueDiagonalTopDer(
-            StackPane escena, 
-            Circle spawnInicio, 
-            Circle spawnFinal, 
+            StackPane escena,
+            Circle spawnInicio,
+            Circle spawnFinal,
             double duracionAtaque,
-            ImageView playerView, 
+            ImageView playerView,
             Player jugador,
             PlayerHealthBar playerBar,
             ImageView playerBarView
-    ){
-        
+    ) {
+
         ImageView mano = new ImageView(manoDerDiagonalTop);
-        
-        //Animacion movimiento
-        TranslateTransition ataque = new TranslateTransition(Duration.seconds(duracionAtaque), mano);
-        
+
         escena.getChildren().add(mano);
+
         viejoSonidos.throwHandEffect();
-        
-        
-        //Points2D
+
         Point2D inicio = escena.sceneToLocal(
-        spawnInicio.localToScene(0, 0)
+                spawnInicio.localToScene(0, 0)
         );
 
         Point2D finalPos = escena.sceneToLocal(
-        spawnFinal.localToScene(0, 0)
+                spawnFinal.localToScene(0, 0)
         );
 
-        //Posición a la que deben moverse
+        TranslateTransition ataque = new TranslateTransition(
+                Duration.seconds(duracionAtaque),
+                mano
+        );
+
         ataque.setFromX(inicio.getX());
         ataque.setToX(finalPos.getX());
-        
+
         ataque.setFromY(inicio.getY());
         ataque.setToY(finalPos.getY());
-        
-        //este animation timer va a funcionar como una collisionshape o un area2D tipico
+
         AnimationTimer colision = new AnimationTimer() {
 
-        @Override
-        public void handle(long ahora) {
+            @Override
+            public void handle(long ahora) {
 
-            if (mano.getBoundsInParent().intersects(playerView.getBoundsInParent())){
-            jugador.recibirDanio(25);
-            statusAnimations.mostrarDanio(jugador, playerView);
-            playerSonidos.damageSoundEffect();
-            statusAnimations.actualizarBarra(jugador, playerBar, playerBarView);
-            
-            System.out.println("Vida restante: " + jugador.getVida()); 
-            stop();
+                if (mano.getBoundsInParent().intersects(
+                        playerView.getBoundsInParent()
+                )) {
+
+                    jugador.recibirDanio(25);
+
+                    statusAnimations.mostrarDanio(
+                            jugador,
+                            playerView
+                    );
+
+                    playerSonidos.damageSoundEffect();
+
+                    statusAnimations.actualizarBarra(
+                            jugador,
+                            playerBar,
+                            playerBarView
+                    );
+
+                    System.out.println(
+                            "Vida restante: " + jugador.getVida()
+                    );
+
+                    stop();
+                }
             }
-         }
         };
-        
-        ataque.setOnFinished(e-> {
+
+        ataque.setOnFinished(e -> {
+
             escena.getChildren().remove(mano);
+
             colision.stop();
         });
-        
+
         colision.start();
         ataque.play();
     }
-    
-    //--ataque diagonal ARRIBA izquierdo
+
+    //-- Ataque diagonal arriba izquierda
     public void ataqueDiagonalTopIzq(
-            StackPane escena, 
-            Circle spawnInicio, 
-            Circle spawnFinal, 
+            StackPane escena,
+            Circle spawnInicio,
+            Circle spawnFinal,
             double duracionAtaque,
-            ImageView playerView, 
+            ImageView playerView,
             Player jugador,
             PlayerHealthBar playerBar,
             ImageView playerBarView
-    ){
-        
+    ) {
+
         ImageView mano = new ImageView(manoIzqDiagonalTop);
-        
-        //Animacion movimiento
-        TranslateTransition ataque = new TranslateTransition(Duration.seconds(duracionAtaque), mano);
-        
+
         escena.getChildren().add(mano);
+
         viejoSonidos.throwHandEffect();
-        
-        
-        //Points2D
+
         Point2D inicio = escena.sceneToLocal(
-        spawnInicio.localToScene(0, 0)
+                spawnInicio.localToScene(0, 0)
         );
 
         Point2D finalPos = escena.sceneToLocal(
-        spawnFinal.localToScene(0, 0)
+                spawnFinal.localToScene(0, 0)
         );
 
-        //Posición a la que deben moverse
+        TranslateTransition ataque = new TranslateTransition(
+                Duration.seconds(duracionAtaque),
+                mano
+        );
+
         ataque.setFromX(inicio.getX());
         ataque.setToX(finalPos.getX());
-        
+
         ataque.setFromY(inicio.getY());
         ataque.setToY(finalPos.getY());
-        
-        //este animation timer va a funcionar como una collisionshape o un area2D tipico
+
         AnimationTimer colision = new AnimationTimer() {
 
-        @Override
-        public void handle(long ahora) {
+            @Override
+            public void handle(long ahora) {
 
-            if (mano.getBoundsInParent().intersects(playerView.getBoundsInParent())){
-            jugador.recibirDanio(25);
-            statusAnimations.mostrarDanio(jugador, playerView);
-            playerSonidos.damageSoundEffect();
-            statusAnimations.actualizarBarra(jugador, playerBar, playerBarView);
+                if (mano.getBoundsInParent().intersects(
+                        playerView.getBoundsInParent()
+                )) {
 
-            System.out.println("Vida restante: " + jugador.getVida()); 
-            stop();
+                    jugador.recibirDanio(25);
+
+                    statusAnimations.mostrarDanio(
+                            jugador,
+                            playerView
+                    );
+
+                    playerSonidos.damageSoundEffect();
+
+                    statusAnimations.actualizarBarra(
+                            jugador,
+                            playerBar,
+                            playerBarView
+                    );
+
+                    System.out.println(
+                            "Vida restante: " + jugador.getVida()
+                    );
+
+                    stop();
+                }
             }
-         }
         };
-        
-        ataque.setOnFinished(e-> {
+
+        ataque.setOnFinished(e -> {
+
             escena.getChildren().remove(mano);
+
             colision.stop();
         });
-        
+
         colision.start();
         ataque.play();
     }
-    
-    //-- ataque diagonal ABAJO derecho
+
+    //-- Ataque diagonal abajo derecha
     public void ataqueDiagonalDownDer(
-            StackPane escena, 
-            Circle spawnInicio, 
-            Circle spawnFinal, 
+            StackPane escena,
+            Circle spawnInicio,
+            Circle spawnFinal,
             double duracionAtaque,
-            ImageView playerView, 
+            ImageView playerView,
             Player jugador,
             PlayerHealthBar playerBar,
             ImageView playerBarView
-    ){
-        
+    ) {
+
         ImageView mano = new ImageView(manoDerDiagonalDown);
-        
-        //Animacion movimiento
-        TranslateTransition ataque = new TranslateTransition(Duration.seconds(duracionAtaque), mano);
-        
+
         escena.getChildren().add(mano);
+
         viejoSonidos.throwHandEffect();
-        
-        
-        //Points2D
+
         Point2D inicio = escena.sceneToLocal(
-        spawnInicio.localToScene(0, 0)
+                spawnInicio.localToScene(0, 0)
         );
 
         Point2D finalPos = escena.sceneToLocal(
-        spawnFinal.localToScene(0, 0)
+                spawnFinal.localToScene(0, 0)
         );
 
-        //Posición a la que deben moverse
+        TranslateTransition ataque = new TranslateTransition(
+                Duration.seconds(duracionAtaque),
+                mano
+        );
+
         ataque.setFromX(inicio.getX());
         ataque.setToX(finalPos.getX());
-        
+
         ataque.setFromY(inicio.getY());
         ataque.setToY(finalPos.getY());
-        
-        //este animation timer va a funcionar como una collisionshape o un area2D tipico
+
         AnimationTimer colision = new AnimationTimer() {
 
-        @Override
-        public void handle(long ahora) {
+            @Override
+            public void handle(long ahora) {
 
-            if (mano.getBoundsInParent().intersects(playerView.getBoundsInParent())){
-            jugador.recibirDanio(25);
-            statusAnimations.mostrarDanio(jugador, playerView);
-            playerSonidos.damageSoundEffect();
-            statusAnimations.actualizarBarra(jugador, playerBar, playerBarView);
-            
-            System.out.println("Vida restante: " + jugador.getVida()); 
-            stop();
+                if (mano.getBoundsInParent().intersects(
+                        playerView.getBoundsInParent()
+                )) {
+
+                    jugador.recibirDanio(25);
+
+                    statusAnimations.mostrarDanio(
+                            jugador,
+                            playerView
+                    );
+
+                    playerSonidos.damageSoundEffect();
+
+                    statusAnimations.actualizarBarra(
+                            jugador,
+                            playerBar,
+                            playerBarView
+                    );
+
+                    System.out.println(
+                            "Vida restante: " + jugador.getVida()
+                    );
+
+                    stop();
+                }
             }
-         }
         };
-        
-        ataque.setOnFinished(e-> {
+        ataque.setOnFinished(e -> {
+
             escena.getChildren().remove(mano);
+
             colision.stop();
         });
-        
+
         colision.start();
         ataque.play();
     }
-    
-    //ataque diagonal ABAJO izquierdo
+
+    //-- Ataque diagonal abajo izquierda
     public void ataqueDiagonalDownIzq(
-            StackPane escena, 
-            Circle spawnInicio, 
-            Circle spawnFinal, 
+            StackPane escena,
+            Circle spawnInicio,
+            Circle spawnFinal,
             double duracionAtaque,
-            ImageView playerView, 
+            ImageView playerView,
             Player jugador,
             PlayerHealthBar playerBar,
             ImageView playerBarView
-    ){
-        
+    ) {
+
         ImageView mano = new ImageView(manoIzqDiagonalDown);
-        
-        //Animacion movimiento
-        TranslateTransition ataque = new TranslateTransition(Duration.seconds(duracionAtaque), mano);
-        
+
         escena.getChildren().add(mano);
+
         viejoSonidos.throwHandEffect();
-        
-        
-        //Points2D
+
         Point2D inicio = escena.sceneToLocal(
-        spawnInicio.localToScene(0, 0)
+                spawnInicio.localToScene(0, 0)
         );
 
         Point2D finalPos = escena.sceneToLocal(
-        spawnFinal.localToScene(0, 0)
+                spawnFinal.localToScene(0, 0)
         );
 
-        //Posición a la que deben moverse
+        TranslateTransition ataque = new TranslateTransition(
+                Duration.seconds(duracionAtaque),
+                mano
+        );
+
         ataque.setFromX(inicio.getX());
         ataque.setToX(finalPos.getX());
-        
+
         ataque.setFromY(inicio.getY());
         ataque.setToY(finalPos.getY());
-        
-        //este animation timer va a funcionar como una collisionshape o un area2D tipico
+
         AnimationTimer colision = new AnimationTimer() {
 
-        @Override
-        public void handle(long ahora) {
+            @Override
+            public void handle(long ahora) {
 
-            if (mano.getBoundsInParent().intersects(playerView.getBoundsInParent())){
-            jugador.recibirDanio(25);
-            statusAnimations.mostrarDanio(jugador, playerView);
-            playerSonidos.damageSoundEffect();
-            statusAnimations.actualizarBarra(jugador, playerBar, playerBarView);
+                if (mano.getBoundsInParent().intersects(
+                        playerView.getBoundsInParent()
+                )) {
 
-            System.out.println("Vida restante: " + jugador.getVida()); 
-            stop();
+                    jugador.recibirDanio(25);
+
+                    statusAnimations.mostrarDanio(
+                            jugador,
+                            playerView
+                    );
+
+                    playerSonidos.damageSoundEffect();
+
+                    statusAnimations.actualizarBarra(
+                            jugador,
+                            playerBar,
+                            playerBarView
+                    );
+                    System.out.println(
+                            "Vida restante: " + jugador.getVida()
+                    );
+                    stop();
+                }
             }
-         }
         };
-        
-        ataque.setOnFinished(e-> {
+        ataque.setOnFinished(e -> {
+
             escena.getChildren().remove(mano);
+
             colision.stop();
         });
-        
+
         colision.start();
         ataque.play();
     }
 }
-
     

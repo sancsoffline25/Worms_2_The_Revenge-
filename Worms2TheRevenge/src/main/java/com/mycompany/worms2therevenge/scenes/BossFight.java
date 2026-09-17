@@ -53,9 +53,6 @@ public class BossFight{
     //Sprite barra de vida
     ImageView playerBarView = new ImageView(playerBar.getHealthBarFullSprite());
     
-    //Sprite controles
-    Image controles = new Image(getClass().getResourceAsStream("/Assets/Sprites/bossfight/controls/controls.png"));
-    ImageView controlsView = new ImageView(controles);
     
     //Animaciones de ataque(Viejo)
     EnemyAttackAnimations ataques = new EnemyAttackAnimations();
@@ -217,22 +214,37 @@ public class BossFight{
                 ataqueActual = 5;
             }
         }
+        
+        
+         PauseTransition espera = new PauseTransition(Duration.seconds(5));
+        espera.setOnFinished(e -> {
+            terminarFase();
+        });
+    
+    espera.play();
     }
     
     private void terminarFase(){
         ataqueActual++;
+    
         if(faseActual == 1 && ataqueActual > 4){
             faseActual++;
             ataqueActual = 1;
         }
+    
+        if(faseActual > 1 && ataqueActual > 7){
+            ataqueActual = 1;
+        }
+    
+        System.out.println("Terminó el ataque");
+    
         PauseTransition espera = new PauseTransition(Duration.seconds(3.5));
-        
-        espera.setOnFinished(e->{
+    
+        espera.setOnFinished(e -> {
             comenzarFase();
         });
-        
+    
         espera.play();
-        
     }
     
     private void turnoJugador(){
@@ -250,6 +262,9 @@ public class BossFight{
         battleBox.setFill(Color.BLACK);
         battleBox.setStroke(Color.WHITE);
         battleBox.setStrokeWidth(5);
+        
+        //contenedor esencial
+        escenaFinal = new StackPane();
         
         //Identación contenedores extras
         viejoContainer.getChildren().add(viejoView);
@@ -283,7 +298,6 @@ public class BossFight{
         escenaFinal.getChildren().addAll(
                 viejoContainer,
                 battleBox,
-                controlsView,
                 playerView,
                 hud,
                 spawnerContainer
@@ -294,7 +308,6 @@ public class BossFight{
         spawnerContainer.setAlignment(Pos.CENTER);
         hud.setAlignment(Pos.BOTTOM_CENTER);
         
-        controlsView.setTranslateX(-800);
         battleBox.setTranslateY(160);
         
         //== Alineamiento Spawners ==
@@ -335,10 +348,7 @@ public class BossFight{
         viejoView.setFitWidth(370);
         viejoView.setFitHeight(420);
         
-        viejoView.setTranslateY(10);
-        
-        controlsView.setFitWidth(200);
-        controlsView.setFitHeight(200);
+        viejoView.setTranslateY(10);      
         
         playerBarView.setFitWidth(256);
         playerBarView.setFitHeight(64);
@@ -465,6 +475,7 @@ public class BossFight{
 
          movimiento.start();
         
+         comenzarFase();
         stage.setTitle("Worms 2: The Revenge");
         stage.setScene(escena);
         stage.setResizable(false);

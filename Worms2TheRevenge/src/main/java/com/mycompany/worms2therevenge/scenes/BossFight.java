@@ -98,7 +98,9 @@ public class BossFight{
     final int DERECHA = 3; //int no modificables
     
     //Estados de la pelea
-    int faseActual = 1;
+    double tiempoAtaques = 3.5;
+    double tiempoEntreEtapas = 6.5;
+    int etapaPelea = 1;
     int ataqueActual = 1;
     boolean turnoJugador = false;
     boolean batallaTerminada = false;
@@ -110,18 +112,53 @@ public class BossFight{
     //en esta sección hay ataques mas básicos
     public void fase1Ataque1(StackPane escena){
         ataques.ataqueHorizontalIzq(escena, spawnHorizontalLeft, spawnHorizontalRight, 3.0, playerView, jugador, playerBar, playerBarView);
+        
+        PauseTransition espera = new PauseTransition(Duration.seconds(tiempoAtaques));
+        espera.setOnFinished(E ->{
+            if(etapaPelea ==4){
+                tiempoAtaques = 2.0;
+                fase2Ataque1(escenaFinal);
+            }else{
+                fase1Ataque2(escenaFinal);
+            }
+        });
+        espera.play();
     }
     
     public void fase1Ataque2(StackPane escena){
         ataques.ataqueHorizontalDer(escena, spawnHorizontalRight, spawnHorizontalLeft, 3.0, playerView, jugador, playerBar, playerBarView);
+        
+        PauseTransition espera = new PauseTransition(Duration.seconds(tiempoAtaques));
+        espera.setOnFinished(E ->{
+            fase1Ataque3(escenaFinal);
+        });
+        espera.play();
     }
     
     public void fase1Ataque3(StackPane escena){
         ataques.ataqueVerticalTop(escena, spawnVerticalTop, spawnVerticalDown, 2.5, playerView, jugador, playerBar, playerBarView);
+        
+        PauseTransition espera = new PauseTransition(Duration.seconds(tiempoAtaques));
+        espera.setOnFinished(E ->{
+            fase1Ataque4(escenaFinal);
+        });
+        espera.play();
     }
     
     public void fase1Ataque4(StackPane escena){
         ataques.ataqueVerticalDown(escena, spawnVerticalDown, spawnVerticalTop, 2.5, playerView, jugador, playerBar, playerBarView);
+        PauseTransition espera = new PauseTransition(Duration.seconds(tiempoEntreEtapas));
+        espera.setOnFinished(E ->{
+            etapaPelea += 1; 
+            if(etapaPelea == 3){
+                tiempoAtaques = 1.5; //mas dificil
+            }else{
+                tiempoAtaques = 2.0; //se pone ligeramente mas dificil
+            }
+            
+            fase1Ataque1(escenaFinal);
+        });
+        espera.play();
     }
     
     
@@ -134,24 +171,48 @@ public class BossFight{
         ataques.ataqueHorizontalDer(escena, spawnHorizontalRight, spawnHorizontalLeft, 2.5, playerView, jugador, playerBar, playerBarView);
     
         ataques.ataqueHorizontalIzq(escena, spawnHorizontalLeft, spawnHorizontalRight, 3.0, playerView, jugador, playerBar, playerBarView);
-    
+        
+        PauseTransition espera = new PauseTransition(Duration.seconds(tiempoAtaques));
+        espera.setOnFinished(E ->{
+            fase2Ataque2(escenaFinal);
+        });
+        espera.play();
+        
     }
     
     public void fase2Ataque2(StackPane escena){
         ataques.ataqueVerticalTop(escena, spawnVerticalTop, spawnVerticalDown, 2.5, playerView, jugador, playerBar, playerBarView);
         ataques.ataqueHorizontalIzq(escena, spawnHorizontalLeft, spawnHorizontalRight, 3.0, playerView, jugador, playerBar, playerBarView);
         
+        PauseTransition espera = new PauseTransition(Duration.seconds(tiempoAtaques));
+        espera.setOnFinished(E ->{
+            fase2Ataque3(escenaFinal);
+        });
+        espera.play();
     }
     
     public void fase2Ataque3(StackPane escena){
         ataques.ataqueHorizontalDer(escena, spawnHorizontalRight, spawnHorizontalLeft, 2.5, playerView, jugador, playerBar, playerBarView);
         ataques.ataqueVerticalDown(escena, spawnVerticalDown, spawnVerticalTop, 2.5, playerView, jugador, playerBar, playerBarView);
+        
+        PauseTransition espera = new PauseTransition(Duration.seconds(tiempoAtaques));
+        espera.setOnFinished(E ->{
+            fase2Ataque4(escenaFinal);
+        });
+        espera.play();
     }
     
     public void fase2Ataque4(StackPane escena){
         ataques.ataqueVerticalTop(escena, spawnVerticalTop, spawnVerticalDown, 2.5, playerView, jugador, playerBar, playerBarView);
         ataques.ataqueHorizontalDer(escena, spawnHorizontalRight, spawnHorizontalLeft, 3.0, playerView, jugador, playerBar, playerBarView);
         ataques.ataqueHorizontalIzq(escena, spawnHorizontalLeft, spawnHorizontalRight, 3.0, playerView, jugador, playerBar, playerBarView);
+        
+        PauseTransition espera = new PauseTransition(Duration.seconds(tiempoAtaques));
+        
+        espera.setOnFinished(E ->{
+            fase2Ataque5(escenaFinal);
+        });
+        espera.play();
     }
     
     //Sincronizadas
@@ -161,6 +222,12 @@ public class BossFight{
         ataques.ataqueVerticalTop(escena, spawnVerticalTop, spawnVerticalDown, 2.5, playerView, jugador, playerBar, playerBarView);
         ataques.ataqueVerticalDown(escena, spawnVerticalDown, spawnVerticalTop, 2.5, playerView, jugador, playerBar, playerBarView);
         
+        PauseTransition espera = new PauseTransition(Duration.seconds(tiempoAtaques));
+        
+        espera.setOnFinished(E ->{
+            fase2Ataque6(escenaFinal);
+        });
+        espera.play();
     }
     
     public void fase2Ataque6(StackPane escena){
@@ -168,6 +235,13 @@ public class BossFight{
         ataques.ataqueDiagonalDownDer(escena, spawnDiagonalDownRight, spawnDiagonalTopLeft, 2.5, playerView, jugador, playerBar, playerBarView);
         ataques.ataqueDiagonalTopDer(escena, spawnDiagonalTopRight, spawnDiagonalDownLeft, 2.5, playerView, jugador, playerBar, playerBarView);
         ataques.ataqueDiagonalTopIzq(escena, spawnDiagonalTopLeft, spawnDiagonalDownRight, 3.0, playerView, jugador, playerBar, playerBarView);
+        
+        PauseTransition espera = new PauseTransition(Duration.seconds(tiempoAtaques));
+        
+        espera.setOnFinished(E ->{
+            fase2Ataque7(escenaFinal);
+        });
+        espera.play();
     }
     //uno dificil (5 + 6 = ataquefase7)
     public void fase2Ataque7(StackPane escena){
@@ -180,82 +254,17 @@ public class BossFight{
         ataques.ataqueHorizontalDer(escena, spawnHorizontalRight, spawnHorizontalLeft, 2.5, playerView, jugador, playerBar, playerBarView);
         ataques.ataqueVerticalTop(escena, spawnVerticalTop, spawnVerticalDown, 2.5, playerView, jugador, playerBar, playerBarView);
         ataques.ataqueVerticalDown(escena, spawnVerticalDown, spawnVerticalTop, 2.5, playerView, jugador, playerBar, playerBarView);
-    }
-    
-    //Metodos estructura de la pelea
-    public void comenzarFase(){
-        turnoJugador = false;
         
-        if(ataqueActual <= 1){
-            fase1Ataque4(escenaFinal);
-        }else if(ataqueActual<= 2){
-            fase1Ataque3(escenaFinal);
-        }else if(ataqueActual <= 3){
-            fase1Ataque2(escenaFinal);
-        }else if(ataqueActual <= 4){
-           fase1Ataque1(escenaFinal); 
-        }
+        PauseTransition espera = new PauseTransition(Duration.seconds(tiempoAtaques));
         
-        if(faseActual > 1){
-            if(ataqueActual == 1){
-                fase2Ataque1(escenaFinal);
-            }else if(ataqueActual == 2){
-                fase2Ataque2(escenaFinal);
-            }else if(ataqueActual == 3){
-                fase2Ataque3(escenaFinal);
-            }else if(ataqueActual == 4){
-                fase2Ataque4(escenaFinal);
-            }else if(ataqueActual == 5){
-                fase2Ataque5(escenaFinal);
-            }else if(ataqueActual == 6){
-                fase2Ataque6(escenaFinal);
-            }else if(ataqueActual >= 7){
-                fase2Ataque7(escenaFinal);
-                ataqueActual = 5;
-            }
-        }
-        
-        
-         PauseTransition espera = new PauseTransition(Duration.seconds(5));
-        espera.setOnFinished(e -> {
-            terminarFase();
+        espera.setOnFinished(E ->{
+            fase2Ataque1(escenaFinal);
         });
-    
-    espera.play();
-    }
-    
-    private void terminarFase(){
-        ataqueActual++;
-    
-        if(faseActual == 1 && ataqueActual > 4){
-            faseActual++;
-            ataqueActual = 1;
-        }
-    
-        if(faseActual > 1 && ataqueActual > 7){
-            ataqueActual = 1;
-        }
-    
-        System.out.println("Terminó el ataque");
-    
-        PauseTransition espera = new PauseTransition(Duration.seconds(3.5));
-    
-        espera.setOnFinished(e -> {
-            comenzarFase();
-        });
-    
         espera.play();
     }
     
-    private void turnoJugador(){
     
-    }
     
-    private void terminarBatalla(){
-        
-    }
-    
-
     public void start(Stage stage){
         
         //Personalización de la battleBox
@@ -475,11 +484,23 @@ public class BossFight{
 
          movimiento.start();
         
-         comenzarFase();
+         
         stage.setTitle("Worms 2: The Revenge");
         stage.setScene(escena);
         stage.setResizable(false);
         stage.show();
+        
+        //=== Estructura de Pelea ===
+         
+         //Primera etapa
+                fase2Ataque1(escenaFinal);
+                
+         
+        
+         
+        
+        
+         
     }
     
 }

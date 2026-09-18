@@ -68,6 +68,7 @@ public class EnemyAttackAnimations {
         ImageView mano = new ImageView(manoDerHorizontal);
 
         escena.getChildren().add(mano);
+        StackPane.setAlignment(mano, javafx.geometry.Pos.TOP_LEFT);
 
         //Sonido de aparición de la mano
         viejoSonidos.throwHandEffect();
@@ -150,6 +151,7 @@ public class EnemyAttackAnimations {
         ImageView mano = new ImageView(manoIzqHorizontal);
 
         escena.getChildren().add(mano);
+        StackPane.setAlignment(mano, javafx.geometry.Pos.TOP_LEFT);
 
         viejoSonidos.throwHandEffect();
 
@@ -233,6 +235,7 @@ public class EnemyAttackAnimations {
         ImageView mano = new ImageView(manoDerVertical);
 
         escena.getChildren().add(mano);
+        StackPane.setAlignment(mano, javafx.geometry.Pos.TOP_LEFT);
 
         viejoSonidos.throwHandEffect();
 
@@ -317,6 +320,7 @@ public class EnemyAttackAnimations {
         ImageView mano = new ImageView(manoIzquierda);
 
         escena.getChildren().add(mano);
+        StackPane.setAlignment(mano, javafx.geometry.Pos.TOP_LEFT);
 
         viejoSonidos.throwHandEffect();
 
@@ -403,6 +407,7 @@ public class EnemyAttackAnimations {
         ImageView mano = new ImageView(manoDerDiagonalTop);
 
         escena.getChildren().add(mano);
+        StackPane.setAlignment(mano, javafx.geometry.Pos.TOP_LEFT);
 
         viejoSonidos.throwHandEffect();
 
@@ -484,6 +489,7 @@ public class EnemyAttackAnimations {
         ImageView mano = new ImageView(manoIzqDiagonalTop);
 
         escena.getChildren().add(mano);
+        StackPane.setAlignment(mano, javafx.geometry.Pos.TOP_LEFT);
 
         viejoSonidos.throwHandEffect();
 
@@ -565,6 +571,7 @@ public class EnemyAttackAnimations {
         ImageView mano = new ImageView(manoDerDiagonalDown);
 
         escena.getChildren().add(mano);
+        StackPane.setAlignment(mano, javafx.geometry.Pos.TOP_LEFT);
 
         viejoSonidos.throwHandEffect();
 
@@ -645,6 +652,7 @@ public class EnemyAttackAnimations {
         ImageView mano = new ImageView(manoIzqDiagonalDown);
 
         escena.getChildren().add(mano);
+        StackPane.setAlignment(mano, javafx.geometry.Pos.TOP_LEFT);
 
         viejoSonidos.throwHandEffect();
 

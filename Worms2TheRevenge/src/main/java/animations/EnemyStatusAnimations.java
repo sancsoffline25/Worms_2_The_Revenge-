@@ -14,8 +14,13 @@ import javafx.animation.TranslateTransition;
 import javafx.scene.image.ImageView;
 import javafx.util.Duration;
 
+import sounds.oldmansounds;
+
 
 public class EnemyStatusAnimations {
+    oldmansounds viejoSonidos = new oldmansounds();
+    
+    
     public void mostrarDanio(Enemy viejo, ImageView viejoView){
         
         //Mostramos el sprite de daño
@@ -27,10 +32,11 @@ public class EnemyStatusAnimations {
                 viejoView
         );
         
-        temblor.setByX(8);
-        temblor.setCycleCount(6);
-        temblor.setAutoReverse(true);
+        temblor.setByX(8); //en X se mueve hacia un lado
+        temblor.setCycleCount(6); //cantidad de veces
+        temblor.setAutoReverse(true); //en reversa
         temblor.play();
+        viejoSonidos.getDamageSound(); 
         
         //Esperamos 1 segundo pa devolver el sprite normal
         PauseTransition pausa = new PauseTransition(Duration.seconds(1.0));

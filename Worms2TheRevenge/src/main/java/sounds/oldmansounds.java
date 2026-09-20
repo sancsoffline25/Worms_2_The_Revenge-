@@ -18,10 +18,12 @@ public class oldmansounds {
     private final AudioClip dialogueLine2 = new AudioClip(getClass().getResource("/Assets/Sonidos/Dialogos/DialogoIntro2.wav").toExternalForm());
     private final AudioClip dialogueLine3 = new AudioClip(getClass().getResource("/Assets/Sonidos/Dialogos/DialogoIntro3.wav").toExternalForm());
     private final AudioClip dialogueLine4 = new AudioClip(getClass().getResource("/Assets/Sonidos/Dialogos/DialogoIntro4.wav").toExternalForm());
-    private final AudioClip dialogueLineGO = new AudioClip(getClass().getResource("/Assets/Sonidos/Dialogos/SinReintentos.wav").toExternalForm()); 
+    private final AudioClip dialogueLineGO = new AudioClip(getClass().getResource("/Assets/Sonidos/Dialogos/SinReintentos.wav").toExternalForm());
+    
     
     //Efectos de sonido
     private final AudioClip tirarMano = new AudioClip(getClass().getResource("/Assets/Sonidos/SFX/throwHands.wav").toExternalForm());
+    private final AudioClip bossHit = new AudioClip(getClass().getResource("/Assets/Sonidos/SFX/hitBossHurt.wav").toExternalForm());
     
     //Metodos
     public void playDialogue1(){
@@ -78,6 +80,10 @@ public class oldmansounds {
     
     public void throwHandEffect(){
         tirarMano.play();
+    }
+    
+    public void getDamageSound(){
+        bossHit.play(); 
     }
     
 }

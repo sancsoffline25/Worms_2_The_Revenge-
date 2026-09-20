@@ -32,7 +32,7 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import ui.ResolutionManager;
 
-public class GoodEnding {
+public class EpicEnding {
     
     Font textoFont = Font.loadFont(getClass().getResourceAsStream("/Assets/Fonts/VT323-Regular.ttf"), 28);
     
@@ -104,7 +104,7 @@ public class GoodEnding {
         )
         );
         //Label (carteles)
-        Label finaleText = new Label("GOOD ENDING");
+        Label finaleText = new Label("EPIC ENDING");
         Label programmers = new Label("Programado por: Santiago Guinel y Lautaro Gutierrez");
         Label art = new Label("Arte realizado por: Viggo Sanchez");
         Label curso = new Label("Curso: 6to 6ta - Programación"); 
@@ -232,5 +232,4 @@ public class GoodEnding {
         stage.show();
         
     }
-    
 }

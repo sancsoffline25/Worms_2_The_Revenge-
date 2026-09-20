@@ -19,7 +19,7 @@ public class Fish{
     private double y;
     
     private final FishType type;
-
+    private final int id;
     private boolean captured = false;
     //Aca van despues los dibujos todos feos del Bilbo
     private Circle sprite;
@@ -27,10 +27,11 @@ public class Fish{
     private final double screenWidth = 800.0;
     private boolean movingRight = true;
     
-    public Fish(double x, double y, FishType type){
+    public Fish(int id, double x, double y, FishType type){
     this.x = x;
     this.y = y;
     this.type = type;
+    this.id = id;
     sprite = new Circle(type.getSize());
     sprite.setFill(Color.GREEN);
 
@@ -96,6 +97,9 @@ public class Fish{
     public int getDifficulty() {
     return type.getDifficulty();
     }
+    public int getId() {
+    return id;
+}
     
  }
 

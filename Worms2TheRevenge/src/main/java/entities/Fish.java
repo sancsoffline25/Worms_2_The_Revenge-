@@ -24,7 +24,6 @@ public class Fish{
     //Aca van despues los dibujos todos feos del Bilbo
     private Circle sprite;
     //Los peces se mueven
-    private final double movementSpeed = 100.0;
     private final double screenWidth = 800.0;
     private boolean movingRight = true;
     
@@ -32,7 +31,7 @@ public class Fish{
     this.x = x;
     this.y = y;
     this.type = type;
-    sprite = new Circle(12);
+    sprite = new Circle(type.getSize());
     sprite.setFill(Color.GREEN);
 
     updateGraphics();
@@ -65,9 +64,9 @@ public class Fish{
 
     } else {
         if (movingRight) {
-            x += movementSpeed * dt;
+            x += type.getSpeed() * dt;
         }else{
-            x -= movementSpeed * dt;
+            x -= type.getSpeed() * dt;
         }
         checkScreenBounds();
     }
@@ -97,5 +96,6 @@ public class Fish{
     public int getDifficulty() {
     return type.getDifficulty();
     }
+    
  }
 

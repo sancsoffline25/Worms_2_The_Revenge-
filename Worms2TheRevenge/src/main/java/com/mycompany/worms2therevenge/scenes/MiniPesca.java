@@ -69,27 +69,22 @@ public class MiniPesca{
         
         FishManager fishManager = new FishManager(WIDTH);
         //Referencia a FishManager para hacer las filas
-        fishManager.createRow(
-        220,
-        8,
-        105,
-        true
-        );
+        fishManager.createRow(220, 8, 105, true, FishType.BASIC);
 
-        fishManager.createRow(
-        340,
-        8,
-        105,
-        false
-        );
+        fishManager.createRow(280, 4, 210, false, FishType.MID);
 
-        fishManager.createRow(
-        460,
-        8,
-        105,
-        true
-        );
-
+        fishManager.createRow(340, 8, 105, true, FishType.BASIC);
+        
+        //fishManager.createRow(340, 4, 210, false, FishType.BASIC);
+        
+        fishManager.createRow(360, 8, 30, false, FishType.SWARM);
+        fishManager.createRow(380, 8, 30, true, FishType.SWARM);
+        
+        fishManager.createRow(420, 3, 315, false, FishType.MID);
+        
+        fishManager.createRow(480, 1, 105, true, FishType.BIG);
+        
+        //Las variables son(Profundidad, cantidad, separacion,dirccion, typo)
 
         // Añadir los peces al gamePane
         for (Fish fish : fishManager.getFishList()) {

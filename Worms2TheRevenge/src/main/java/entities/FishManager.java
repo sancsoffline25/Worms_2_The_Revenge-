@@ -34,22 +34,14 @@ public class FishManager{
         double y,
         int amount,
         double spacing,
-        boolean movingRight
+        boolean movingRight,
+        FishType type
 ) {
-
     for (int i = 0; i < amount; i++) {
-
         double x = 100 + (i * spacing);
 
-        Fish fish = new Fish(
-                x,
-                y,
-                FishType.BASIC
-        );
-
+        Fish fish = new Fish(x, y, type);
         fish.setMovingRight(movingRight);
 
         fishList.add(fish);
-    }
-}
-}
+    }}}

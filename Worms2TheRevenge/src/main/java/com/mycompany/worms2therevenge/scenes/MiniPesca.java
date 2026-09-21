@@ -26,6 +26,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import ui.ResolutionManager;
 import entities.FishManager;
+import entities.Memoria;
 
 public class MiniPesca{
     //Tamaño de la ventana
@@ -69,20 +70,20 @@ public class MiniPesca{
         
         FishManager fishManager = new FishManager(WIDTH);
         //Referencia a FishManager para hacer las filas
-        fishManager.createRow(220, 8, 105, true, FishType.BASIC);
+        fishManager.createRow(220, 8, 105, true, FishType.BASIC,0);
 
-        fishManager.createRow(280, 4, 210, false, FishType.MID);
+        fishManager.createRow(280, 4, 210, false, FishType.MID, 8);
 
-        fishManager.createRow(340, 8, 105, true, FishType.BASIC);
+        fishManager.createRow(340, 8, 105, true, FishType.BASIC,12);
         
         //fishManager.createRow(340, 4, 210, false, FishType.BASIC);
         
-        fishManager.createRow(360, 8, 30, false, FishType.SWARM);
-        fishManager.createRow(380, 8, 30, true, FishType.SWARM);
+        fishManager.createRow(360, 8, 30, false, FishType.SWARM,20);
+        fishManager.createRow(380, 8, 30, true, FishType.SWARM,28);
         
-        fishManager.createRow(420, 3, 315, false, FishType.MID);
+        fishManager.createRow(420, 3, 315, false, FishType.MID,36);
         
-        fishManager.createRow(480, 1, 105, true, FishType.BIG);
+        fishManager.createRow(480, 1, 105, true, FishType.BIG,40);
         
         //Las variables son(Profundidad, cantidad, separacion,dirccion, typo)
 
@@ -179,6 +180,7 @@ public class MiniPesca{
                 hook.getHookY())) {
 
             fish.capture();
+            Memoria.captureFish(fish.getId());
             addMoney(fish.getValue());
             moneyText.setText("Dinero: $" + getPlayerMoney());
             hook.setState(HookState.RAISING);

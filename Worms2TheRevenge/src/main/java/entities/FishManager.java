@@ -35,13 +35,22 @@ public class FishManager{
         int amount,
         double spacing,
         boolean movingRight,
-        FishType type
+        FishType type,
+        int startingId
 ) {
     for (int i = 0; i < amount; i++) {
+
+        int fishId = startingId + i;
+
+        if (Memoria.isCaptured(fishId)) {
+            continue;
+        }
+
         double x = 100 + (i * spacing);
 
-        Fish fish = new Fish(x, y, type);
+        Fish fish = new Fish(fishId, x, y, type);
         fish.setMovingRight(movingRight);
 
         fishList.add(fish);
-    }}}
+    }
+}}

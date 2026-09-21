@@ -10,7 +10,6 @@ import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 import javafx.animation.AnimationTimer;
 import javafx.geometry.Pos;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
@@ -32,6 +31,8 @@ import animations.PlayerStatusAnimations;
 import animations.ScreenTransitions;
 import javafx.animation.FadeTransition;
 import javafx.scene.control.Label;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import javafx.scene.text.Font;
 import ui.ButtonCreator;
 import ui.PlayerHealthBar;
@@ -118,7 +119,7 @@ public class BossFight{
     
     //Estados de la pelea
     double tiempoAtaques = 3.5;
-    double tiempoEntreEtapas = 6.5;
+    double tiempoEntreEtapas = 2.0;
     int etapaPelea = 1;
     
     // === FASES DE ATAQUE ===
@@ -312,6 +313,16 @@ public class BossFight{
     
     
     public void start(Stage stage){
+        
+        //OcultarSpawnPoints
+        spawnHorizontalRight.setVisible(false);
+        spawnHorizontalLeft.setVisible(false);
+        spawnVerticalTop.setVisible(false);
+        spawnVerticalDown.setVisible(false);
+        spawnDiagonalTopRight.setVisible(false);
+        spawnDiagonalTopLeft.setVisible(false);
+        spawnDiagonalDownRight.setVisible(false);
+        spawnDiagonalDownLeft.setVisible(false);
               
         //Personalización boton atacar
         timeToAttack.setTextFill(Color.WHITE); 
@@ -430,6 +441,13 @@ public class BossFight{
         //Escena
         Scene escena = ResolutionManager.crearEscena(escenaFinal);
         
+         //Musica
+        Media musica = new Media(getClass().getResource("/Assets/Musica/BossFightPreSong.mp3").toExternalForm()); //cargo la musica
+        MediaPlayer reproductor = new MediaPlayer(musica); //creo el reproductor que va a reproducirla
+        reproductor.setVolume(0.3); //volumen tranqui
+        reproductor.setCycleCount(MediaPlayer.INDEFINITE); //hago que este en loop
+        reproductor.play(); //arranca el temón
+        
         //=== Lógica del gameplay ===
         
         
@@ -529,7 +547,8 @@ public class BossFight{
         if (jugador.getVida() <= 0 && !playerDied){
 
             playerDied = true;
-
+            ataques.detenerSonidos();
+            
             //Detenemos las teclas
             teclas[ARRIBA] = false;
             teclas[ABAJO] = false;
@@ -538,7 +557,26 @@ public class BossFight{
 
             //Animación de muerte
             statusAnimations.mostrarMuerte(jugador, playerView);
-        
+            
+            //Esperamos antes de ir al Game Over
+            PauseTransition esperaGameOver =
+            new PauseTransition(Duration.seconds(1));
+
+            esperaGameOver.setOnFinished(e -> {
+
+            FadeTransition transicion =
+                transiciones.fadeOutBlack(escenaFinal, 2);
+            
+             transicion.setOnFinished(e2 ->{
+            reproductor.stop(); 
+            GameOver gameOver = new GameOver();
+            gameOver.start(stage);
+                    });
+
+                    transicion.play();
+                });
+
+                esperaGameOver.play();
                 }
         
             }
@@ -567,9 +605,11 @@ public class BossFight{
              
              //Chequeo si el jefe esta vivo
             if(viejo.getVida() <= 0){
+            ataques.detenerSonidos();
             FadeTransition transicion = transiciones.fadeOutBlack(escenaFinal, 2);
 
             transicion.setOnFinished(e2 -> {
+                reproductor.stop();
                 EpicEnding menu = new EpicEnding();
                 menu.start(stage);
              });

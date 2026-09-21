@@ -10,9 +10,9 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.shape.Circle;
-import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
 import javafx.animation.AnimationTimer;
+import java.util.ArrayList;
 
 
 //entidades incorporadas
@@ -26,7 +26,7 @@ import ui.PlayerHealthBar;
  * @author Santiago Guinel
  */
 public class EnemyAttackAnimations {
-    
+ 
     //=== Atributos de la clase ===
     
     //Sprites Manos
@@ -40,6 +40,35 @@ public class EnemyAttackAnimations {
     private Image manoDerDiagonalDown= new Image(getClass().getResourceAsStream("/Assets/Sprites/bossfight/hands/DiagonalDownRH.png"));
     private Image manoIzqDiagonalTop= new Image(getClass().getResourceAsStream("/Assets/Sprites/bossfight/hands/DiagonalTopLH.png"));
     private Image manoIzqDiagonalDown= new Image(getClass().getResourceAsStream("/Assets/Sprites/bossfight/hands/DiagonalDownLH.png"));
+    
+    //Boleano para los sonidos
+    private boolean peleaActiva = true;
+    
+    private ArrayList<ImageView> manosActivas = new ArrayList<>();
+    private ArrayList<TranslateTransition> ataquesActivos = new ArrayList<>();
+    private ArrayList<AnimationTimer> colisionesActivas = new ArrayList<>();
+    
+    public void detenerSonidos(){
+        peleaActiva = false;
+        
+        for(TranslateTransition ataque : ataquesActivos){
+            ataque.stop();
+        }
+        
+        for(AnimationTimer colision : colisionesActivas){
+            colision.stop();
+        }
+        
+        for(ImageView mano : manosActivas){
+            if(mano.getParent() instanceof StackPane){
+                ((StackPane) mano.getParent()).getChildren().remove(mano);
+            }
+        }
+        
+        ataquesActivos.clear();
+        colisionesActivas.clear();
+        manosActivas.clear();
+    }
         
     //=== Animaciones de Ataque ===
     
@@ -65,13 +94,19 @@ public class EnemyAttackAnimations {
             ImageView playerBarView
     ) {
 
+        if(!peleaActiva){
+            return;
+        }
+
         ImageView mano = new ImageView(manoDerHorizontal);
 
-        escena.getChildren().add(mano);
         StackPane.setAlignment(mano, javafx.geometry.Pos.TOP_LEFT);
 
         //Sonido de aparición de la mano
-        viejoSonidos.throwHandEffect();
+        if(peleaActiva){
+            viejoSonidos.throwHandEffect();
+        }
+        
 
         //Posiciones
         Point2D inicio = escena.sceneToLocal(
@@ -81,12 +116,17 @@ public class EnemyAttackAnimations {
         Point2D finalPos = escena.sceneToLocal(
                 spawnFinal.localToScene(0, 0)
         );
-
+        
+        escena.getChildren().add(mano);
+        manosActivas.add(mano);
+        
         //Animacion
         TranslateTransition ataque = new TranslateTransition(
                 Duration.seconds(duracionAtaque),
                 mano
         );
+        
+        ataquesActivos.add(ataque);
 
         ataque.setFromX(inicio.getX());
         ataque.setToX(finalPos.getX());
@@ -96,9 +136,14 @@ public class EnemyAttackAnimations {
 
         //Detección de colisión
         AnimationTimer colision = new AnimationTimer() {
-
+            
             @Override
             public void handle(long ahora) {
+
+                if(!peleaActiva){
+                    stop();
+                    return;
+                }
 
                 if (mano.getBoundsInParent().intersects(
                         playerView.getBoundsInParent()
@@ -111,7 +156,9 @@ public class EnemyAttackAnimations {
                             playerView
                     );
 
-                    playerSonidos.damageSoundEffect();
+                    if(peleaActiva){
+                        playerSonidos.damageSoundEffect();
+                    }
 
                     statusAnimations.actualizarBarra(
                             jugador,
@@ -123,6 +170,8 @@ public class EnemyAttackAnimations {
                 }
             }
         };
+        
+        colisionesActivas.add(colision);
 
         //Cuando termina el ataque
         ataque.setOnFinished(e -> {
@@ -130,6 +179,10 @@ public class EnemyAttackAnimations {
             escena.getChildren().remove(mano);
 
             colision.stop();
+            
+            ataquesActivos.remove(ataque);
+            colisionesActivas.remove(colision);
+            manosActivas.remove(mano);
         });
 
         colision.start();
@@ -148,12 +201,17 @@ public class EnemyAttackAnimations {
             ImageView playerBarView
     ) {
 
+        if(!peleaActiva){
+            return;
+        }
+
         ImageView mano = new ImageView(manoIzqHorizontal);
 
-        escena.getChildren().add(mano);
         StackPane.setAlignment(mano, javafx.geometry.Pos.TOP_LEFT);
 
-        viejoSonidos.throwHandEffect();
+        if(peleaActiva){
+            viejoSonidos.throwHandEffect();
+        }
 
         //Posiciones
         Point2D inicio = escena.sceneToLocal(
@@ -164,11 +222,16 @@ public class EnemyAttackAnimations {
                 spawnFinal.localToScene(0, 0)
         );
 
+        escena.getChildren().add(mano);
+        manosActivas.add(mano);
+        
         //Animacion
         TranslateTransition ataque = new TranslateTransition(
                 Duration.seconds(duracionAtaque),
                 mano
         );
+        
+        ataquesActivos.add(ataque);
 
         ataque.setFromX(inicio.getX());
         ataque.setToX(finalPos.getX());
@@ -182,6 +245,11 @@ public class EnemyAttackAnimations {
             @Override
             public void handle(long ahora) {
 
+                if(!peleaActiva){
+                    stop();
+                    return;
+                }
+
                 if (mano.getBoundsInParent().intersects(
                         playerView.getBoundsInParent()
                 )) {
@@ -193,7 +261,9 @@ public class EnemyAttackAnimations {
                             playerView
                     );
 
-                    playerSonidos.damageSoundEffect();
+                    if(peleaActiva){
+                        playerSonidos.damageSoundEffect();
+                    }
 
                     statusAnimations.actualizarBarra(
                             jugador,
@@ -205,12 +275,18 @@ public class EnemyAttackAnimations {
                 }
             }
         };
+        
+        colisionesActivas.add(colision);
 
         ataque.setOnFinished(e -> {
 
             escena.getChildren().remove(mano);
 
             colision.stop();
+            
+            ataquesActivos.remove(ataque);
+            colisionesActivas.remove(colision);
+            manosActivas.remove(mano);
         });
 
         colision.start();
@@ -232,12 +308,17 @@ public class EnemyAttackAnimations {
             ImageView playerBarView
     ) {
 
+        if(!peleaActiva){
+            return;
+        }
+
         ImageView mano = new ImageView(manoDerVertical);
 
-        escena.getChildren().add(mano);
         StackPane.setAlignment(mano, javafx.geometry.Pos.TOP_LEFT);
 
-        viejoSonidos.throwHandEffect();
+        if(peleaActiva){
+            viejoSonidos.throwHandEffect();
+        }
 
         // Posiciones
         Point2D inicio = escena.sceneToLocal(
@@ -248,11 +329,16 @@ public class EnemyAttackAnimations {
                 spawnFinal.localToScene(0, 0)
         );
 
+        escena.getChildren().add(mano);
+        manosActivas.add(mano);
+        
         // Animación
         TranslateTransition ataque = new TranslateTransition(
                 Duration.seconds(duracionAtaque),
                 mano
         );
+        
+        ataquesActivos.add(ataque);
 
         ataque.setFromX(inicio.getX());
         ataque.setToX(finalPos.getX());
@@ -266,6 +352,11 @@ public class EnemyAttackAnimations {
             @Override
             public void handle(long ahora) {
 
+                if(!peleaActiva){
+                    stop();
+                    return;
+                }
+
                 if (mano.getBoundsInParent().intersects(
                         playerView.getBoundsInParent()
                 )) {
@@ -277,7 +368,9 @@ public class EnemyAttackAnimations {
                             playerView
                     );
 
-                    playerSonidos.damageSoundEffect();
+                    if(peleaActiva){
+                        playerSonidos.damageSoundEffect();
+                    }
 
                     statusAnimations.actualizarBarra(
                             jugador,
@@ -285,20 +378,22 @@ public class EnemyAttackAnimations {
                             playerBarView
                     );
 
-                    System.out.println(
-                            "Vida restante: " + jugador.getVida()
-                    );
-
                     stop();
                 }
             }
         };
+        
+        colisionesActivas.add(colision);
 
         ataque.setOnFinished(e -> {
 
             escena.getChildren().remove(mano);
 
             colision.stop();
+            
+            ataquesActivos.remove(ataque);
+            colisionesActivas.remove(colision);
+            manosActivas.remove(mano);
         });
 
         colision.start();
@@ -317,12 +412,17 @@ public class EnemyAttackAnimations {
             ImageView playerBarView
     ) {
 
+        if(!peleaActiva){
+            return;
+        }
+
         ImageView mano = new ImageView(manoIzquierda);
 
-        escena.getChildren().add(mano);
         StackPane.setAlignment(mano, javafx.geometry.Pos.TOP_LEFT);
 
-        viejoSonidos.throwHandEffect();
+        if(peleaActiva){
+            viejoSonidos.throwHandEffect();
+        }
 
         // Posiciones
         Point2D inicio = escena.sceneToLocal(
@@ -332,13 +432,18 @@ public class EnemyAttackAnimations {
         Point2D finalPos = escena.sceneToLocal(
                 spawnFinal.localToScene(0, 0)
         );
-
+        
+        escena.getChildren().add(mano);
+        manosActivas.add(mano);
+        
         // Animación
         TranslateTransition ataque = new TranslateTransition(
                 Duration.seconds(duracionAtaque),
                 mano
         );
-
+        
+        ataquesActivos.add(ataque);
+        
         ataque.setFromX(inicio.getX());
         ataque.setToX(finalPos.getX());
 
@@ -351,6 +456,11 @@ public class EnemyAttackAnimations {
             @Override
             public void handle(long ahora) {
 
+                if(!peleaActiva){
+                    stop();
+                    return;
+                }
+
                 if (mano.getBoundsInParent().intersects(
                         playerView.getBoundsInParent()
                 )) {
@@ -362,7 +472,9 @@ public class EnemyAttackAnimations {
                             playerView
                     );
 
-                    playerSonidos.damageSoundEffect();
+                    if(peleaActiva){
+                        playerSonidos.damageSoundEffect();
+                    }
 
                     statusAnimations.actualizarBarra(
                             jugador,
@@ -370,20 +482,22 @@ public class EnemyAttackAnimations {
                             playerBarView
                     );
 
-                    System.out.println(
-                            "Vida restante: " + jugador.getVida()
-                    );
-
                     stop();
                 }
             }
         };
+        
+        colisionesActivas.add(colision);
 
         ataque.setOnFinished(e -> {
 
             escena.getChildren().remove(mano);
 
             colision.stop();
+            
+            ataquesActivos.remove(ataque);
+            colisionesActivas.remove(colision);
+            manosActivas.remove(mano);
         });
 
         colision.start();
@@ -404,12 +518,17 @@ public class EnemyAttackAnimations {
             ImageView playerBarView
     ) {
 
+        if(!peleaActiva){
+            return;
+        }
+
         ImageView mano = new ImageView(manoDerDiagonalTop);
 
-        escena.getChildren().add(mano);
         StackPane.setAlignment(mano, javafx.geometry.Pos.TOP_LEFT);
 
-        viejoSonidos.throwHandEffect();
+        if(peleaActiva){
+            viejoSonidos.throwHandEffect();
+        }
 
         Point2D inicio = escena.sceneToLocal(
                 spawnInicio.localToScene(0, 0)
@@ -418,11 +537,16 @@ public class EnemyAttackAnimations {
         Point2D finalPos = escena.sceneToLocal(
                 spawnFinal.localToScene(0, 0)
         );
-
+        
+        escena.getChildren().add(mano);
+        manosActivas.add(mano);
+        
         TranslateTransition ataque = new TranslateTransition(
                 Duration.seconds(duracionAtaque),
                 mano
         );
+        
+        ataquesActivos.add(ataque);
 
         ataque.setFromX(inicio.getX());
         ataque.setToX(finalPos.getX());
@@ -435,6 +559,11 @@ public class EnemyAttackAnimations {
             @Override
             public void handle(long ahora) {
 
+                if(!peleaActiva){
+                    stop();
+                    return;
+                }
+
                 if (mano.getBoundsInParent().intersects(
                         playerView.getBoundsInParent()
                 )) {
@@ -446,7 +575,9 @@ public class EnemyAttackAnimations {
                             playerView
                     );
 
-                    playerSonidos.damageSoundEffect();
+                    if(peleaActiva){
+                        playerSonidos.damageSoundEffect();
+                    }
 
                     statusAnimations.actualizarBarra(
                             jugador,
@@ -454,20 +585,22 @@ public class EnemyAttackAnimations {
                             playerBarView
                     );
 
-                    System.out.println(
-                            "Vida restante: " + jugador.getVida()
-                    );
-
                     stop();
                 }
             }
         };
+        
+        colisionesActivas.add(colision);
 
         ataque.setOnFinished(e -> {
 
             escena.getChildren().remove(mano);
 
             colision.stop();
+            
+            ataquesActivos.remove(ataque);
+            colisionesActivas.remove(colision);
+            manosActivas.remove(mano);
         });
 
         colision.start();
@@ -486,12 +619,17 @@ public class EnemyAttackAnimations {
             ImageView playerBarView
     ) {
 
+        if(!peleaActiva){
+            return;
+        }
+
         ImageView mano = new ImageView(manoIzqDiagonalTop);
 
-        escena.getChildren().add(mano);
         StackPane.setAlignment(mano, javafx.geometry.Pos.TOP_LEFT);
 
-        viejoSonidos.throwHandEffect();
+        if(peleaActiva){
+            viejoSonidos.throwHandEffect();
+        }
 
         Point2D inicio = escena.sceneToLocal(
                 spawnInicio.localToScene(0, 0)
@@ -500,11 +638,16 @@ public class EnemyAttackAnimations {
         Point2D finalPos = escena.sceneToLocal(
                 spawnFinal.localToScene(0, 0)
         );
-
+        
+        escena.getChildren().add(mano);
+        manosActivas.add(mano);
+        
         TranslateTransition ataque = new TranslateTransition(
                 Duration.seconds(duracionAtaque),
                 mano
         );
+        
+        ataquesActivos.add(ataque);
 
         ataque.setFromX(inicio.getX());
         ataque.setToX(finalPos.getX());
@@ -517,6 +660,11 @@ public class EnemyAttackAnimations {
             @Override
             public void handle(long ahora) {
 
+                if(!peleaActiva){
+                    stop();
+                    return;
+                }
+
                 if (mano.getBoundsInParent().intersects(
                         playerView.getBoundsInParent()
                 )) {
@@ -528,7 +676,9 @@ public class EnemyAttackAnimations {
                             playerView
                     );
 
-                    playerSonidos.damageSoundEffect();
+                    if(peleaActiva){
+                        playerSonidos.damageSoundEffect();
+                    }
 
                     statusAnimations.actualizarBarra(
                             jugador,
@@ -536,20 +686,22 @@ public class EnemyAttackAnimations {
                             playerBarView
                     );
 
-                    System.out.println(
-                            "Vida restante: " + jugador.getVida()
-                    );
-
                     stop();
                 }
             }
         };
+        
+        colisionesActivas.add(colision);
 
         ataque.setOnFinished(e -> {
 
             escena.getChildren().remove(mano);
 
             colision.stop();
+            
+            ataquesActivos.remove(ataque);
+            colisionesActivas.remove(colision);
+            manosActivas.remove(mano);
         });
 
         colision.start();
@@ -568,12 +720,17 @@ public class EnemyAttackAnimations {
             ImageView playerBarView
     ) {
 
+        if(!peleaActiva){
+            return;
+        }
+
         ImageView mano = new ImageView(manoDerDiagonalDown);
 
-        escena.getChildren().add(mano);
         StackPane.setAlignment(mano, javafx.geometry.Pos.TOP_LEFT);
 
-        viejoSonidos.throwHandEffect();
+        if(peleaActiva){
+            viejoSonidos.throwHandEffect();
+        }
 
         Point2D inicio = escena.sceneToLocal(
                 spawnInicio.localToScene(0, 0)
@@ -582,11 +739,16 @@ public class EnemyAttackAnimations {
         Point2D finalPos = escena.sceneToLocal(
                 spawnFinal.localToScene(0, 0)
         );
-
+        
+        escena.getChildren().add(mano);
+        manosActivas.add(mano);
+        
         TranslateTransition ataque = new TranslateTransition(
                 Duration.seconds(duracionAtaque),
                 mano
         );
+        
+        ataquesActivos.add(ataque);
 
         ataque.setFromX(inicio.getX());
         ataque.setToX(finalPos.getX());
@@ -599,6 +761,11 @@ public class EnemyAttackAnimations {
             @Override
             public void handle(long ahora) {
 
+                if(!peleaActiva){
+                    stop();
+                    return;
+                }
+
                 if (mano.getBoundsInParent().intersects(
                         playerView.getBoundsInParent()
                 )) {
@@ -610,7 +777,9 @@ public class EnemyAttackAnimations {
                             playerView
                     );
 
-                    playerSonidos.damageSoundEffect();
+                    if(peleaActiva){
+                        playerSonidos.damageSoundEffect();
+                    }
 
                     statusAnimations.actualizarBarra(
                             jugador,
@@ -618,19 +787,22 @@ public class EnemyAttackAnimations {
                             playerBarView
                     );
 
-                    System.out.println(
-                            "Vida restante: " + jugador.getVida()
-                    );
-
                     stop();
                 }
             }
         };
+        
+        colisionesActivas.add(colision);
+
         ataque.setOnFinished(e -> {
 
             escena.getChildren().remove(mano);
 
             colision.stop();
+            
+            ataquesActivos.remove(ataque);
+            colisionesActivas.remove(colision);
+            manosActivas.remove(mano);
         });
 
         colision.start();
@@ -649,12 +821,17 @@ public class EnemyAttackAnimations {
             ImageView playerBarView
     ) {
 
+        if(!peleaActiva){
+            return;
+        }
+
         ImageView mano = new ImageView(manoIzqDiagonalDown);
 
-        escena.getChildren().add(mano);
         StackPane.setAlignment(mano, javafx.geometry.Pos.TOP_LEFT);
 
-        viejoSonidos.throwHandEffect();
+        if(peleaActiva){
+            viejoSonidos.throwHandEffect();
+        }
 
         Point2D inicio = escena.sceneToLocal(
                 spawnInicio.localToScene(0, 0)
@@ -663,11 +840,16 @@ public class EnemyAttackAnimations {
         Point2D finalPos = escena.sceneToLocal(
                 spawnFinal.localToScene(0, 0)
         );
-
+        
+        escena.getChildren().add(mano);
+        manosActivas.add(mano);
+        
         TranslateTransition ataque = new TranslateTransition(
                 Duration.seconds(duracionAtaque),
                 mano
         );
+        
+        ataquesActivos.add(ataque);
 
         ataque.setFromX(inicio.getX());
         ataque.setToX(finalPos.getX());
@@ -680,6 +862,11 @@ public class EnemyAttackAnimations {
             @Override
             public void handle(long ahora) {
 
+                if(!peleaActiva){
+                    stop();
+                    return;
+                }
+
                 if (mano.getBoundsInParent().intersects(
                         playerView.getBoundsInParent()
                 )) {
@@ -691,25 +878,31 @@ public class EnemyAttackAnimations {
                             playerView
                     );
 
-                    playerSonidos.damageSoundEffect();
+                    if(peleaActiva){
+                        playerSonidos.damageSoundEffect();
+                    }
 
                     statusAnimations.actualizarBarra(
                             jugador,
                             playerBar,
                             playerBarView
                     );
-                    System.out.println(
-                            "Vida restante: " + jugador.getVida()
-                    );
                     stop();
                 }
             }
         };
+        
+        colisionesActivas.add(colision);
+
         ataque.setOnFinished(e -> {
 
             escena.getChildren().remove(mano);
 
             colision.stop();
+            
+            ataquesActivos.remove(ataque);
+            colisionesActivas.remove(colision);
+            manosActivas.remove(mano);
         });
 
         colision.start();

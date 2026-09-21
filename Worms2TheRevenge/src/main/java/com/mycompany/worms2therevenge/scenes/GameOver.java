@@ -7,6 +7,7 @@ package com.mycompany.worms2therevenge.scenes;
 /**
  *
  * @author Santiago Guinel
+ * 
  */
 
 import javafx.geometry.Pos;
@@ -31,7 +32,8 @@ import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import ui.ResolutionManager;
 
-public class EpicEnding {
+
+public class GameOver {
     
     Font textoFont = Font.loadFont(getClass().getResourceAsStream("/Assets/Fonts/VT323-Regular.ttf"), 28);
     
@@ -89,7 +91,7 @@ public class EpicEnding {
         VBox creditos = new VBox(20);
         
         //fondo
-        Image fondo = new Image(getClass().getResource("/Assets/Backgrounds/EpicEnding/EpicWinBackground.png").toExternalForm());
+        Image fondo = new Image(getClass().getResource("/Assets/Backgrounds/GameOverBossFight/GameOver2.jpg").toExternalForm());
 
         BackgroundImage backgroundImage = new BackgroundImage(
         fondo,
@@ -103,11 +105,9 @@ public class EpicEnding {
         )
         );
         //Label (carteles)
-        Label finaleText = new Label("EPIC ENDING");
-        Label programmers = new Label("Programado por: Santiago Guinel y Lautaro Gutierrez");
-        Label art = new Label("Arte realizado por: Viggo Sanchez");
-        Label curso = new Label("Curso: 6to 6ta - Programación"); 
-        Label musicUsed = new Label("Musica utilizada: Headlock(instrumental) by Imogen Heap");
+        Label finaleText = new Label("GAME OVER");
+        Label programmers = new Label("Fuíste atrapado por el anciano");
+        Label musicUsed = new Label("Musica utilizada: game over by AZALI");
         
         //Botones
         StackPane backToMenu = crearBoton("Volver al menú", textoFont);
@@ -117,8 +117,6 @@ public class EpicEnding {
         Font textoPrincipalFont = Font.loadFont(getClass().getResourceAsStream("/Assets/Fonts/VT323-Regular.ttf"), 52);
         finaleText.setFont(textoPrincipalFont);
         programmers.setFont(textoFont);
-        art.setFont(textoFont);
-        curso.setFont(textoFont);
         musicUsed.setFont(textoFont);
         
         //Aca hacemos el fade in del inicio
@@ -161,7 +159,7 @@ public class EpicEnding {
        
         //Efecto bonito para los textos (sombra)
         finaleText.setStyle(
-        "-fx-text-fill: purple;" +
+        "-fx-text-fill: red;" +
         "-fx-effect: dropshadow(gaussian, black, 0, 0, 3, 3);"
         );
         
@@ -169,17 +167,7 @@ public class EpicEnding {
         "-fx-text-fill: white;" +
         "-fx-effect: dropshadow(gaussian, black, 0, 0, 3, 3);"
         );
-        
-        art.setStyle(
-        "-fx-text-fill: white;" +
-        "-fx-effect: dropshadow(gaussian, black, 0, 0, 3, 3);"
-        );
-        
-        curso.setStyle(
-        "-fx-text-fill: white;" +
-        "-fx-effect: dropshadow(gaussian, black, 0, 0, 3, 3);"
-        );
-        
+              
         musicUsed.setStyle(
         "-fx-text-fill: white;" +
         "-fx-effect: dropshadow(gaussian, black, 0, 0, 3, 3);"
@@ -189,8 +177,6 @@ public class EpicEnding {
         //Hacemos papá a los creditos
         creditos.getChildren().addAll(
                 programmers,
-                art,
-                curso,
                 musicUsed
         );
         
@@ -211,7 +197,7 @@ public class EpicEnding {
         Scene escena = ResolutionManager.crearEscena(escenaFinal);
         
         //Musica
-        Media musica = new Media(getClass().getResource("/Assets/Musica/EpicEndingSong.mp3").toExternalForm()); //cargo la musica
+        Media musica = new Media(getClass().getResource("/Assets/Musica/GameOverSong.mp3").toExternalForm()); //cargo la musica
         MediaPlayer reproductor = new MediaPlayer(musica); //creo el reproductor que va a reproducirla
         reproductor.setVolume(0.3); //volumen tranqui
         reproductor.setCycleCount(MediaPlayer.INDEFINITE); //hago que este en loop
@@ -229,7 +215,6 @@ public class EpicEnding {
         stage.setScene(escena);
         stage.setResizable(false);
         stage.show();
-        
         
     }
 }

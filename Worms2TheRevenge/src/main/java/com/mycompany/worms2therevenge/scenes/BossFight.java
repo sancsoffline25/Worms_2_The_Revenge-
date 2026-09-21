@@ -29,6 +29,8 @@ import entities.Player;
 import animations.EnemyAttackAnimations;
 import animations.EnemyStatusAnimations;
 import animations.PlayerStatusAnimations;
+import animations.ScreenTransitions;
+import javafx.animation.FadeTransition;
 import javafx.scene.control.Label;
 import javafx.scene.text.Font;
 import ui.ButtonCreator;
@@ -49,7 +51,7 @@ public class BossFight{
     
     //Barra de vida del jugador
     PlayerHealthBar playerBar = new PlayerHealthBar();
-    
+
     //Sprites de las entidades
     ImageView playerView = new ImageView(jugador.getIdleSprite());
     ImageView viejoView = new ImageView(viejo.getIdleSprite());
@@ -77,7 +79,8 @@ public class BossFight{
     Font botonFont = Font.loadFont(getClass().getResourceAsStream("/Assets/Fonts/VT323-Regular.ttf"), 28);
     StackPane botonAtacar = buttonMaker.crearBoton("¡ ATACAR !", botonFont);
 
-
+    //Transiciones
+    ScreenTransitions transiciones = new ScreenTransitions();
     
     //BattleBox
     Rectangle battleBox= new Rectangle(600, 300);
@@ -553,14 +556,26 @@ public class BossFight{
         //=== Estructura de Pelea ===
          
          //Primera etapa
-                fase1Ataque3(escenaFinal);
-                
+                fase1Ataque1(escenaFinal);
+                    
          botonAtacar.setOnMouseClicked(e->{
              System.out.println("atacamos bien epico al boss");
              viejo.recibirDanio(20);
              viejoEstados.mostrarDanio(viejo, viejoView);
              ataqueHud.setVisible(false);
              System.out.println("Vida del boss: " + viejo.getVida());
+             
+             //Chequeo si el jefe esta vivo
+            if(viejo.getVida() <= 0){
+            FadeTransition transicion = transiciones.fadeOutBlack(escenaFinal, 2);
+
+            transicion.setOnFinished(e2 -> {
+                EpicEnding menu = new EpicEnding();
+                menu.start(stage);
+             });
+            transicion.play();
+            }
+            
          }); 
         
          

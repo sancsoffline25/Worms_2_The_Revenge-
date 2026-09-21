@@ -90,7 +90,7 @@ public class EpicEnding {
         VBox creditos = new VBox(20);
         
         //fondo
-        Image fondo = new Image(getClass().getResource("/Assets/Backgrounds/GoodEnding/GoodEndingFinale.png").toExternalForm());
+        Image fondo = new Image(getClass().getResource("/Assets/Backgrounds/EpicEnding/EpicWinBackground.png").toExternalForm());
 
         BackgroundImage backgroundImage = new BackgroundImage(
         fondo,
@@ -108,7 +108,7 @@ public class EpicEnding {
         Label programmers = new Label("Programado por: Santiago Guinel y Lautaro Gutierrez");
         Label art = new Label("Arte realizado por: Viggo Sanchez");
         Label curso = new Label("Curso: 6to 6ta - Programación"); 
-        Label musicUsed = new Label("Musica utilizada LEASE by Takeshi Abo");
+        Label musicUsed = new Label("Musica utilizada: Headlock(instrumental) by Imogen Heap");
         
         //Botones
         StackPane backToMenu = crearBoton("Volver al menú", textoFont);
@@ -123,7 +123,7 @@ public class EpicEnding {
         musicUsed.setFont(textoFont);
         
         //Aca hacemos el fade in del inicio
-        Rectangle fade = new Rectangle(1366, 768, Color.WHITE);
+        Rectangle fade = new Rectangle(1366, 768, Color.BLACK);
         fade.setMouseTransparent(true); //con esto el fade ignora al mouse para que no bloquee los botones
         StackPane escenaFinal = new StackPane();
         escenaFinal.setBackground(new Background(backgroundImage));
@@ -162,27 +162,27 @@ public class EpicEnding {
        
         //Efecto bonito para los textos (sombra)
         finaleText.setStyle(
-        "-fx-text-fill: white;" +
+        "-fx-text-fill: purple;" +
         "-fx-effect: dropshadow(gaussian, black, 0, 0, 3, 3);"
         );
         
         programmers.setStyle(
-        "-fx-text-fill: yellow;" +
+        "-fx-text-fill: white;" +
         "-fx-effect: dropshadow(gaussian, black, 0, 0, 3, 3);"
         );
         
         art.setStyle(
-        "-fx-text-fill: yellow;" +
+        "-fx-text-fill: white;" +
         "-fx-effect: dropshadow(gaussian, black, 0, 0, 3, 3);"
         );
         
         curso.setStyle(
-        "-fx-text-fill: yellow;" +
+        "-fx-text-fill: white;" +
         "-fx-effect: dropshadow(gaussian, black, 0, 0, 3, 3);"
         );
         
         musicUsed.setStyle(
-        "-fx-text-fill: yellow;" +
+        "-fx-text-fill: white;" +
         "-fx-effect: dropshadow(gaussian, black, 0, 0, 3, 3);"
         );
         
@@ -212,7 +212,7 @@ public class EpicEnding {
         Scene escena = ResolutionManager.crearEscena(escenaFinal);
         
         //Musica
-        Media musica = new Media(getClass().getResource("/Assets/Musica/LEASE_GoodEnding.mp3").toExternalForm()); //cargo la musica
+        Media musica = new Media(getClass().getResource("/Assets/Musica/EpicEndingSong.mp3").toExternalForm()); //cargo la musica
         MediaPlayer reproductor = new MediaPlayer(musica); //creo el reproductor que va a reproducirla
         reproductor.setVolume(0.3); //volumen tranqui
         reproductor.setCycleCount(MediaPlayer.INDEFINITE); //hago que este en loop
@@ -230,6 +230,7 @@ public class EpicEnding {
         stage.setScene(escena);
         stage.setResizable(false);
         stage.show();
+        
         
     }
 }

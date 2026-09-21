@@ -108,7 +108,7 @@ public class GoodEnding {
         Label programmers = new Label("Programado por: Santiago Guinel y Lautaro Gutierrez");
         Label art = new Label("Arte realizado por: Viggo Sanchez");
         Label curso = new Label("Curso: 6to 6ta - Programación"); 
-        Label musicUsed = new Label("Musica utilizada LEASE by Takeshi Abo");
+        Label musicUsed = new Label("Musica utilizada: LEASE by Takeshi Abo");
         
         //Botones
         StackPane backToMenu = crearBoton("Volver al menú", textoFont);

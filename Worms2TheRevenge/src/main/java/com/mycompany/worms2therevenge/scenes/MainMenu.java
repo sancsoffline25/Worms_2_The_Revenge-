@@ -153,6 +153,10 @@ public class MainMenu {
               
         BossFight menu = new BossFight();
         menu.start(stage);
+             }else if(e.getCode() == KeyCode.P){
+                 
+                 EpicEnding menu = new EpicEnding();
+                 menu.start(stage);
              }
         });
         

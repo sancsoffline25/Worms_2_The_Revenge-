@@ -10,12 +10,15 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.text.Font;
+import sounds.uisounds; 
 
 /**
  *
  * @author Santiago Guienl
  */
 public class ButtonCreator {
+    
+    uisounds sonidosInterfaz = new uisounds();
     
     public StackPane crearBoton(String texto, Font fuente) {
 
@@ -46,6 +49,7 @@ public class ButtonCreator {
 
         //Mouse encima
         boton.setOnMouseEntered(e ->{
+            sonidosInterfaz.playButtonFocus();
             botonView.setImage(botonHoverImage);
         });
         

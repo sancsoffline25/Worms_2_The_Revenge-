@@ -31,8 +31,11 @@ import javafx.util.Duration;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import ui.ResolutionManager;
+import sounds.uisounds;
 
 public class GoodEnding {
+    
+    uisounds sonidosInterfaz = new uisounds();
     
     Font textoFont = Font.loadFont(getClass().getResourceAsStream("/Assets/Fonts/VT323-Regular.ttf"), 28);
     
@@ -65,6 +68,7 @@ public class GoodEnding {
 
         //Mouse encima
         boton.setOnMouseEntered(e ->{
+            sonidosInterfaz.playButtonFocus();
             botonView.setImage(botonHoverImage);
         });
         
@@ -220,6 +224,7 @@ public class GoodEnding {
         
         //Lógica botón para volver
         backToMenu.setOnMouseClicked(e ->{
+            sonidosInterfaz.playSoundButton();
             MainMenu menu = new MainMenu();
             reproductor.stop(); 
             

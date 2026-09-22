@@ -21,8 +21,12 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import ui.ResolutionManager;
+import sounds.uisounds; 
 
 public class MainMenu {
+    
+    uisounds sonidosInterfaz = new uisounds();
+    
     Font textoFont = Font.loadFont(getClass().getResourceAsStream("/Assets/Fonts/VT323-Regular.ttf"), 28);
     
     private StackPane crearBoton(String texto, Font fuente) {
@@ -54,6 +58,7 @@ public class MainMenu {
 
         //Mouse encima
         boton.setOnMouseEntered(e ->{
+            sonidosInterfaz.playButtonFocus();
             botonView.setImage(botonHoverImage);
         });
         
@@ -94,10 +99,12 @@ public class MainMenu {
         //=== funciones de los botoncitos ===
         
         exitButton.setOnMouseClicked(e -> {
+            sonidosInterfaz.playSoundButton();
              stage.close();
         });
 
         playButton.setOnMouseClicked(e -> {
+            sonidosInterfaz.playSoundButton();
             GamePlayBase menu = new GamePlayBase();
     
             menu.start(stage);

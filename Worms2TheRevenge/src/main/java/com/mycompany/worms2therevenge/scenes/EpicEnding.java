@@ -30,8 +30,11 @@ import javafx.util.Duration;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import ui.ResolutionManager;
+import sounds.uisounds;
 
 public class EpicEnding {
+    
+    uisounds sonidosInterfaz = new uisounds();
     
     Font textoFont = Font.loadFont(getClass().getResourceAsStream("/Assets/Fonts/VT323-Regular.ttf"), 28);
     
@@ -64,6 +67,7 @@ public class EpicEnding {
 
         //Mouse encima
         boton.setOnMouseEntered(e ->{
+            sonidosInterfaz.playButtonFocus();
             botonView.setImage(botonHoverImage);
         });
         
@@ -219,6 +223,7 @@ public class EpicEnding {
         
         //Lógica botón para volver
         backToMenu.setOnMouseClicked(e ->{
+            sonidosInterfaz.playSoundButton();
             MainMenu menu = new MainMenu();
             reproductor.stop(); 
             

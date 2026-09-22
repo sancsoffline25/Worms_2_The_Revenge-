@@ -397,17 +397,17 @@ public class BossFight{
 
         //--Spawners Horizontales
         spawnHorizontalRight.setTranslateX(450);
-        spawnHorizontalRight.setTranslateY(160);
+        spawnHorizontalRight.setTranslateY(110);
 
         spawnHorizontalLeft.setTranslateX(-450);
-        spawnHorizontalLeft.setTranslateY(160);
+        spawnHorizontalLeft.setTranslateY(110);
 
 
         //--Spawners Verticales
-        spawnVerticalTop.setTranslateX(0);
+        spawnVerticalTop.setTranslateX(-50);
         spawnVerticalTop.setTranslateY(-150);
 
-        spawnVerticalDown.setTranslateX(0);
+        spawnVerticalDown.setTranslateX(-50);
         spawnVerticalDown.setTranslateY(400);
 
 

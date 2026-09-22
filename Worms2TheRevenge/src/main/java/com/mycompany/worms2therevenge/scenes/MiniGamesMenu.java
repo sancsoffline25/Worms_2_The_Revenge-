@@ -6,7 +6,7 @@ package com.mycompany.worms2therevenge.scenes;
 
 /**
  *
- * @author Lautaro Gutierrez
+ * @author Santiago Guinel
  */
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -20,12 +20,14 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import ui.ResolutionManager;
+import sounds.uisounds;
 
 
 
 
 public class MiniGamesMenu {
      
+    uisounds sonidosInterfaz = new uisounds();
         
     Font textoFont = Font.loadFont(getClass().getResourceAsStream("/Assets/Fonts/VT323-Regular.ttf"), 28);
     
@@ -58,6 +60,7 @@ public class MiniGamesMenu {
 
         //Mouse encima
         boton.setOnMouseEntered(e ->{
+            sonidosInterfaz.playButtonFocus();
             botonView.setImage(botonHoverImage);
         });
         
@@ -92,13 +95,15 @@ public class MiniGamesMenu {
         StackPane backButton = crearBoton("Volver", textoFont);
 
         //Aca le damos la función de volver(backButton)
-        backButton.setOnMouseClicked(e -> {
+        backButton.setOnMouseClicked(e ->{
+            sonidosInterfaz.playSoundButton();
             MainMenu menu = new MainMenu();
             
             menu.start(stage);
         });
         
-        minigame1Button.setOnMouseClicked(e -> {
+        minigame1Button.setOnMouseClicked(e ->{
+            sonidosInterfaz.playSoundButton();
            MiniPesca menu = new MiniPesca();
            
            menu.start(stage);

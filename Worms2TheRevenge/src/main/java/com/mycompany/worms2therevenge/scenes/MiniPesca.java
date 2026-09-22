@@ -37,8 +37,8 @@ public class MiniPesca{
     private final double ORIGIN_X = 400;
     private final double ORIGIN_Y = 60;
     
-    //Platita
-    private int playerMoney = 0;
+    //El dinero ahora se controla directamente desde Memoria.jaba
+    
     //Objetos gráficos
     private Pane gamePane;
     
@@ -53,15 +53,16 @@ public class MiniPesca{
         
         //Display de dinero
         Text moneyText = new Text();
-        moneyText.setText("Dinero: $0");
+        moneyText.setText("Dinero: $" + Memoria.getPlayerMoney());
         moneyText.setX(20);
         moneyText.setY(30);
         moneyText.setStyle("-fx-font-size: 20px;");
         gamePane.getChildren().add(moneyText);
         
         
-        Hook hook = new Hook(ORIGIN_X, ORIGIN_Y,HEIGHT - 50);
+        
         //Referencia a Hook.java para los valores del anzuelo
+        Hook hook = new Hook(ORIGIN_X, ORIGIN_Y,HEIGHT - 50);
         
         gamePane.getChildren().addAll(
                 hook.getLine(),
@@ -91,10 +92,40 @@ public class MiniPesca{
         for (Fish fish : fishManager.getFishList()) {
         gamePane.getChildren().add(fish.getSprite());
 }   
+        //Tienda maxxing
+        Pane shopPane = new Pane();
+        shopPane.setPrefSize(WIDTH, HEIGHT);
+        shopPane.setStyle("-fx-background-color: white;");
+        
+        Text shopTitle = new Text("TIENDA");
+        shopTitle.setX(350);
+        shopTitle.setY(80);
+        shopTitle.setStyle("-fx-font-size: 30px;");
+        
+        shopPane.getChildren().add(shopTitle);
+        
+        Text shopMoneyText = new Text();
+        shopMoneyText.setX(20);
+        shopMoneyText.setY(30);
+        shopMoneyText.setStyle("-fx-font-size: 20px;");
+        shopPane.getChildren().add(shopMoneyText);
+        shopMoneyText.setText("Dinero: $" + Memoria.getPlayerMoney());
+        
+        //Dentro de la tienda
+        //Boton de cerrar
+        Button closeShopButton = new Button("Cerrar");
+        closeShopButton.setLayoutX(700);
+        closeShopButton.setLayoutY(100);
+        shopPane.getChildren().add(closeShopButton);
+        
+        gamePane.getChildren().add(shopPane);
+        shopPane.setVisible(false);
+                
         Label titulo = new Label("Minijuego de Pesca");
 
         Button launchButton = new Button("Lanzar anzuelo");
         Button backButton = new Button("Volver");
+        Button tiendaButton = new Button("Tienda");
 
         launchButton.setOnAction(e -> hook.startLowering());
         //Botones y funciones 
@@ -102,10 +133,17 @@ public class MiniPesca{
         GamePlayBase gamePlayBase = new GamePlayBase();
         gamePlayBase.start(stage);
     });
+        tiendaButton.setOnAction(e -> {
+        shopMoneyText.setText("Dinero: $" + Memoria.getPlayerMoney());
+        shopPane.setVisible(true);
+    });
+        closeShopButton.setOnAction(e -> {
+        shopPane.setVisible(false);
+    });
 
         HBox buttons = new HBox(10);
         buttons.setAlignment(Pos.CENTER);
-        buttons.getChildren().addAll(launchButton, backButton);
+        buttons.getChildren().addAll(launchButton, tiendaButton, backButton);
 
         VBox top = new VBox(10);
         top.setAlignment(Pos.CENTER);
@@ -181,8 +219,8 @@ public class MiniPesca{
 
             fish.capture();
             Memoria.captureFish(fish.getId());
-            addMoney(fish.getValue());
-            moneyText.setText("Dinero: $" + getPlayerMoney());
+            Memoria.addMoney(fish.getValue());
+            moneyText.setText("Dinero: $" + Memoria.getPlayerMoney());
             hook.setState(HookState.RAISING);
 
             break;
@@ -193,21 +231,5 @@ public class MiniPesca{
     };
         gameLoop.start();
     }
-    //un Update para la plata
-    public int getPlayerMoney() {
-    return playerMoney;
-    }
-
-    public void addMoney(int amount) {
-    playerMoney += amount;
-    }
-
-    public boolean spendMoney(int amount) {
-    if (playerMoney >= amount) {
-        playerMoney -= amount;
-        return true;
-    }
-
-    return false;
-}
+    //Aca habia un update, ya no
 }

@@ -35,5 +35,10 @@ public class Memoria {
     //Mas money
     public static void addMoney(int amount) {
     playerMoney += amount;
+    }
+    //Reespawn de peces para la tienda
+    public static void resetCapturedFish() {
+    capturedFish.clear();
+
 }
 }

@@ -26,6 +26,7 @@ import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import ui.ResolutionManager;
 import entities.FishManager;
+import entities.Hook;
 import entities.Memoria;
 
 public class MiniPesca{
@@ -117,10 +118,17 @@ public class MiniPesca{
         closeShopButton.setLayoutX(700);
         closeShopButton.setLayoutY(100);
         shopPane.getChildren().add(closeShopButton);
-        
+        //Productos de la tienda
+        //Reponer peces
+        Button restoreFishButton = new Button("Reponer peces - $100");
+        restoreFishButton.setLayoutX(300);
+        restoreFishButton.setLayoutY(150);
+        restoreFishButton.setPrefWidth(200);
+        restoreFishButton.setPrefHeight(50);
+        shopPane.getChildren().add(restoreFishButton);
         gamePane.getChildren().add(shopPane);
         shopPane.setVisible(false);
-                
+        //Titulo
         Label titulo = new Label("Minijuego de Pesca");
 
         Button launchButton = new Button("Lanzar anzuelo");
@@ -138,7 +146,16 @@ public class MiniPesca{
         shopPane.setVisible(true);
     });
         closeShopButton.setOnAction(e -> {
-        shopPane.setVisible(false);
+    MiniPesca miniPesca = new MiniPesca();
+    miniPesca.start(stage);
+    });
+        restoreFishButton.setOnAction(e -> {
+    int price = 30;
+    if (Memoria.getPlayerMoney() >= price) {
+        Memoria.addMoney(-price);
+        Memoria.resetCapturedFish();
+        shopMoneyText.setText("Dinero: $" + Memoria.getPlayerMoney());
+    }
     });
 
         HBox buttons = new HBox(10);

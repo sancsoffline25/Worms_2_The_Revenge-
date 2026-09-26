@@ -2,6 +2,7 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
+
 package com.mycompany.worms2therevenge.scenes;
 
 /**
@@ -131,6 +132,7 @@ public class GamePlayBase{
      //Dialogo del enemigo
      DialogueBlox dialogo = new DialogueBlox();
 
+     
     //Metodos
     
     private void abrirManoDer(){
@@ -491,6 +493,7 @@ public class GamePlayBase{
     
     botonMiniPesca.setOnMouseClicked(e ->{
         MiniPesca menu = new MiniPesca();
+        viejoSonidos.stopAllDialogues();
         
         menu.start(stage);
     });

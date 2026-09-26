@@ -6,7 +6,7 @@ package com.mycompany.worms2therevenge.scenes;
 
 /**
  *
- * @author Santiago Guinel
+ * @author nadie
  */
 import javafx.scene.Scene;
 import javafx.scene.control.Label;

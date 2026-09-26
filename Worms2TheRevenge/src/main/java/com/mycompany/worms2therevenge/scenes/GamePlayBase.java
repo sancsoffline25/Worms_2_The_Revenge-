@@ -663,6 +663,7 @@ public class GamePlayBase{
         stage.show(); //Mostrar Escena 
         transitions.fadeInBlack(escenaFinal, 2);
         dialogoIntro();
+        
     }
     
 }

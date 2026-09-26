@@ -199,7 +199,6 @@ public class MiniPesca{
             }
         });
 
-        
 
         stage.setScene(scene);
         stage.setWidth(WIDTH);

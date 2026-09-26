@@ -41,6 +41,7 @@ import ui.ResolutionManager;
  *
  * @author Santiago Guinel
  */
+
 public class BossFight{
     
     //=== Atributos de la clase ===
@@ -510,6 +511,7 @@ public class BossFight{
         //Este AnimationTimer va a fucionar como un "_process" de Godot
         //Va a actualizar el movimiento continuamente
         //Lo que da la ilusión de ser mas fluído
+        
         AnimationTimer movimiento = new AnimationTimer(){
 
         @Override
@@ -597,7 +599,6 @@ public class BossFight{
                 fase1Ataque1(escenaFinal);
                     
          botonAtacar.setOnMouseClicked(e->{
-             System.out.println("atacamos bien epico al boss");
              viejo.recibirDanio(20);
              viejoEstados.mostrarDanio(viejo, viejoView);
              ataqueHud.setVisible(false);

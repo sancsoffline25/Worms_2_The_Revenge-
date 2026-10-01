@@ -9,8 +9,8 @@ package entities;
  * @author laros
  */
 import javafx.scene.paint.Color;
-import javafx.scene.shape.Circle;
-
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 
 public class Fish{
@@ -22,7 +22,7 @@ public class Fish{
     private final int id;
     private boolean captured = false;
     //Aca van despues los dibujos todos feos del Bilbo
-    private Circle sprite;
+    private final ImageView sprite;
     //Los peces se mueven
     private final double screenWidth = 800.0;
     private boolean movingRight = true;
@@ -32,18 +32,34 @@ public class Fish{
     this.y = y;
     this.type = type;
     this.id = id;
-    sprite = new Circle(type.getSize());
-    sprite.setFill(Color.GREEN);
+    //TEMPORAL!!
+    var stream = getClass().getResourceAsStream(type.getSpritePath());
+
+    if (stream == null) {
+    throw new RuntimeException(
+            "No se encontró el sprite: " + type.getSpritePath()
+    );
+}
+
+    Image image = new Image(stream);
+
+    sprite = new ImageView(image);
+    //TEMPORAL!!
+    
+    
+    sprite.setFitWidth(type.getSize() * 2);
+    sprite.setFitHeight(type.getSize() * 2);
+    sprite.setPreserveRatio(true);
 
     updateGraphics();
     }
-    private void updateGraphics(){
-    sprite.setCenterX(x);
-    sprite.setCenterY(y);
-    }
-    public Circle getSprite(){
+    private void updateGraphics() {
+    sprite.setLayoutX(x - sprite.getFitWidth() / 2);
+    sprite.setLayoutY(y - sprite.getFitHeight() / 2);
+}
+    public ImageView getSprite() {
     return sprite;
-    }
+}
     public boolean isTouching(double hookX, double hookY){
     double dx = hookX - x;
     double dy = hookY - y;

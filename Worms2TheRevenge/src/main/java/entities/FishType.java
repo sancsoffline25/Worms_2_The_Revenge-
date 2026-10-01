@@ -16,28 +16,32 @@ package entities;
             5, //Valor
             1, //"Fuerza" nose si voy a terminar usando esto
             50, //Velocidad
-            10 //Tamaño//
+            10, //Tamaño//
+            "/Assets/Sprites/peses/basic.png"
     ),
     MID(
             "Pez mid",
             10,
             1,
             25,
-            14
+            14,
+            "/Assets/Sprites/peses/mid.png"
     ),
     SWARM(
             "Cantidad",
             5,
             1,
             75,
-            8
+            8,
+            "/Assets/Sprites/peses/basic.png"
     ),
     BIG(
             "Pez gordo",
             100,
             1,
             300,
-            20
+            20,
+            "/Assets/Sprites/peses/gordo.png"
 );
 
     private final String name;
@@ -45,13 +49,15 @@ package entities;
     private final int difficulty;
     private final double speed;
     private final double size;
+    private final String spritePath;
 
-    FishType(String name, int value, int difficulty, double speed, double size) {
+    FishType(String name, int value, int difficulty, double speed, double size, String spritePath) {
         this.name = name;
         this.value = value;
         this.difficulty = difficulty;
         this.speed = speed;
         this.size = size;
+        this.spritePath = spritePath;
     }
     
 
@@ -72,5 +78,8 @@ package entities;
 
     public double getSize() {
         return size;
+    }
+     public String getSpritePath() {
+        return spritePath;
     }
 }

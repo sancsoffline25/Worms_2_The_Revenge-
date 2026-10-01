@@ -10,6 +10,7 @@ package entities;
  */
 import java.util.ArrayList;
 import java.util.List;
+import javafx.scene.image.ImageView;
 
 public class FishManager{
     private final List<Fish> fishList = new ArrayList<>();

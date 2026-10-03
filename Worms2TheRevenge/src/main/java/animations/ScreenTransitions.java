@@ -15,6 +15,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.util.Duration;
+import ui.ResolutionManager;
 
 public class ScreenTransitions {
     
@@ -24,8 +25,8 @@ public class ScreenTransitions {
     public static FadeTransition fadeInBlack(StackPane escena, double segundos){ 
         
         Rectangle fade = new Rectangle(
-                escena.getWidth(),
-                escena.getHeight(),
+                ResolutionManager.BASE_WIDTH,
+                ResolutionManager.BASE_HEIGHT,
                 Color.BLACK
         );
         fade.setMouseTransparent(true);
@@ -51,8 +52,8 @@ public class ScreenTransitions {
     public static FadeTransition fadeOutBlack(StackPane escena, double segundos){ 
         
         Rectangle fade = new Rectangle(
-                escena.getWidth(),
-                escena.getHeight(),
+                ResolutionManager.BASE_WIDTH,
+                ResolutionManager.BASE_HEIGHT,
                 Color.BLACK
         );
         fade.setMouseTransparent(true);
@@ -78,8 +79,8 @@ public class ScreenTransitions {
      public static FadeTransition fadeInWhite(StackPane escena, double segundos){ 
         
         Rectangle fade = new Rectangle(
-                escena.getWidth(),
-                escena.getHeight(),
+                ResolutionManager.BASE_WIDTH,
+                ResolutionManager.BASE_HEIGHT,
                 Color.WHITE
         );
         fade.setMouseTransparent(true);
@@ -105,8 +106,8 @@ public class ScreenTransitions {
       public static FadeTransition fadeOutWhite(StackPane escena, double segundos){ 
         
         Rectangle fade = new Rectangle(
-                escena.getWidth(),
-                escena.getHeight(),
+                ResolutionManager.BASE_WIDTH,
+                ResolutionManager.BASE_HEIGHT,
                 Color.WHITE
         );
         fade.setMouseTransparent(true);

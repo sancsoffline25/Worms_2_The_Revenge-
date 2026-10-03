@@ -27,13 +27,12 @@ import javafx.animation.PauseTransition;
 import javafx.util.Duration;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
-import javafx.scene.media.AudioClip;
 import javafx.animation.FadeTransition;
-import javafx.scene.control.OverrunStyle;
 
 //import entidades
 import entities.Player;
 import entities.Enemy;
+import entities.Memoria;
 
 //import recursos (por asi decirle)
 import ui.DialogueBlox;
@@ -47,6 +46,7 @@ import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
 import ui.ButtonCreator;
 import ui.ResolutionManager;
+
 public class GamePlayBase{
     
  // === Atributos de la clase ===
@@ -244,6 +244,7 @@ public class GamePlayBase{
                 botonMiniPesca.setVisible(true);
                 dialogo.ocultar();
                 enemyIdle.setImage(enemieIdleSprite); 
+                Memoria.marcarEscuchado(); 
                 }); 
                 
                 pausa4.play();
@@ -662,7 +663,9 @@ public class GamePlayBase{
         stage.setResizable(false);
         stage.show(); //Mostrar Escena 
         transitions.fadeInBlack(escenaFinal, 2);
+        if(!Memoria.isDialogoInicialEscuchado()){
         dialogoIntro();
+        }
         
     }
     

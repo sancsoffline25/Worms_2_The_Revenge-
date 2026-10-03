@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.Set;
 
 //Este script se puede usar para otros minijuegos
+//Probando probando 123, santi al habla: voy a ocupar este script para que el dialogo se reproduzca solo 1 vez
 public class Memoria {
     
     //MiniPesca
@@ -41,4 +42,21 @@ public class Memoria {
     capturedFish.clear();
 
 }
+    
+    //GAMEPLAYBASE
+    //Dialogo booleano
+    
+    //Guarda si el dialogo inicial ya fue escuchado
+    private static boolean dialogoInicialEscuchado = false;
+    
+    public static boolean isDialogoInicialEscuchado(){
+        return dialogoInicialEscuchado;
+    }
+    
+    public static void marcarEscuchado(){
+        dialogoInicialEscuchado = true;
+    }
+    
+    
+    
 }

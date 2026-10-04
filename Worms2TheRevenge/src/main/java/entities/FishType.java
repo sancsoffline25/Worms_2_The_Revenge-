@@ -17,7 +17,7 @@ package entities;
             1, //"Fuerza" nose si voy a terminar usando esto
             50, //Velocidad
             10, //Tamaño//
-            "/Assets/Sprites/peses/basic.png"
+            "/Assets/Sprites/peses/basic2.png"
     ),
     MID(
             "Pez mid",

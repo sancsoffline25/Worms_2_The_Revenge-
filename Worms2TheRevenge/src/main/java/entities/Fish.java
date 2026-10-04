@@ -32,23 +32,17 @@ public class Fish{
     this.y = y;
     this.type = type;
     this.id = id;
-    //TEMPORAL!!
+
     var stream = getClass().getResourceAsStream(type.getSpritePath());
 
-    if (stream == null) {
-    throw new RuntimeException(
-            "No se encontró el sprite: " + type.getSpritePath()
-    );
-}
 
     Image image = new Image(stream);
 
     sprite = new ImageView(image);
-    //TEMPORAL!!
     
-    
-    sprite.setFitWidth(type.getSize() * 2);
-    sprite.setFitHeight(type.getSize() * 2);
+    //Tamaño dentro del minijuego, cambiar para experimentar comedia
+    sprite.setFitWidth(type.getSize() * 8);
+    sprite.setFitHeight(type.getSize() * 8);
     sprite.setPreserveRatio(true);
 
     updateGraphics();

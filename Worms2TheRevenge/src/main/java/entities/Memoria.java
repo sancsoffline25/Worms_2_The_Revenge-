@@ -13,6 +13,7 @@ import java.util.Set;
 
 //Este script se puede usar para otros minijuegos
 //Probando probando 123, santi al habla: voy a ocupar este script para que el dialogo se reproduzca solo 1 vez
+//Lauti acá, te dije que este script lo hice para los 2, no me tenes que pedir permiso, simio; cambio.
 public class Memoria {
     
     //MiniPesca

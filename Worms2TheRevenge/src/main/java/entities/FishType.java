@@ -25,7 +25,7 @@ package entities;
             1,
             25,
             14,
-            "/Assets/Sprites/peses/mid.png"
+            "/Assets/Sprites/peses/mid2.png"
     ),
     SWARM(
             "Cantidad",
@@ -33,7 +33,7 @@ package entities;
             1,
             75,
             8,
-            "/Assets/Sprites/peses/basic.png"
+            "/Assets/Sprites/peses/basic2.png"
     ),
     BIG(
             "Pez gordo",
@@ -41,7 +41,7 @@ package entities;
             1,
             300,
             20,
-            "/Assets/Sprites/peses/gordo.png"
+            "/Assets/Sprites/peses/gordo2.png"
 );
 
     private final String name;

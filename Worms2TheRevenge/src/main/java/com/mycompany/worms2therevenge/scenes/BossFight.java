@@ -595,7 +595,7 @@ public class BossFight{
         
         //=== Estructura de Pelea ===
          
-         //Primera etapa
+         //Arranque desde la primera etapa
                 fase1Ataque1(escenaFinal);
                     
          botonAtacar.setOnMouseClicked(e->{

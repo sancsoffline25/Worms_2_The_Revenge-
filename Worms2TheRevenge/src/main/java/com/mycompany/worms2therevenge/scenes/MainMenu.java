@@ -18,6 +18,11 @@ import javafx.geometry.Pos;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundImage;
+import javafx.scene.layout.BackgroundPosition;
+import javafx.scene.layout.BackgroundRepeat;
+import javafx.scene.layout.BackgroundSize;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import ui.ResolutionManager;
@@ -81,10 +86,16 @@ public class MainMenu {
     public void start(Stage stage){
         
         //Titulo del juego
-        Font tituloFont = Font.loadFont(getClass().getResourceAsStream("/Assets/Fonts/VT323-Regular.ttf"), 44);
-        Label titulo = new Label("Worms 2 The Revenge");
+        /*Font tituloFont = Font.loadFont(getClass().getResourceAsStream("/Assets/Fonts/VT323-Regular.ttf"), 44);
+        Label titulo = new Label("");
         titulo.setFont(tituloFont);
-        titulo.setTextFill(Color.WHITE);
+        titulo.setTextFill(Color.WHITE);*/
+        
+        Image titulosprite = new Image(getClass().getResourceAsStream("/Assets/Sprites/logomenu/worms2logo.png"));
+        ImageView titulo = new ImageView(titulosprite); 
+        
+        titulo.setFitWidth(480); 
+        titulo.setFitHeight(320);
         
         //Botones
         StackPane playButton = crearBoton("Jugar", textoFont);
@@ -115,16 +126,38 @@ public class MainMenu {
         
         //Aca el Layout vertical(Las VBOX tambien las ocupaba en Godot, Me traen recuerdos)
         VBox layout = new VBox(20);
-        layout.setStyle("-fx-background-color: black;");
+        StackPane logo = new StackPane();
+        
+        Image fondo = new Image(
+        getClass().getResource(
+        "/Assets/Backgrounds/MainMenu/MainMenuBackground2.jpg").toExternalForm()
+        );
+
+         BackgroundImage backgroundImage = new BackgroundImage(
+        fondo,
+        BackgroundRepeat.NO_REPEAT,
+        BackgroundRepeat.NO_REPEAT,
+        BackgroundPosition.CENTER,
+        new BackgroundSize(
+        1.0, 1.0,
+        true, true,
+        false, false
+        ));
+         
+        layout.setBackground(new Background(backgroundImage));
+        
+        logo.getChildren().add(titulo);
         
         layout.getChildren().addAll( 
-                titulo,
+                logo,
                 playButton,
                 optionsButton,
                 exitButton
         ); //Aca el VBox layout se hace papá de los botones, asi los ordena
         
+        logo.setAlignment(Pos.TOP_CENTER);
         layout.setAlignment(Pos.CENTER); //ponemos el layout al centro
+        
         
         // Contenedor de resolución base
         StackPane escenaFinal = new StackPane();

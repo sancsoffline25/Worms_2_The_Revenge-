@@ -324,8 +324,7 @@ public class GamePlayBase{
     
     Image fondo = new Image(
     getClass().getResource(
-        "/Assets/Backgrounds/GamePlayBase/fondoTestEdit.png"
-        ).toExternalForm()
+        "/Assets/Backgrounds/GamePlayBase/BackgroundGPB3.jpg").toExternalForm()
     );
 
     BackgroundImage backgroundImage = new BackgroundImage(
@@ -334,9 +333,9 @@ public class GamePlayBase{
     BackgroundRepeat.NO_REPEAT,
     BackgroundPosition.CENTER,
     new BackgroundSize(
-        100, 100,
+        1.0, 1.0,
         true, true,
-        false, true
+        false, false
         )
     );
 
@@ -658,9 +657,8 @@ public class GamePlayBase{
        
         stage.setTitle("Worms 2 The Revenge");
         stage.setScene(escena);
-        stage.setWidth(ui.ResolutionManager.BASE_WIDTH);
-        stage.setHeight(ui.ResolutionManager.BASE_HEIGHT);
         stage.setResizable(false);
+        stage.sizeToScene();
         stage.show(); //Mostrar Escena 
         transitions.fadeInBlack(escenaFinal, 2);
         if(!Memoria.isDialogoInicialEscuchado()){

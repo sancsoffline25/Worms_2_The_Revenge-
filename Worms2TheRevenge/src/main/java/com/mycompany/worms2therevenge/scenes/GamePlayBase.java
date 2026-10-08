@@ -44,6 +44,9 @@ import javafx.scene.layout.BackgroundImage;
 import javafx.scene.layout.BackgroundPosition;
 import javafx.scene.layout.BackgroundRepeat;
 import javafx.scene.layout.BackgroundSize;
+import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import ui.ButtonCreator;
 import ui.ResolutionManager;
 
@@ -52,10 +55,39 @@ public class GamePlayBase{
  // === Atributos de la clase ===
     
     //Variables Atributo de la clase
+    
+    //variables Random
+    
+    //--sprites random
      Random worms = new Random();
      int manoCorrecta = worms.nextInt(2) + 1;
      
      Random sprites = new Random();
+     
+     //--sonido apertura de mano random
+     Random whooshEffect = new Random();
+     int handsound = whooshEffect.nextInt(2) + 1;
+     
+     //Efectos de sonido
+     
+     //--efecto Whoosh
+     private final AudioClip whooshSonido1 = new AudioClip(getClass().getResource("/Assets/Sonidos/SFX/whooshEffect1.mp3").toExternalForm());
+     private final AudioClip whooshSonido2 = new AudioClip(getClass().getResource("/Assets/Sonidos/SFX/whooshEffect2.mp3").toExternalForm());
+     
+     //--Sonido ambiente
+     Media AmbientSound = new Media(getClass().getResource("/Assets/Sonidos/SFX/AmbienteCiudad.mp3").toExternalForm()); //cargo el sonido ambiental
+     MediaPlayer reproductor = new MediaPlayer(AmbientSound); //creo el reproductor que va a reproducirlo
+     
+     private void reproducirAmbiente(){
+        reproductor.setVolume(0.3); //volumen tranqui
+        reproductor.setCycleCount(MediaPlayer.INDEFINITE); //hago que este en loop
+        reproductor.play(); //arranca el temónc
+    }
+     
+     public void detenerAmbiente(){
+        reproductor.stop();
+    }
+     
      
      //StackPanes
      StackPane oldmanPane = new StackPane();
@@ -485,14 +517,16 @@ public class GamePlayBase{
     
     //función Botones UI
     botonVolver.setOnMouseClicked(e ->{
-        MainMenu menu = new MainMenu();
+        detenerAmbiente();
         viejoSonidos.stopAllDialogues();
+        MainMenu menu = new MainMenu();
         menu.start(stage); 
     });
     
     botonMiniPesca.setOnMouseClicked(e ->{
-        MiniPesca menu = new MiniPesca();
+        detenerAmbiente();
         viejoSonidos.stopAllDialogues();
+        MiniPesca menu = new MiniPesca();
         
         menu.start(stage);
     });
@@ -501,6 +535,12 @@ public class GamePlayBase{
     lefthand.setOnAction(e -> {
         
         abrirManoIzq();
+        
+        if(handsound == 1){
+            whooshSonido1.play();
+        }else{
+            whooshSonido2.play();
+        }
         
        if(manoCorrecta == 1){
            resultado.setText("Acertaste!");
@@ -552,11 +592,19 @@ public class GamePlayBase{
     }
        
        manoCorrecta = worms.nextInt(2) + 1;
+       handsound = whooshEffect.nextInt(2) + 1;
+       
     });
     
     righthand.setOnAction(e -> {
         
         abrirManoDer();
+        
+        if(handsound == 1){
+            whooshSonido1.play();
+        }else{
+            whooshSonido2.play();
+        }
         
         if(manoCorrecta == 2){
            resultado.setText("Acertaste!"); //Pone el texto
@@ -608,6 +656,7 @@ public class GamePlayBase{
     
         
         manoCorrecta = worms.nextInt(2) + 1;
+        handsound = whooshEffect.nextInt(2) + 1;
     });
 
     //=== EXTRA ===
@@ -644,11 +693,15 @@ public class GamePlayBase{
     
     //Escena
        Scene escena = ResolutionManager.crearEscena(escenaFinal);
+       
+       reproducirAmbiente();
+       
        escena.setOnKeyPressed(e -> {
 
         if (e.getCode() == KeyCode.O){ //atajo bossfight    
         //callar el dialogo
         viejoSonidos.stopAllDialogues();
+        detenerAmbiente();
             
         BossFight menu = new BossFight();
         menu.start(stage);

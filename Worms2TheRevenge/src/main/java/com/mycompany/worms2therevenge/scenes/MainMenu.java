@@ -9,6 +9,8 @@ package com.mycompany.worms2therevenge.scenes;
  * @author Santiago Guinel
  */
 
+import entities.Memoria;
+import javafx.animation.PauseTransition;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
@@ -27,11 +29,37 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import ui.ResolutionManager;
 import sounds.uisounds; 
+import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.util.Duration;
 
 public class MainMenu {
     
+    //musica
+    Media musica = new Media(getClass().getResource("/Assets/Musica/extendMainMenuSong.mp3").toExternalForm()); //cargo la musica
+    MediaPlayer reproductor = new MediaPlayer(musica); //creo el reproductor que va a reproducirla
+    Memoria memoria = new Memoria();
+    
+    private void reproducirMusica(){
+        reproductor.setVolume(0.3); //volumen tranqui
+        reproductor.setCycleCount(MediaPlayer.INDEFINITE); //hago que este en loop
+        reproductor.play(); //arranca el temónc
+        memoria.marcarEscuchadaMusic(); 
+    }
+    
+    public void detenerMusica(){
+        reproductor.stop();
+    }
+    
+    //booleano pa la musica
+    
+        
+    
+    //Sonidos de la interfaz
     uisounds sonidosInterfaz = new uisounds();
     
+    //fuente y botones
     Font textoFont = Font.loadFont(getClass().getResourceAsStream("/Assets/Fonts/VT323-Regular.ttf"), 28);
     
     private StackPane crearBoton(String texto, Font fuente) {
@@ -109,17 +137,25 @@ public class MainMenu {
         
         //=== funciones de los botoncitos ===
         
-        exitButton.setOnMouseClicked(e -> {
+        exitButton.setOnMouseClicked(e ->{
             sonidosInterfaz.playSoundButton();
              stage.close();
         });
 
-        playButton.setOnMouseClicked(e -> {
+        playButton.setOnMouseClicked(e ->{
+            memoria.desmarcarEscuchadaMusic();
+            detenerMusica();
             sonidosInterfaz.playSoundButton();
             GamePlayBase menu = new GamePlayBase();
     
             menu.start(stage);
             
+        });
+        
+        optionsButton.setOnMouseClicked(e ->{
+            sonidosInterfaz.playSoundButton();
+            OptionsMenu menu = new OptionsMenu();
+            menu.start(stage);
         });
         
         
@@ -183,18 +219,26 @@ public class MainMenu {
         //Escena
         Scene escena = ResolutionManager.crearEscena(escenaFinal); //Parametros de la ventana
         
+       if(!memoria.isMusicEscuchada()){
+        reproducirMusica();
+        }
+        
         escena.setOnKeyPressed(e -> {
 
         if(e.getCode() == KeyCode.L){ //esto para vos lauty
-
+        
+        memoria.desmarcarEscuchadaMusic();
+        detenerMusica();
         MiniGamesMenu menu = new MiniGamesMenu();
         menu.start(stage);
              }else if(e.getCode() == KeyCode.O){ //atajo bossfight
-              
-        BossFight menu = new BossFight();
-        menu.start(stage);
+                memoria.desmarcarEscuchadaMusic();
+                detenerMusica();
+                BossFight menu = new BossFight();
+                menu.start(stage);
              }else if(e.getCode() == KeyCode.P){
-                 
+                 memoria.desmarcarEscuchadaMusic();
+                 detenerMusica();
                  EpicEnding menu = new EpicEnding();
                  menu.start(stage);
              }

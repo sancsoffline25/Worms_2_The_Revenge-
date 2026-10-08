@@ -58,6 +58,22 @@ public class Memoria {
         dialogoInicialEscuchado = true;
     }
     
+    //MAINMENU
+    //Musica booleano
+    private static boolean MainMenuMusic = false;
+    
+    public static boolean isMusicEscuchada(){
+        return MainMenuMusic;
+    }
+    
+    public void marcarEscuchadaMusic(){
+        MainMenuMusic = true;
+    }
+    
+    public void desmarcarEscuchadaMusic(){
+        MainMenuMusic = false;
+    }
+    
     
     
 }

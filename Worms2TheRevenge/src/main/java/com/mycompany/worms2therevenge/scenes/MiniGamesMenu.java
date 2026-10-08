@@ -1,4 +1,4 @@
-/*
+/*larp
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
  */
@@ -6,7 +6,7 @@ package com.mycompany.worms2therevenge.scenes;
 
 /**
  *
- * @author nadie
+ * @author Lautaro Gutierrez
  */
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -28,7 +28,7 @@ import sounds.uisounds;
 public class MiniGamesMenu {
      
     uisounds sonidosInterfaz = new uisounds();
-        
+       
     Font textoFont = Font.loadFont(getClass().getResourceAsStream("/Assets/Fonts/VT323-Regular.ttf"), 28);
     
     private StackPane crearBoton(String texto, Font fuente) {
@@ -82,7 +82,6 @@ public class MiniGamesMenu {
         
        public void start(Stage stage){
         
-        //Titulo del juego
         Font tituloFont = Font.loadFont(getClass().getResourceAsStream("/Assets/Fonts/VT323-Regular.ttf"), 44);
         Label titulo = new Label("Minijuegos");
         titulo.setFont(tituloFont);
@@ -94,7 +93,7 @@ public class MiniGamesMenu {
         StackPane minigame3Button = crearBoton("MiniAtrapada", textoFont);
         StackPane backButton = crearBoton("Volver", textoFont);
 
-        //Aca le damos la función de volver(backButton)
+        //Aca le damos la función de volver
         backButton.setOnMouseClicked(e ->{
             sonidosInterfaz.playSoundButton();
             MainMenu menu = new MainMenu();
@@ -119,9 +118,9 @@ public class MiniGamesMenu {
                 minigame2Button,
                 minigame3Button,
                 backButton
-        ); //Aca el VBox layout se hace papá de los botones, asi los ordena
+        ); 
         
-        layout.setAlignment(Pos.CENTER); //ponemos el layout al centro
+        layout.setAlignment(Pos.CENTER); 
         
         // Contenedor de resolución base
         StackPane escenaFinal = new StackPane();

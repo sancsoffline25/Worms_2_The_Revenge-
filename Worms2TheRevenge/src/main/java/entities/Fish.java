@@ -12,7 +12,6 @@ import javafx.scene.paint.Color;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 
-
 public class Fish{
     //Posicion otra ves
     private double x;
@@ -33,7 +32,9 @@ public class Fish{
     this.type = type;
     this.id = id;
 
-    var stream = getClass().getResourceAsStream(type.getSpritePath());
+    int spriteIndex = Memoria.getSelectedSpriteIndex(type);
+    String spritePath = type.getSpritePaths()[spriteIndex];
+    var stream = getClass().getResourceAsStream(spritePath);
 
 
     Image image = new Image(stream);
@@ -41,8 +42,8 @@ public class Fish{
     sprite = new ImageView(image);
     
     //Tamaño dentro del minijuego, cambiar para experimentar comedia
-    sprite.setFitWidth(type.getSize() * 8);
-    sprite.setFitHeight(type.getSize() * 8);
+    sprite.setFitWidth(type.getSize() * 6);
+    sprite.setFitHeight(type.getSize() * 6);
     sprite.setPreserveRatio(true);
 
     updateGraphics();
@@ -94,7 +95,13 @@ public class Fish{
     }}}
     public void setMovingRight(boolean movingRight) {
     this.movingRight = movingRight;
+
+    if (movingRight) {
+        sprite.setScaleX(1);
+    } else {
+        sprite.setScaleX(-1);
     }
+}
     public boolean isMovingRight() {
     return movingRight;
     }

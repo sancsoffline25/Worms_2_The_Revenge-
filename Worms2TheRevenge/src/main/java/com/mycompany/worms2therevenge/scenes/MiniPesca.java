@@ -120,7 +120,7 @@ public class MiniPesca{
         shopPane.getChildren().add(closeShopButton);
         //Productos de la tienda
         //Reponer peces
-        Button restoreFishButton = new Button("Reponer peces - $100");
+        Button restoreFishButton = new Button("Reponer peces - $30");
         restoreFishButton.setLayoutX(300);
         restoreFishButton.setLayoutY(150);
         restoreFishButton.setPrefWidth(200);
@@ -155,6 +155,7 @@ public class MiniPesca{
         Memoria.addMoney(-price);
         Memoria.resetCapturedFish();
         shopMoneyText.setText("Dinero: $" + Memoria.getPlayerMoney());
+        Memoria.resetFishSprites();
     }
     });
 

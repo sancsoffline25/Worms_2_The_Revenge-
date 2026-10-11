@@ -17,7 +17,6 @@ import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.geometry.Pos;
 import javafx.scene.image.Image;
-import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import ui.ResolutionManager;
@@ -53,7 +52,6 @@ public class OptionsMenu{
         
         //Aca le damos la función de volver
         botonVolver.setOnMouseClicked(e ->{
-            memoria.desmarcarEscuchadaMusic();
             sonidosInterfaz.playSoundButton();
             MainMenu menu = new MainMenu();
             

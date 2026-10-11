@@ -96,12 +96,6 @@ public class MainMenu {
   
     public void start(Stage stage){
         
-        //Titulo del juego
-        /*Font tituloFont = Font.loadFont(getClass().getResourceAsStream("/Assets/Fonts/VT323-Regular.ttf"), 44);
-        Label titulo = new Label("");
-        titulo.setFont(tituloFont);
-        titulo.setTextFill(Color.WHITE);*/
-        
         Image titulosprite = new Image(getClass().getResourceAsStream("/Assets/Sprites/logomenu/worms2logo.png"));
         ImageView titulo = new ImageView(titulosprite); 
         

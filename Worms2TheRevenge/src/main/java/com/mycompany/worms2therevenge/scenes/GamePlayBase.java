@@ -38,6 +38,7 @@ import entities.Memoria;
 import ui.DialogueBlox;
 import sounds.oldmansounds;
 import animations.ScreenTransitions;
+import javafx.geometry.Side;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
@@ -363,14 +364,20 @@ public class GamePlayBase{
     fondo,
     BackgroundRepeat.NO_REPEAT,
     BackgroundRepeat.NO_REPEAT,
-    BackgroundPosition.CENTER,
+    new BackgroundPosition(
+    Side.LEFT,
+    0,
+    false,
+    Side.TOP,
+    220,
+    false
+    ),
     new BackgroundSize(
         1.0, 1.0,
         true, true,
         false, false
         )
-    );
-
+    );   
      
     root.setBackground(new Background(backgroundImage)); //cambie lo del fondo para mas adelante
 

@@ -28,6 +28,7 @@ import ui.ResolutionManager;
 import entities.FishManager;
 import entities.Hook;
 import entities.Memoria;
+import entities.Player;
 
 public class MiniPesca{
     //Tamaño de la ventana
@@ -43,7 +44,7 @@ public class MiniPesca{
     //Objetos gráficos
     private Pane gamePane;
     
-    public void start(Stage stage){
+    public void start(Stage stage, Player jugador){
        
         gamePane = new Pane();
         
@@ -138,8 +139,7 @@ public class MiniPesca{
         launchButton.setOnAction(e -> hook.startLowering());
         //Botones y funciones 
         backButton.setOnAction(e -> {
-        GamePlayBase gamePlayBase = new GamePlayBase();
-        gamePlayBase.start(stage);
+        stage.close();
     });
         tiendaButton.setOnAction(e -> {
         shopMoneyText.setText("Dinero: $" + Memoria.getPlayerMoney());
@@ -147,7 +147,7 @@ public class MiniPesca{
     });
         closeShopButton.setOnAction(e -> {
     MiniPesca miniPesca = new MiniPesca();
-    miniPesca.start(stage);
+    miniPesca.start(stage, jugador);
     });
         restoreFishButton.setOnAction(e -> {
     int price = 30;

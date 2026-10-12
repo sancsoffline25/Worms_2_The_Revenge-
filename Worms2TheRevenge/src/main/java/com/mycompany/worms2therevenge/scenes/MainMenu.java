@@ -10,6 +10,7 @@ package com.mycompany.worms2therevenge.scenes;
  */
 
 
+import entities.Player;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
@@ -30,7 +31,7 @@ import ui.ResolutionManager;
 import sounds.uisounds; 
 import sounds.MenuMusic;
 
-public class MainMenu {
+public class MainMenu{
     
     uisounds sonidosInterfaz = new uisounds();
     
@@ -94,7 +95,7 @@ public class MainMenu {
     return boton;
     }
   
-    public void start(Stage stage){
+    public void start(Stage stage, Player jugador){
         
         Image titulosprite = new Image(getClass().getResourceAsStream("/Assets/Sprites/logomenu/worms2logo.png"));
         ImageView titulo = new ImageView(titulosprite); 
@@ -131,7 +132,7 @@ public class MainMenu {
         optionsButton.setOnMouseClicked(e ->{
             sonidosInterfaz.playSoundButton();
             OptionsMenu menu = new OptionsMenu();
-            menu.start(stage);
+            menu.start(stage, jugador);
         });
         
         
@@ -203,7 +204,7 @@ public class MainMenu {
         
         MenuMusic.detener();
         MiniGamesMenu menu = new MiniGamesMenu();
-        menu.start(stage);
+        menu.start(stage, jugador);
              }else if(e.getCode() == KeyCode.O){ //atajo bossfight
                  MenuMusic.detener();
                 BossFight menu = new BossFight();
@@ -211,7 +212,7 @@ public class MainMenu {
              }else if(e.getCode() == KeyCode.P){
                  MenuMusic.detener();
                  EpicEnding menu = new EpicEnding();
-                 menu.start(stage);
+                 menu.start(stage, jugador);
              }
         });
         

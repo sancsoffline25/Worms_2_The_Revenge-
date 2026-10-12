@@ -572,7 +572,7 @@ public class BossFight{
              transicion.setOnFinished(e2 ->{
             reproductor.stop(); 
             GameOver gameOver = new GameOver();
-            gameOver.start(stage);
+            gameOver.start(stage, jugador);
                     });
 
                     transicion.play();
@@ -609,10 +609,10 @@ public class BossFight{
             ataques.detenerSonidos();
             FadeTransition transicion = transiciones.fadeOutBlack(escenaFinal, 2);
 
-            transicion.setOnFinished(e2 -> {
+            transicion.setOnFinished(e2->{
                 reproductor.stop();
                 EpicEnding menu = new EpicEnding();
-                menu.start(stage);
+                menu.start(stage, jugador);
              });
             transicion.play();
             }

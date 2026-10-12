@@ -10,6 +10,7 @@ package com.mycompany.worms2therevenge.scenes;
  */
 
 import entities.Memoria;
+import entities.Player;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
@@ -40,7 +41,7 @@ public class OptionsMenu{
     
 
         
-       public void start(Stage stage){
+       public void start(Stage stage, Player jugador){
         
         Font tituloFont = Font.loadFont(getClass().getResourceAsStream("/Assets/Fonts/VT323-Regular.ttf"), 44);
         Label titulo = new Label("   Opciones");
@@ -55,7 +56,7 @@ public class OptionsMenu{
             sonidosInterfaz.playSoundButton();
             MainMenu menu = new MainMenu();
             
-            menu.start(stage);
+            menu.start(stage, jugador);
         });
         
         //Aca el Layout vertical

@@ -557,7 +557,7 @@ public class GamePlayBase{
         detenerAmbiente();
         viejoSonidos.stopAllDialogues();
         MainMenu menu = new MainMenu();
-        menu.start(stage); 
+        menu.start(stage, jugador); 
     });
     
     botonMiniPesca.setOnMouseClicked(e->{
@@ -566,7 +566,7 @@ public class GamePlayBase{
         MiniPesca menu = new MiniPesca();
 
         Stage ventanaPesca = new Stage();
-        menu.start(ventanaPesca);
+        menu.start(ventanaPesca, jugador);
     });
     
     botonSkip.setOnMouseClicked(e->{
@@ -630,7 +630,7 @@ public class GamePlayBase{
 
         transicion.setOnFinished(e2->{
             GoodEnding menu = new GoodEnding();
-            menu.start(stage);
+            menu.start(stage, jugador);
         });
 
         return;
@@ -692,7 +692,7 @@ public class GamePlayBase{
 
         transicion.setOnFinished(e2->{
             GoodEnding menu = new GoodEnding();
-            menu.start(stage);
+            menu.start(stage, jugador);
         });
 
         return;

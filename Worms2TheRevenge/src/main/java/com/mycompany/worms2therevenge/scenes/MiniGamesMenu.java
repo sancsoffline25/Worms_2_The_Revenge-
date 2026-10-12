@@ -8,6 +8,7 @@ package com.mycompany.worms2therevenge.scenes;
  *
  * @author Lautaro Gutierrez
  */
+import entities.Player;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
@@ -25,7 +26,7 @@ import sounds.uisounds;
 
 
 
-public class MiniGamesMenu {
+public class MiniGamesMenu{
      
     uisounds sonidosInterfaz = new uisounds();
        
@@ -80,7 +81,7 @@ public class MiniGamesMenu {
     return boton;
     }
         
-       public void start(Stage stage){
+       public void start(Stage stage, Player jugador){
         
         Font tituloFont = Font.loadFont(getClass().getResourceAsStream("/Assets/Fonts/VT323-Regular.ttf"), 44);
         Label titulo = new Label("Minijuegos");
@@ -98,14 +99,14 @@ public class MiniGamesMenu {
             sonidosInterfaz.playSoundButton();
             MainMenu menu = new MainMenu();
             
-            menu.start(stage);
+            menu.start(stage, jugador);
         });
         
         minigame1Button.setOnMouseClicked(e ->{
             sonidosInterfaz.playSoundButton();
            MiniPesca menu = new MiniPesca();
            
-           menu.start(stage);
+           menu.start(stage, jugador);
         });
         
         //Aca el Layout vertical

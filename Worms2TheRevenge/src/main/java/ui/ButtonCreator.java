@@ -46,7 +46,15 @@ public class ButtonCreator {
         botonView,
         textoBoton
     ); //Función plantilla para crear botones
-
+    
+    //limitar el tamaño del boton al sprite
+    boton.setPrefSize(256, 64);
+    boton.setMinSize(256, 64);
+    boton.setMaxSize(256, 64);
+    
+    //evitar que el contenedor intercepte eventos fuera del sprite
+    boton.setPickOnBounds(false);
+    
         //Mouse encima
         boton.setOnMouseEntered(e ->{
             sonidosInterfaz.playButtonFocus();

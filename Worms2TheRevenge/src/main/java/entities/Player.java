@@ -79,9 +79,17 @@ public class Player {
         return deathFrame4;
     }
     
-    //-- vida, ataque y daño
+    //-- vida, ataque, reintentos y daño
     public int getVida(){
         return vida; 
+    }
+    
+    public void recibirReintentos(int cantidad) {
+    if (cantidad <= 0){
+        return;
+    }
+
+    reintentos = Math.min(reintentos + cantidad, 12);
     }
     
     public int getAtaque(){

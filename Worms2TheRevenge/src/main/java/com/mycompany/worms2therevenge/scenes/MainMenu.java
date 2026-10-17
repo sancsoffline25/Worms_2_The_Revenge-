@@ -9,8 +9,8 @@ package com.mycompany.worms2therevenge.scenes;
  * @author Santiago Guinel
  */
 
-import entities.Memoria;
-import javafx.animation.PauseTransition;
+
+import entities.Player;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;
@@ -29,34 +29,10 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import ui.ResolutionManager;
 import sounds.uisounds; 
-import javafx.scene.media.AudioClip;
-import javafx.scene.media.Media;
-import javafx.scene.media.MediaPlayer;
-import javafx.util.Duration;
+import sounds.MenuMusic;
 
-public class MainMenu {
+public class MainMenu{
     
-    //musica
-    Media musica = new Media(getClass().getResource("/Assets/Musica/extendMainMenuSong.mp3").toExternalForm()); //cargo la musica
-    MediaPlayer reproductor = new MediaPlayer(musica); //creo el reproductor que va a reproducirla
-    Memoria memoria = new Memoria();
-    
-    private void reproducirMusica(){
-        reproductor.setVolume(0.3); //volumen tranqui
-        reproductor.setCycleCount(MediaPlayer.INDEFINITE); //hago que este en loop
-        reproductor.play(); //arranca el temónc
-        memoria.marcarEscuchadaMusic(); 
-    }
-    
-    public void detenerMusica(){
-        reproductor.stop();
-    }
-    
-    //booleano pa la musica
-    
-        
-    
-    //Sonidos de la interfaz
     uisounds sonidosInterfaz = new uisounds();
     
     //fuente y botones
@@ -88,7 +64,15 @@ public class MainMenu {
         botonView,
         textoBoton
     ); //Función plantilla para crear botones
-
+    
+    //limitar el tamaño del boton al sprite
+     boton.setPrefSize(256, 64);
+     boton.setMinSize(256, 64);
+     boton.setMaxSize(256, 64);
+     
+     //evitar que el contenedor intercepte eventos fuera del sprite
+     boton.setPickOnBounds(false);
+    
         //Mouse encima
         boton.setOnMouseEntered(e ->{
             sonidosInterfaz.playButtonFocus();
@@ -111,13 +95,7 @@ public class MainMenu {
     return boton;
     }
   
-    public void start(Stage stage){
-        
-        //Titulo del juego
-        /*Font tituloFont = Font.loadFont(getClass().getResourceAsStream("/Assets/Fonts/VT323-Regular.ttf"), 44);
-        Label titulo = new Label("");
-        titulo.setFont(tituloFont);
-        titulo.setTextFill(Color.WHITE);*/
+    public void start(Stage stage, Player jugador){
         
         Image titulosprite = new Image(getClass().getResourceAsStream("/Assets/Sprites/logomenu/worms2logo.png"));
         ImageView titulo = new ImageView(titulosprite); 
@@ -131,9 +109,9 @@ public class MainMenu {
         StackPane exitButton = crearBoton("Salir", textoFont);
         
         //Aca le asignamos el tamaño de los Botones
-        playButton.setPrefWidth(200);
-        optionsButton.setPrefWidth(200);
-        exitButton.setPrefWidth(200);
+        playButton.setPrefWidth(256);
+        optionsButton.setPrefWidth(256);
+        exitButton.setPrefWidth(256);
         
         //=== funciones de los botoncitos ===
         
@@ -143,8 +121,7 @@ public class MainMenu {
         });
 
         playButton.setOnMouseClicked(e ->{
-            memoria.desmarcarEscuchadaMusic();
-            detenerMusica();
+            MenuMusic.detener();
             sonidosInterfaz.playSoundButton();
             GamePlayBase menu = new GamePlayBase();
     
@@ -155,7 +132,7 @@ public class MainMenu {
         optionsButton.setOnMouseClicked(e ->{
             sonidosInterfaz.playSoundButton();
             OptionsMenu menu = new OptionsMenu();
-            menu.start(stage);
+            menu.start(stage, jugador);
         });
         
         
@@ -219,28 +196,23 @@ public class MainMenu {
         //Escena
         Scene escena = ResolutionManager.crearEscena(escenaFinal); //Parametros de la ventana
         
-       if(!memoria.isMusicEscuchada()){
-        reproducirMusica();
-        }
+        MenuMusic.reproducir();
         
         escena.setOnKeyPressed(e -> {
 
         if(e.getCode() == KeyCode.L){ //esto para vos lauty
         
-        memoria.desmarcarEscuchadaMusic();
-        detenerMusica();
+        MenuMusic.detener();
         MiniGamesMenu menu = new MiniGamesMenu();
-        menu.start(stage);
+        menu.start(stage, jugador);
              }else if(e.getCode() == KeyCode.O){ //atajo bossfight
-                memoria.desmarcarEscuchadaMusic();
-                detenerMusica();
+                 MenuMusic.detener();
                 BossFight menu = new BossFight();
                 menu.start(stage);
              }else if(e.getCode() == KeyCode.P){
-                 memoria.desmarcarEscuchadaMusic();
-                 detenerMusica();
+                 MenuMusic.detener();
                  EpicEnding menu = new EpicEnding();
-                 menu.start(stage);
+                 menu.start(stage, jugador);
              }
         });
         

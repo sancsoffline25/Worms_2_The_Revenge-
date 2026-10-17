@@ -38,6 +38,7 @@ import entities.Memoria;
 import ui.DialogueBlox;
 import sounds.oldmansounds;
 import animations.ScreenTransitions;
+import javafx.geometry.Side;
 import javafx.scene.input.KeyCode;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundImage;
@@ -119,6 +120,7 @@ public class GamePlayBase{
      ButtonCreator botonmaker = new ButtonCreator();
      StackPane botonVolver = botonmaker.crearBoton("Volver", botonFont);
      StackPane botonMiniPesca = botonmaker.crearBoton("MiniPesca", botonFont);
+     StackPane botonSkip = botonmaker.crearBoton("Saltar Dialogo", botonFont);
      
      
     //Pausas
@@ -223,6 +225,12 @@ public class GamePlayBase{
         }
     }
     
+    // Pausas de la intro para poder frenarlas al skipear
+    PauseTransition pausa1 = new PauseTransition(Duration.seconds(6));
+    PauseTransition pausa2 = new PauseTransition(Duration.seconds(5));
+    PauseTransition pausa3 = new PauseTransition(Duration.seconds(5));
+    PauseTransition pausa4 = new PauseTransition(Duration.seconds(6));
+    
     
     //Dialogo Inicial
     public void dialogoIntro(){ 
@@ -232,7 +240,6 @@ public class GamePlayBase{
         //Dialogo1
         dialogo.mostrar("Viejo", "Hola pequeño... ¿Buscas a tus amigos?");
         viejoSonidos.playDialogue1();
-        PauseTransition pausa1 = new PauseTransition(Duration.seconds(6));
         
         //desactivamos los botones
         righthand.setDisable(true);
@@ -245,50 +252,69 @@ public class GamePlayBase{
         righthand.setVisible(false);
         lefthand.setVisible(false);
         
-        pausa1.setOnFinished (e -> {
+        pausa1.setOnFinished (e->{
             //Dialogo2
             dialogo.mostrar("Viejo", "Juguemos algo...¿si?");
             viejoSonidos.playDialogue2();
             
-            PauseTransition pausa2 = new PauseTransition(Duration.seconds(5));
-            
-            pausa2.setOnFinished(e2 -> {
-                //aca mostramos las manos
-                righthand.setVisible(true);
-                lefthand.setVisible(true);
-                
-               //Dialogo3
-               dialogo.mostrar("Viejo", "Dime ¿en que mano tengo al gusano?");
-               viejoSonidos.playDialogue3();
-               
-               PauseTransition pausa3 = new PauseTransition(Duration.seconds(5));
-               
-               pausa3.setOnFinished(e3 -> {
-                //Dialogo4
-                dialogo.mostrar("Viejo", "Si adivinas 20 veces, quizás te los devuelva.");
-                viejoSonidos.playDialogue4();
-                
-                PauseTransition pausa4 = new PauseTransition(Duration.seconds(6));
-                
-                pausa4.setOnFinished(e4 -> {
-                righthand.setDisable(false);
-                lefthand.setDisable(false);
-                botonMiniPesca.setVisible(true);
-                dialogo.ocultar();
-                enemyIdle.setImage(enemieIdleSprite); 
-                Memoria.marcarEscuchado(); 
-                }); 
-                
-                pausa4.play();
-               });
-               
-               pausa3.play();
-            });
-            
             pausa2.play();
         });
         
+        pausa2.setOnFinished(e2->{
+            //aca mostramos las manos
+            righthand.setVisible(true);
+            lefthand.setVisible(true);
+            
+           //Dialogo3
+           dialogo.mostrar("Viejo", "Dime ¿en que mano tengo al gusano?");
+           viejoSonidos.playDialogue3();
+           
+           pausa3.play();
+        });
+        
+        pausa3.setOnFinished(e3->{
+            //Dialogo4
+            dialogo.mostrar("Viejo", "Si adivinas 20 veces, quizás te los devuelva.");
+            viejoSonidos.playDialogue4();
+            
+            pausa4.play();
+        });
+        
+        pausa4.setOnFinished(e4->{
+        righthand.setDisable(false);
+        lefthand.setDisable(false);
+        botonMiniPesca.setVisible(true);
+        dialogo.ocultar();
+        enemyIdle.setImage(enemieIdleSprite); 
+        Memoria.marcarEscuchado(); 
+        }); 
+        
        pausa1.play();
+    }
+    
+    public void finalizarIntro(){
+    //frenamos todas las pausas pendientes para que no sigan ejecutando código
+    pausa1.stop();
+    pausa2.stop();
+    pausa3.stop();
+    pausa4.stop();    
+    
+    //ocultamos el texto de dialogo
+    dialogo.ocultar();
+    enemyIdle.setImage(enemieIdleSprite); //acomodamos el sprite
+    Memoria.marcarEscuchado();
+    
+    //habilitamos y activamos las manos y botones
+    righthand.setVisible(true);
+    lefthand.setVisible(true);
+    righthand.setDisable(false);
+    lefthand.setDisable(false);
+    botonMiniPesca.setVisible(true);
+    
+
+    //ocultamos el botón de saltar una vez que terminó la intro
+    botonSkip.setVisible(false);
+    
     }
     
     public void dialogoGameOver(Runnable alTerminar){
@@ -363,14 +389,20 @@ public class GamePlayBase{
     fondo,
     BackgroundRepeat.NO_REPEAT,
     BackgroundRepeat.NO_REPEAT,
-    BackgroundPosition.CENTER,
+    new BackgroundPosition(
+    Side.LEFT,
+    0,
+    false,
+    Side.TOP,
+    230,
+    false
+    ),
     new BackgroundSize(
         1.0, 1.0,
         true, true,
         false, false
         )
-    );
-
+    );   
      
     root.setBackground(new Background(backgroundImage)); //cambie lo del fondo para mas adelante
 
@@ -384,6 +416,7 @@ public class GamePlayBase{
   
     
     VBox buttonContainer = new VBox(10); //botones literales
+    VBox buttonContainer2 = new VBox(10);
     
     //Textos
     Font textoFont = Font.loadFont(getClass().getResourceAsStream("/Assets/Fonts/VT323-Regular.ttf"), 44);
@@ -460,6 +493,7 @@ public class GamePlayBase{
             botonVolver
     );
     
+    
     botones.getChildren().addAll(
             lefthand,
             righthand
@@ -468,7 +502,8 @@ public class GamePlayBase{
     hud.getChildren().addAll(
             intentosRestantes,
             wormsFounded,
-            buttonContainer
+            buttonContainer,
+            botonSkip
     );
     
     leftHandPane.getChildren().addAll(
@@ -480,6 +515,7 @@ public class GamePlayBase{
             rightView,
             wormViewRight
     );
+    
     
     oldmanPane.getChildren().addAll(
             enemyIdle,
@@ -506,6 +542,7 @@ public class GamePlayBase{
     
     escenaFinal.setAlignment(Pos.BOTTOM_CENTER);
     
+    
     dialogueContainer.setAlignment(Pos.TOP_CENTER);
     dialogueContainer.setTranslateY(-15);
     dialogueContainer.setTranslateX(-270);
@@ -516,24 +553,32 @@ public class GamePlayBase{
     wormsFounded.setText("Gusanos " + gusanosEncontrados + "/20");
     
     //función Botones UI
-    botonVolver.setOnMouseClicked(e ->{
+    botonVolver.setOnMouseClicked(e->{
         detenerAmbiente();
         viejoSonidos.stopAllDialogues();
         MainMenu menu = new MainMenu();
-        menu.start(stage); 
+        menu.start(stage, jugador); 
     });
     
-    botonMiniPesca.setOnMouseClicked(e ->{
+    botonMiniPesca.setOnMouseClicked(e->{
         detenerAmbiente();
         viejoSonidos.stopAllDialogues();
         MiniPesca menu = new MiniPesca();
-        
-        menu.start(stage);
+
+        Stage ventanaPesca = new Stage();
+        menu.start(ventanaPesca, jugador);
+    });
+    
+    botonSkip.setOnMouseClicked(e->{
+         finalizarIntro();
+         viejoSonidos.stopDialogue1();
+         viejoSonidos.stopDialogue2();
+         viejoSonidos.stopDialogue3();
+         viejoSonidos.stopDialogue4();
     });
     
     
-    lefthand.setOnAction(e -> {
-        
+    lefthand.setOnAction(e->{
         abrirManoIzq();
         
         if(handsound == 1){
@@ -583,9 +628,9 @@ public class GamePlayBase{
         //Cambiamos de escena
        FadeTransition transicion = transitions.fadeOutWhite(escenaFinal, 2);
 
-        transicion.setOnFinished(e2 -> {
+        transicion.setOnFinished(e2->{
             GoodEnding menu = new GoodEnding();
-            menu.start(stage);
+            menu.start(stage, jugador);
         });
 
         return;
@@ -596,8 +641,7 @@ public class GamePlayBase{
        
     });
     
-    righthand.setOnAction(e -> {
-        
+    righthand.setOnAction(e->{
         abrirManoDer();
         
         if(handsound == 1){
@@ -646,9 +690,9 @@ public class GamePlayBase{
         //Cambiamos de escena
        FadeTransition transicion = transitions.fadeOutWhite(escenaFinal, 2);
 
-        transicion.setOnFinished(e2 -> {
+        transicion.setOnFinished(e2->{
             GoodEnding menu = new GoodEnding();
-            menu.start(stage);
+            menu.start(stage, jugador);
         });
 
         return;
@@ -662,21 +706,21 @@ public class GamePlayBase{
     //=== EXTRA ===
     
     //Efectos visuales
-    lefthand.setOnMouseEntered(e -> {
+    lefthand.setOnMouseEntered(e->{
     leftView.setScaleX(1.2);
     leftView.setScaleY(1.2);
     wormViewLeft.setScaleX(1.2);
-    wormViewRight.setScaleY(1.2);
+    wormViewLeft.setScaleY(1.2);
     });
 
-    lefthand.setOnMouseExited(e -> {
+    lefthand.setOnMouseExited(e->{
     leftView.setScaleX(1);
     leftView.setScaleY(1);
     wormViewLeft.setScaleX(1);
     wormViewLeft.setScaleY(1);
     });
     
-    righthand.setOnMouseEntered(e -> {
+    righthand.setOnMouseEntered(e->{
        rightView.setScaleX(1.2);
        rightView.setScaleY(1.2);
        wormViewRight.setScaleX(1.2);
@@ -696,7 +740,7 @@ public class GamePlayBase{
        
        reproducirAmbiente();
        
-       escena.setOnKeyPressed(e -> {
+       escena.setOnKeyPressed(e->{
 
         if (e.getCode() == KeyCode.O){ //atajo bossfight    
         //callar el dialogo
@@ -714,6 +758,7 @@ public class GamePlayBase{
         stage.sizeToScene();
         stage.show(); //Mostrar Escena 
         transitions.fadeInBlack(escenaFinal, 2);
+        botonSkip.setVisible(!Memoria.isDialogoInicialEscuchado());
         if(!Memoria.isDialogoInicialEscuchado()){
         dialogoIntro();
         }

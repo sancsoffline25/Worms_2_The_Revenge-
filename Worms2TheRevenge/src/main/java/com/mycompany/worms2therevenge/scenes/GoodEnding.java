@@ -9,6 +9,7 @@ package com.mycompany.worms2therevenge.scenes;
  * @author Santiago Guinel
  */
 
+import entities.Player;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -87,7 +88,7 @@ public class GoodEnding {
     return boton;
     }
     
-    public void start(Stage stage){
+    public void start(Stage stage, Player jugador){
         //Contenedores
         VBox layout = new VBox(40);
         VBox creditos = new VBox(20);
@@ -227,7 +228,7 @@ public class GoodEnding {
             MainMenu menu = new MainMenu();
             reproductor.stop(); 
             
-            menu.start(stage);
+            menu.start(stage, jugador);
         });
         
         stage.setTitle("Worms 2: The Revenge");

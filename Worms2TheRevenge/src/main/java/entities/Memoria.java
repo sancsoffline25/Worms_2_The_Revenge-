@@ -11,6 +11,7 @@ package entities;
 import java.util.HashSet;
 import java.util.Set;
 import entities.FishType;
+import entities.Player;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Random; //Nuevos imports!! 10 de Octubre
@@ -20,7 +21,7 @@ import java.util.Random; //Nuevos imports!! 10 de Octubre
 //Lauti acá, te dije que este script lo hice para los 2, no me tenes que pedir permiso. cambio.
 public class Memoria {
     
-    //MiniPesca
+    //MINIPESCA
     //Guarda los peces capturados
     private static final Set<Integer> capturedFish = new HashSet<>();
     //Guarda el dinero
@@ -77,22 +78,19 @@ public class Memoria {
         dialogoInicialEscuchado = true;
     }
     
-    //MAINMENU
-    //Musica booleano
-    private static boolean MainMenuMusic = false;
-    
-    public static boolean isMusicEscuchada(){
-        return MainMenuMusic;
+    //dar reintentos por compra(agrega los botones dps)
+    public static boolean compraReintentos(Player player, int cantidad){
+
+    if (player == null || cantidad <= 0){
+        return false;
     }
-    
-    public void marcarEscuchadaMusic(){
-        MainMenuMusic = true;
+
+    if (player.getReintentos() + cantidad > 12){
+        return false;
     }
-    
-    public void desmarcarEscuchadaMusic(){
-        MainMenuMusic = false;
-    }
-    
-    
+
+    player.recibirReintentos(cantidad);
+    return true;
+}
     
 }

@@ -44,6 +44,11 @@ public class MiniPesca{
     //Objetos gráficos
     private Pane gamePane;
     
+    private GamePlayBase gamePlayBase;
+    public MiniPesca(GamePlayBase gamePlayBase) {
+    this.gamePlayBase = gamePlayBase;
+}
+    
     public void start(Stage stage, Player jugador){
        
         gamePane = new Pane();
@@ -129,6 +134,14 @@ public class MiniPesca{
         shopPane.getChildren().add(restoreFishButton);
         gamePane.getChildren().add(shopPane);
         shopPane.setVisible(false);
+        //Reintentos
+        Button retryButton = new Button("Comprar reintento - $50");
+        retryButton.setLayoutX(300);
+        retryButton.setLayoutY(220);
+        retryButton.setPrefWidth(200);
+        retryButton.setPrefHeight(50);
+        
+        shopPane.getChildren().add(retryButton);
         //Titulo
         Label titulo = new Label("Minijuego de Pesca");
 
@@ -146,9 +159,10 @@ public class MiniPesca{
         shopPane.setVisible(true);
     });
         closeShopButton.setOnAction(e -> {
-    MiniPesca miniPesca = new MiniPesca();
+    MiniPesca miniPesca = new MiniPesca(gamePlayBase);
     miniPesca.start(stage, jugador);
     });
+        
         restoreFishButton.setOnAction(e -> {
     int price = 30;
     if (Memoria.getPlayerMoney() >= price) {
@@ -158,6 +172,20 @@ public class MiniPesca{
         Memoria.resetFishSprites();
     }
     });
+        retryButton.setOnAction(e -> {
+
+    int price = 50;
+    int cantidad = 1;
+
+    if (Memoria.getPlayerMoney() >= price) {
+
+        if (Memoria.compraReintentos(jugador, cantidad)) {
+            Memoria.addMoney(-price);
+            shopMoneyText.setText("Dinero: $" + Memoria.getPlayerMoney());
+                gamePlayBase.actualizarIntentos(jugador.getReintentos());
+        }
+    }
+});
 
         HBox buttons = new HBox(10);
         buttons.setAlignment(Pos.CENTER);

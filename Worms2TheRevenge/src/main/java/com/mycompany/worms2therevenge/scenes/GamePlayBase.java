@@ -69,6 +69,9 @@ public class GamePlayBase{
      Random whooshEffect = new Random();
      int handsound = whooshEffect.nextInt(2) + 1;
      
+     //Ignora esta parte
+     private Label intentosRestantes;
+     
      //Efectos de sonido
      
      //--efecto Whoosh
@@ -422,7 +425,7 @@ public class GamePlayBase{
     Font textoFont = Font.loadFont(getClass().getResourceAsStream("/Assets/Fonts/VT323-Regular.ttf"), 44);
     
     Label resultado = new Label(""); //Te muestra si acertaste o no
-    Label intentosRestantes = new Label(""); //Te dice cuantos intentos tenes
+    intentosRestantes = new Label(""); //Te dice cuantos intentos tenes
     Label wormsFounded = new Label(""); //cartelito para los gusanos encontrados
     
     
@@ -563,7 +566,7 @@ public class GamePlayBase{
     botonMiniPesca.setOnMouseClicked(e->{
         detenerAmbiente();
         viejoSonidos.stopAllDialogues();
-        MiniPesca menu = new MiniPesca();
+        MiniPesca menu = new MiniPesca(this);
 
         Stage ventanaPesca = new Stage();
         menu.start(ventanaPesca, jugador);
@@ -763,6 +766,10 @@ public class GamePlayBase{
         dialogoIntro();
         }
         
+        
     }
-    
+    //ignora esto 
+    public void actualizarIntentos(int cantidad) {
+    intentosRestantes.setText("Intentos: " + cantidad);
+}
 }

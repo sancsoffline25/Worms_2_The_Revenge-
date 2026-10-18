@@ -102,12 +102,12 @@ public class MiniGamesMenu{
             menu.start(stage, jugador);
         });
         
-        minigame1Button.setOnMouseClicked(e ->{
-            sonidosInterfaz.playSoundButton();
-           MiniPesca menu = new MiniPesca();
+        //minigame1Button.setOnMouseClicked(e ->{
+          //  sonidosInterfaz.playSoundButton();
+           //MiniPesca menu = new MiniPesca(this);
            
-           menu.start(stage, jugador);
-        });
+           //menu.start(stage, jugador);
+        //});
         
         //Aca el Layout vertical
         VBox layout = new VBox(20);

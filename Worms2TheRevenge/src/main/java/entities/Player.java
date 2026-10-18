@@ -88,7 +88,9 @@ public class Player {
     if (cantidad <= 0){
         return;
     }
-
+    if (cantidad > 0) {
+        reintentos += cantidad;
+    }
     reintentos = Math.min(reintentos + cantidad, 12);
     }
     

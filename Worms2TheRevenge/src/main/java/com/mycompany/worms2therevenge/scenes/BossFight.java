@@ -132,7 +132,7 @@ public class BossFight{
         ataques.ataqueHorizontalIzq(escena, spawnHorizontalLeft, spawnHorizontalRight, 3.0, playerView, jugador, playerBar, playerBarView);
         
         PauseTransition espera = new PauseTransition(Duration.seconds(tiempoAtaques));
-        espera.setOnFinished(e ->{
+        espera.setOnFinished(e->{
             if(etapaPelea ==4){
                 tiempoAtaques = 2.0;
                 fase2Ataque1(escenaFinal);
@@ -147,7 +147,7 @@ public class BossFight{
         ataques.ataqueHorizontalDer(escena, spawnHorizontalRight, spawnHorizontalLeft, 3.0, playerView, jugador, playerBar, playerBarView);
         
         PauseTransition espera = new PauseTransition(Duration.seconds(tiempoAtaques));
-        espera.setOnFinished(e ->{
+        espera.setOnFinished(e->{
             fase1Ataque3(escenaFinal);
         });
         espera.play();
@@ -157,7 +157,7 @@ public class BossFight{
         ataques.ataqueVerticalTop(escena, spawnVerticalTop, spawnVerticalDown, 2.5, playerView, jugador, playerBar, playerBarView);
         
         PauseTransition espera = new PauseTransition(Duration.seconds(tiempoAtaques));
-        espera.setOnFinished(e ->{
+        espera.setOnFinished(e->{
             fase1Ataque4(escenaFinal);
         });
         espera.play();
@@ -167,14 +167,13 @@ public class BossFight{
         ataques.ataqueVerticalDown(escena, spawnVerticalDown, spawnVerticalTop, 2.5, playerView, jugador, playerBar, playerBarView);
         PauseTransition espera = new PauseTransition(Duration.seconds(tiempoEntreEtapas));
         
-        espera.setOnFinished(e ->{
+        espera.setOnFinished(e->{
         //Aparece el botón para atacar
             ataqueHud.setVisible(true);
 
-            PauseTransition ventanaAtaque =
-            new PauseTransition(Duration.seconds(3.5));
+            PauseTransition ventanaAtaque = new PauseTransition(Duration.seconds(3.5));
 
-            ventanaAtaque.setOnFinished(e2 ->{
+            ventanaAtaque.setOnFinished(e2->{
 
                 ataqueHud.setVisible(false); //ocultamos el botons
 
@@ -220,7 +219,7 @@ public class BossFight{
         ataques.ataqueHorizontalIzq(escena, spawnHorizontalLeft, spawnHorizontalRight, 3.0, playerView, jugador, playerBar, playerBarView);
         
         PauseTransition espera = new PauseTransition(Duration.seconds(tiempoAtaques));
-        espera.setOnFinished(e ->{
+        espera.setOnFinished(e->{
             fase2Ataque3(escenaFinal);
         });
         espera.play();
@@ -231,7 +230,7 @@ public class BossFight{
         ataques.ataqueVerticalDown(escena, spawnVerticalDown, spawnVerticalTop, 2.5, playerView, jugador, playerBar, playerBarView);
         
         PauseTransition espera = new PauseTransition(Duration.seconds(tiempoAtaques));
-        espera.setOnFinished(e ->{
+        espera.setOnFinished(e->{
             fase2Ataque4(escenaFinal);
         });
         espera.play();
@@ -244,7 +243,7 @@ public class BossFight{
         
         PauseTransition espera = new PauseTransition(Duration.seconds(tiempoAtaques));
         
-        espera.setOnFinished(e ->{
+        espera.setOnFinished(e->{
             fase2Ataque5(escenaFinal);
         });
         espera.play();
@@ -259,7 +258,7 @@ public class BossFight{
         
         PauseTransition espera = new PauseTransition(Duration.seconds(tiempoAtaques));
         
-        espera.setOnFinished(e ->{
+        espera.setOnFinished(e->{
             fase2Ataque6(escenaFinal);
         });
         espera.play();
@@ -273,7 +272,7 @@ public class BossFight{
         
         PauseTransition espera = new PauseTransition(Duration.seconds(tiempoAtaques));
         
-        espera.setOnFinished(e ->{
+        espera.setOnFinished(e->{
             fase2Ataque7(escenaFinal);
         });
         espera.play();
@@ -292,14 +291,14 @@ public class BossFight{
         
         PauseTransition espera = new PauseTransition(Duration.seconds(tiempoAtaques));
         
-        espera.setOnFinished(e ->{
+        espera.setOnFinished(e->{
             //Aparece el botón para atacar
             ataqueHud.setVisible(true);
 
             PauseTransition ventanaAtaque =
             new PauseTransition(Duration.seconds(3.0));
 
-            ventanaAtaque.setOnFinished(e2 ->{
+            ventanaAtaque.setOnFinished(e2->{
 
                 ataqueHud.setVisible(false); //ocultamos el botons
             
@@ -384,9 +383,9 @@ public class BossFight{
         viejoContainer.setAlignment(Pos.TOP_CENTER);
         spawnerContainer.setAlignment(Pos.CENTER);
         hud.setAlignment(Pos.BOTTOM_CENTER);
-        ataqueHud.setAlignment(Pos.CENTER_RIGHT);
         
-        //Ubicamos el botón de ataque
+        //ubicamos donde aparece el botón de ataque
+        ataqueHud.setAlignment(Pos.CENTER);
         ataqueHud.setTranslateX(450);
         ataqueHud.setTranslateY(160);
         //Ocultamos el botón de ataque
@@ -599,7 +598,7 @@ public class BossFight{
                 fase1Ataque1(escenaFinal);
                     
          botonAtacar.setOnMouseClicked(e->{
-             viejo.recibirDanio(20);
+             viejo.recibirDanio(jugador.getAtaque());
              viejoEstados.mostrarDanio(viejo, viejoView);
              ataqueHud.setVisible(false);
              System.out.println("Vida del boss: " + viejo.getVida());

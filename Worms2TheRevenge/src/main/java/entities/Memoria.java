@@ -78,18 +78,28 @@ public class Memoria {
         dialogoInicialEscuchado = true;
     }
     
-    //dar reintentos por compra(agrega los botones dps)
+    //dar reintentos por compra
     public static boolean compraReintentos(Player player, int cantidad){
 
-    if (player == null || cantidad <= 0){
+    if(player == null || cantidad <= 0){
         return false;
     }
 
-    if (player.getReintentos() + cantidad > 12){
+    if(player.getReintentos() + cantidad > 12){
         return false;
     }
-
     player.recibirReintentos(cantidad);
+    return true;
+}
+    //Dar daño de ataque por compra (La idea es que sume de 20 en 20 por compra)
+    //posdata: pone el precio alto porque si no el jugador va a estar rotisimo
+    public static boolean compraAtaque(Player player, int cantidad){
+
+    if(player == null || cantidad <= 0){
+        return false;
+    }
+
+    player.mejorarAtaque(cantidad);
     return true;
 }
     

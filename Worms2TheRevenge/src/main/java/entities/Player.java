@@ -10,7 +10,7 @@ import javafx.scene.image.Image;
  *
  * @author Santiago Guinel
  */
-public class Player {
+public class Player{
     
     //Estadisticas Iniciales
     private int vida = 100; 
@@ -84,18 +84,24 @@ public class Player {
         return vida; 
     }
     
-    public void recibirReintentos(int cantidad) {
-    if (cantidad <= 0){
+    public void recibirReintentos(int cantidad){
+     if(cantidad <= 0){
         return;
     }
-    if (cantidad > 0) {
-        reintentos += cantidad;
-    }
+    
     reintentos = Math.min(reintentos + cantidad, 12);
     }
     
     public int getAtaque(){
         return ataque; 
+    }
+    
+    public void mejorarAtaque(int cantidad){
+    if(cantidad <= 0){
+        return;
+    }
+
+    ataque += cantidad;
     }
     
     public void recibirDanio(int cantidad){

@@ -14,9 +14,9 @@ import sounds.uisounds;
 
 /**
  *
- * @author Santiago Guienl
+ * @author Santiago Guinel
  */
-public class ButtonCreator {
+public class ButtonCreator{
     
     uisounds sonidosInterfaz = new uisounds();
     
@@ -72,7 +72,66 @@ public class ButtonCreator {
         });
         
         //Soltado
-        boton.setOnMouseReleased(e ->{
+        boton.setOnMouseReleased(e->{
+            botonView.setImage(botonImage);
+        });
+    
+    return boton;
+    }
+    
+    public StackPane crearBotonTienda(String texto, Font fuente) {
+
+    Image botonImage = new Image(
+        getClass().getResourceAsStream("/Assets/ui/Tienda/botonBaseTienda.png.png")
+    );
+    
+    Image botonHoverImage = new Image(
+        getClass().getResourceAsStream("/Assets/ui/botonHoverTienda.png")
+    );
+    
+    Image botonPressedImage = new Image(
+        getClass().getResourceAsStream("/Assets/ui/botonPressedTienda.png")
+    );
+
+    ImageView botonView = new ImageView(botonImage);
+    botonView.setFitWidth(256);
+    botonView.setFitHeight(64);
+
+    Label textoBoton = new Label(texto);
+    textoBoton.setFont(fuente);
+    textoBoton.setTextFill(Color.WHITE);
+
+    StackPane boton = new StackPane(
+        botonView,
+        textoBoton
+    ); //Función plantilla para crear botones
+    
+    //limitar el tamaño del boton al sprite
+    boton.setPrefSize(256, 64);
+    boton.setMinSize(256, 64);
+    boton.setMaxSize(256, 64);
+    
+    //evitar que el contenedor intercepte eventos fuera del sprite
+    boton.setPickOnBounds(false);
+    
+        //Mouse encima
+        boton.setOnMouseEntered(e->{
+            sonidosInterfaz.playButtonFocus();
+            botonView.setImage(botonHoverImage);
+        });
+        
+        //Mouse fuera
+        boton.setOnMouseExited(e->{
+            botonView.setImage(botonImage);
+        });
+        
+        //Presionado
+        boton.setOnMousePressed(e->{
+            botonView.setImage(botonPressedImage);
+        });
+        
+        //Soltado
+        boton.setOnMouseReleased(e->{
             botonView.setImage(botonImage);
         });
     

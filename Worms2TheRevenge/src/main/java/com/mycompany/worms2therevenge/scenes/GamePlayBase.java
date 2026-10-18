@@ -8,7 +8,7 @@ package com.mycompany.worms2therevenge.scenes;
 /**
  *
  * @author Santiago Guinel
- * Recomiendo escuchar "Chicago" de MJ mientras programas.
+ * Recomiendo no tocar lo que ya funciona GRACIASS
  * 
  */
 import java.util.Random; //Separado al ser de Java y no JavaFX
@@ -69,8 +69,12 @@ public class GamePlayBase{
      Random whooshEffect = new Random();
      int handsound = whooshEffect.nextInt(2) + 1;
      
-     //Ignora esta parte
-     private Label intentosRestantes;
+     //Textos
+    Font textoFont = Font.loadFont(getClass().getResourceAsStream("/Assets/Fonts/VT323-Regular.ttf"), 44);
+    
+    Label resultado = new Label(""); //Te muestra si acertaste o no
+    private Label intentosRestantes = new Label(""); //Te dice cuantos intentos tenes
+    Label wormsFounded = new Label(""); //cartelito para los gusanos encontrados
      
      //Efectos de sonido
      
@@ -420,13 +424,6 @@ public class GamePlayBase{
     
     VBox buttonContainer = new VBox(10); //botones literales
     VBox buttonContainer2 = new VBox(10);
-    
-    //Textos
-    Font textoFont = Font.loadFont(getClass().getResourceAsStream("/Assets/Fonts/VT323-Regular.ttf"), 44);
-    
-    Label resultado = new Label(""); //Te muestra si acertaste o no
-    intentosRestantes = new Label(""); //Te dice cuantos intentos tenes
-    Label wormsFounded = new Label(""); //cartelito para los gusanos encontrados
     
     
     resultado.setFont(textoFont);

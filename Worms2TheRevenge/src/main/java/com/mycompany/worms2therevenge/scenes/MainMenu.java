@@ -208,7 +208,7 @@ public class MainMenu{
              }else if(e.getCode() == KeyCode.O){ //atajo bossfight
                  MenuMusic.detener();
                 BossFight menu = new BossFight();
-                menu.start(stage);
+                menu.start(stage, jugador);
              }else if(e.getCode() == KeyCode.P){
                  MenuMusic.detener();
                  EpicEnding menu = new EpicEnding();

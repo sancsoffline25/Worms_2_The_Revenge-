@@ -608,8 +608,9 @@ public class GamePlayBase{
         resultado.setText("Game Over");
         
         dialogoGameOver(() ->{
-        BossFight menu = new BossFight();
-        menu.start(stage);
+        detenerAmbiente();
+        Cinematica menu = new Cinematica();
+        menu.start(stage, jugador);
         });
         
         return;
@@ -671,8 +672,9 @@ public class GamePlayBase{
         resultado.setText("Sin Reintentos");
         
         dialogoGameOver(() ->{
-        BossFight menu = new BossFight();
-        menu.start(stage);
+        detenerAmbiente();
+        Cinematica menu = new Cinematica();
+        menu.start(stage, jugador);
         });
         
         return;
@@ -747,8 +749,8 @@ public class GamePlayBase{
         viejoSonidos.stopAllDialogues();
         detenerAmbiente();
             
-        BossFight menu = new BossFight();
-        menu.start(stage);
+        Cinematica menu = new Cinematica();
+        menu.start(stage, jugador);
              }
         });
        

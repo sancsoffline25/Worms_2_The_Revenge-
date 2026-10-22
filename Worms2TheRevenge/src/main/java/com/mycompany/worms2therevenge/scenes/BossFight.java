@@ -312,7 +312,7 @@ public class BossFight{
     
     
     
-    public void start(Stage stage){
+    public void start(Stage stage, Player jugador){
         
         //OcultarSpawnPoints
         spawnHorizontalRight.setVisible(false);

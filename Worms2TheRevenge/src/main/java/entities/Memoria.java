@@ -21,6 +21,8 @@ import java.util.Random; //Nuevos imports!! 10 de Octubre
 //Lauti acá, te dije que este script lo hice para los 2, no me tenes que pedir permiso. cambio.
 public class Memoria {
     
+    //Intentos de minipesca. se llaman "carnada" apesar de que logicamente usarias los guzanos como carnada, pero jugas como un guzano?...
+    private static int carnada = 3;
     //MINIPESCA
     //Guarda los peces capturados
     private static final Set<Integer> capturedFish = new HashSet<>();
@@ -77,7 +79,24 @@ public class Memoria {
     public static void marcarEscuchado(){
         dialogoInicialEscuchado = true;
     }
+    //"Carnada" (Intentos de MiniPesca)
+    public static int getCarnada(){
+        return carnada;
+    }
+    public static void agregarCarnada(int cantidad){
+        if (cantidad > 0){
+        carnada += cantidad;
+        }
+    }
+    public static boolean consumirCarnada(){
+        if (carnada <= 0){
+            return false;
+        }
+        carnada--;
+        return true;
+    }
     
+    //TIENDA
     //dar reintentos por compra
     public static boolean compraReintentos(Player player, int cantidad){
 
@@ -102,5 +121,5 @@ public class Memoria {
     player.mejorarAtaque(cantidad);
     return true;
 }
-    
+   
 }

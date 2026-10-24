@@ -45,10 +45,21 @@ public class MiniPesca{
     private Pane gamePane;
     
     private GamePlayBase gamePlayBase;
-    public MiniPesca(GamePlayBase gamePlayBase) {
+    public MiniPesca(GamePlayBase gamePlayBase){
     this.gamePlayBase = gamePlayBase;
 }
-    
+    //Carnada func
+    private void intentarLanzar(Hook hook, Text baitText){
+    if (hook.getState() != HookState.SWINGING){
+        return;
+    }
+    if (!Memoria.consumirCarnada()){
+        baitText.setText("Carnada: 0 - ¡Necesitas más!");
+        return;
+    }
+    baitText.setText("Carnada: " + Memoria.getCarnada());
+    hook.startLowering();
+    }
     public void start(Stage stage, Player jugador){
        
         gamePane = new Pane();
@@ -65,7 +76,13 @@ public class MiniPesca{
         moneyText.setY(30);
         moneyText.setStyle("-fx-font-size: 20px;");
         gamePane.getChildren().add(moneyText);
-        
+        //Display de carnada
+        Text baitText = new Text();
+        baitText.setX(20);
+        baitText.setY(60);
+        baitText.setStyle("-fx-font-size: 20px;");
+        baitText.setText("Carnada: " + Memoria.getCarnada());
+        gamePane.getChildren().add(baitText);
         
         
         //Referencia a Hook.java para los valores del anzuelo
@@ -126,7 +143,7 @@ public class MiniPesca{
         shopPane.getChildren().add(closeShopButton);
         //Productos de la tienda
         //Reponer peces
-        Button restoreFishButton = new Button("Reponer peces - $30");
+        Button restoreFishButton = new Button("Reponer peces - $10");
         restoreFishButton.setLayoutX(300);
         restoreFishButton.setLayoutY(150);
         restoreFishButton.setPrefWidth(200);
@@ -135,14 +152,14 @@ public class MiniPesca{
         gamePane.getChildren().add(shopPane);
         shopPane.setVisible(false);
         //Reintentos
-        Button retryButton = new Button("Comprar reintento - $50");
+        Button retryButton = new Button("Comprar reintento - $25");
         retryButton.setLayoutX(300);
         retryButton.setLayoutY(220);
         retryButton.setPrefWidth(200);
         retryButton.setPrefHeight(50);
         shopPane.getChildren().add(retryButton);
         //"Cuchillo"
-        Button attackButton = new Button("Mejorar ataque - $100");
+        Button attackButton = new Button("Afilar anzuelo - $100");
         attackButton.setLayoutX(300);
         attackButton.setLayoutY(290);
         attackButton.setPrefWidth(200);
@@ -155,7 +172,7 @@ public class MiniPesca{
         Button backButton = new Button("Volver");
         Button tiendaButton = new Button("Tienda");
 
-        launchButton.setOnAction(e -> hook.startLowering());
+        launchButton.setOnAction(e -> intentarLanzar(hook, baitText));
         //Botones y funciones 
         backButton.setOnAction(e -> {
         stage.close();
@@ -170,7 +187,7 @@ public class MiniPesca{
     });
         
         restoreFishButton.setOnAction(e -> {
-    int price = 30;
+    int price = 10;
     if (Memoria.getPlayerMoney() >= price) {
         Memoria.addMoney(-price);
         Memoria.resetCapturedFish();
@@ -179,7 +196,7 @@ public class MiniPesca{
     }
     });
         retryButton.setOnAction(e -> {
-            int price = 50;
+            int price = 25;
             int cantidad = 2;
             if (Memoria.getPlayerMoney() >= price) {
                 if (Memoria.compraReintentos(jugador, cantidad)) {
@@ -190,8 +207,8 @@ public class MiniPesca{
     }
     });
         attackButton.setOnAction(e -> {
-            int price = 10;
-            int cantidad = 2000;
+            int price = 100;
+            int cantidad = 25;
             if (Memoria.getPlayerMoney() >= price) {
                 if (Memoria.compraAtaque(jugador, cantidad)) {
                     Memoria.addMoney(-price);
@@ -239,7 +256,7 @@ public class MiniPesca{
 
         scene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.SPACE){
-                hook.startLowering();
+                intentarLanzar(hook, baitText);
             }
         });
 

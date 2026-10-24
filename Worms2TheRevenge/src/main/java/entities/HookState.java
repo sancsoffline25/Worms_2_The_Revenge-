@@ -14,4 +14,5 @@ public enum HookState { //Disculpame por el nuevo script, queria un enum para qu
      SWINGING,
      LOWERING,
      RAISING
+     //Aprendi que no hacia falta hace todo un script para esto, chistoso, pero no lo voy a cambiar ahora.
 }

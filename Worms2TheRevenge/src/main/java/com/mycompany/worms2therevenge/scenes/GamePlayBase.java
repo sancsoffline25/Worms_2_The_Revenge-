@@ -591,6 +591,7 @@ public class GamePlayBase{
            resultado.setText("Acertaste!");
            
            gusanosEncontrados++;
+           Memoria.agregarCarnada(1);
            wormsFounded.setText("Gusanos " + gusanosEncontrados + "/20");
            
            wormViewLeft.setImage(elegirGusano());
@@ -655,6 +656,7 @@ public class GamePlayBase{
            resultado.setText("Acertaste!"); //Pone el texto
            
            gusanosEncontrados++;
+           Memoria.agregarCarnada(1);
            wormsFounded.setText("Gusanos " + gusanosEncontrados + "/20"); //suma los gusanos
 
            wormViewRight.setImage(elegirGusano()); //muestra la mano y el gusano

@@ -447,7 +447,7 @@ public class BossFight{
          //Musica
         Media musica = new Media(getClass().getResource("/Assets/Musica/BossFightPreSong.mp3").toExternalForm()); //cargo la musica
         MediaPlayer reproductor = new MediaPlayer(musica); //creo el reproductor que va a reproducirla
-        reproductor.setVolume(0.3); //volumen tranqui
+        reproductor.setVolume(0.5); //volumen tranqui
         reproductor.setCycleCount(MediaPlayer.INDEFINITE); //hago que este en loop
         reproductor.play(); //arranca el temón
         

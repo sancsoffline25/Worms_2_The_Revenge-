@@ -619,8 +619,12 @@ public class GamePlayBase{
         
         dialogoGameOver(()->{
         detenerAmbiente();
-        Cinematica menu = new Cinematica();
-        menu.start(stage, jugador);
+        FadeTransition transicion = transitions.fadeOutBlack(escenaFinal, 0.5);
+        
+        transicion.setOnFinished(e3->{
+            Cinematica menu = new Cinematica();
+            menu.start(stage, jugador);
+            });
         });
         
         return;
@@ -686,8 +690,12 @@ public class GamePlayBase{
         
         dialogoGameOver(()->{
         detenerAmbiente();
-        Cinematica menu = new Cinematica();
-        menu.start(stage, jugador);
+        FadeTransition transicion = transitions.fadeOutBlack(escenaFinal, 2);
+        
+        transicion.setOnFinished(e3->{
+            Cinematica menu = new Cinematica();
+            menu.start(stage, jugador);
+            });
         });
         
         return;
@@ -753,6 +761,7 @@ public class GamePlayBase{
     //Escena
        Scene escena = ResolutionManager.crearEscena(escenaFinal);
        
+       //Sonido de ambiente 
        reproducirAmbiente();
        
        escena.setOnKeyPressed(e->{

@@ -11,7 +11,7 @@ package sounds;
 
 import javafx.scene.media.AudioClip;
 
-public class oldmansounds {
+public class oldmansounds{
     
     //Sonidos dialogos
     private final AudioClip dialogueLine1 = new AudioClip(getClass().getResource("/Assets/Sonidos/Dialogos/DialogoIntro1.wav").toExternalForm());

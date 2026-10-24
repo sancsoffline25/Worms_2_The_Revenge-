@@ -16,11 +16,15 @@ import javafx.scene.Scene;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.StackPane;
+import javafx.scene.media.AudioClip;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
 public class Cinematica{
+    
+   private final AudioClip cinematicsoundtrack = new AudioClip(getClass().getResource("/Assets/Musica/cinematicTrack2.mp3").toExternalForm());
+    
    private final String RUTA = "/Assets/Cinematics/PreBossFight/frame";
 
     public void start(Stage stage, Player jugador){
@@ -87,5 +91,7 @@ public class Cinematica{
         });
 
         animacion.play();
+        cinematicsoundtrack.setVolume(0.3);
+        cinematicsoundtrack.play();
     } 
 }

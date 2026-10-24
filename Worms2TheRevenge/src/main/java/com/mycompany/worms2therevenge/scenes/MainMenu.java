@@ -105,12 +105,10 @@ public class MainMenu{
         
         //Botones
         StackPane playButton = crearBoton("Jugar", textoFont);
-        StackPane optionsButton = crearBoton("Opciones", textoFont);
         StackPane exitButton = crearBoton("Salir", textoFont);
         
         //Aca le asignamos el tamaño de los Botones
         playButton.setPrefWidth(256);
-        optionsButton.setPrefWidth(256);
         exitButton.setPrefWidth(256);
         
         //=== funciones de los botoncitos ===
@@ -127,13 +125,7 @@ public class MainMenu{
     
             menu.start(stage);
             
-        });
-        
-        optionsButton.setOnMouseClicked(e ->{
-            sonidosInterfaz.playSoundButton();
-            OptionsMenu menu = new OptionsMenu();
-            menu.start(stage, jugador);
-        });
+        });  
         
         
         
@@ -164,7 +156,6 @@ public class MainMenu{
         layout.getChildren().addAll( 
                 logo,
                 playButton,
-                optionsButton,
                 exitButton
         ); //Aca el VBox layout se hace papá de los botones, asi los ordena
         

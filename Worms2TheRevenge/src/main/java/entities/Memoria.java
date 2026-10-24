@@ -14,15 +14,13 @@ import entities.FishType;
 import entities.Player;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Random; //Nuevos imports!! 10 de Octubre
+import java.util.Random; 
 
-//Este script se puede usar para otros minijuegos
-//Probando probando 123, santi al habla: voy a ocupar este script para que el dialogo se reproduzca solo 1 vez
-//Lauti acá, te dije que este script lo hice para los 2, no me tenes que pedir permiso. cambio.
 public class Memoria {
     
-    //Intentos de minipesca. se llaman "carnada" apesar de que logicamente usarias los guzanos como carnada, pero jugas como un guzano?...
+    //Intentos de minipesca.
     private static int carnada = 3;
+    
     //MINIPESCA
     //Guarda los peces capturados
     private static final Set<Integer> capturedFish = new HashSet<>();

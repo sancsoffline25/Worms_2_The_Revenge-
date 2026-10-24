@@ -8,7 +8,6 @@ package com.mycompany.worms2therevenge.scenes;
 /**
  *
  * @author Santiago Guinel
- * Recomiendo no tocar lo que ya funciona GRACIASS
  * 
  */
 import java.util.Random; //Separado al ser de Java y no JavaFX
@@ -556,6 +555,10 @@ public class GamePlayBase{
     botonVolver.setOnMouseClicked(e->{
         detenerAmbiente();
         viejoSonidos.stopAllDialogues();
+        pausa1.stop();
+        pausa2.stop();
+        pausa3.stop();
+        pausa4.stop();
         MainMenu menu = new MainMenu();
         menu.start(stage, jugador); 
     });
@@ -563,6 +566,10 @@ public class GamePlayBase{
     botonMiniPesca.setOnMouseClicked(e->{
         detenerAmbiente();
         viejoSonidos.stopAllDialogues();
+        pausa1.stop();
+        pausa2.stop();
+        pausa3.stop();
+        pausa4.stop();
         MiniPesca menu = new MiniPesca(this);
 
         Stage ventanaPesca = new Stage();
@@ -604,11 +611,13 @@ public class GamePlayBase{
        
        
        if(jugador.sinIntentos()){
+        botonVolver.setVisible(false);
+        botonMiniPesca.setVisible(false);
         lefthand.setVisible(false);
         righthand.setVisible(false);
         resultado.setText("Game Over");
         
-        dialogoGameOver(() ->{
+        dialogoGameOver(()->{
         detenerAmbiente();
         Cinematica menu = new Cinematica();
         menu.start(stage, jugador);
@@ -669,11 +678,13 @@ public class GamePlayBase{
 
         
         if(jugador.sinIntentos()){
+        botonVolver.setVisible(false);
+        botonMiniPesca.setVisible(false);
         lefthand.setVisible(false);
         righthand.setVisible(false);
         resultado.setText("Sin Reintentos");
         
-        dialogoGameOver(() ->{
+        dialogoGameOver(()->{
         detenerAmbiente();
         Cinematica menu = new Cinematica();
         menu.start(stage, jugador);
@@ -748,6 +759,10 @@ public class GamePlayBase{
 
         if (e.getCode() == KeyCode.O){ //atajo bossfight    
         //callar el dialogo
+        pausa1.stop();
+        pausa2.stop();
+        pausa3.stop();
+        pausa4.stop();
         viejoSonidos.stopAllDialogues();
         detenerAmbiente();
             

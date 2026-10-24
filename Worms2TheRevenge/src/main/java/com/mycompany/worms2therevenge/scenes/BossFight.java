@@ -47,7 +47,7 @@ public class BossFight{
     //=== Atributos de la clase ===
     
     //Traemos a las entidades protagonistas
-    Player jugador = new Player();
+    Player jugador;
     Enemy viejo = new Enemy();
     EnemyAttackAnimations viejoAnim = new EnemyAttackAnimations();
     
@@ -55,7 +55,7 @@ public class BossFight{
     PlayerHealthBar playerBar = new PlayerHealthBar();
 
     //Sprites de las entidades
-    ImageView playerView = new ImageView(jugador.getIdleSprite());
+    ImageView playerView;
     ImageView viejoView = new ImageView(viejo.getIdleSprite());
     
     //Sprite barra de vida
@@ -314,6 +314,9 @@ public class BossFight{
     
     public void start(Stage stage, Player jugador){
         
+        this.jugador = jugador;
+        playerView = new ImageView(this.jugador.getIdleSprite());
+        
         //OcultarSpawnPoints
         spawnHorizontalRight.setVisible(false);
         spawnHorizontalLeft.setVisible(false);
@@ -563,12 +566,12 @@ public class BossFight{
             PauseTransition esperaGameOver =
             new PauseTransition(Duration.seconds(1));
 
-            esperaGameOver.setOnFinished(e -> {
+            esperaGameOver.setOnFinished(e -> { 
 
             FadeTransition transicion =
                 transiciones.fadeOutBlack(escenaFinal, 2);
             
-             transicion.setOnFinished(e2 ->{
+             transicion.setOnFinished(e2->{
             reproductor.stop(); 
             GameOver gameOver = new GameOver();
             gameOver.start(stage, jugador);

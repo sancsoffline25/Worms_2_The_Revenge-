@@ -140,8 +140,14 @@ public class MiniPesca{
         retryButton.setLayoutY(220);
         retryButton.setPrefWidth(200);
         retryButton.setPrefHeight(50);
-        
         shopPane.getChildren().add(retryButton);
+        //"Cuchillo"
+        Button attackButton = new Button("Mejorar ataque - $100");
+        attackButton.setLayoutX(300);
+        attackButton.setLayoutY(290);
+        attackButton.setPrefWidth(200);
+        attackButton.setPrefHeight(50);
+        shopPane.getChildren().add(attackButton);
         //Titulo
         Label titulo = new Label("Minijuego de Pesca");
 
@@ -173,19 +179,28 @@ public class MiniPesca{
     }
     });
         retryButton.setOnAction(e -> {
-
-    int price = 50;
-    int cantidad = 1;
-
-    if (Memoria.getPlayerMoney() >= price) {
-
-        if (Memoria.compraReintentos(jugador, cantidad)) {
+            int price = 50;
+            int cantidad = 2;
+            if (Memoria.getPlayerMoney() >= price) {
+                if (Memoria.compraReintentos(jugador, cantidad)) {
             Memoria.addMoney(-price);
             shopMoneyText.setText("Dinero: $" + Memoria.getPlayerMoney());
                 gamePlayBase.actualizarIntentos(jugador.getReintentos());
         }
     }
-});
+    });
+        attackButton.setOnAction(e -> {
+            int price = 10;
+            int cantidad = 2000;
+            if (Memoria.getPlayerMoney() >= price) {
+                if (Memoria.compraAtaque(jugador, cantidad)) {
+                    Memoria.addMoney(-price);
+                    shopMoneyText.setText(
+                "Dinero: $" + Memoria.getPlayerMoney()
+                    );
+        }
+    }
+    });
 
         HBox buttons = new HBox(10);
         buttons.setAlignment(Pos.CENTER);

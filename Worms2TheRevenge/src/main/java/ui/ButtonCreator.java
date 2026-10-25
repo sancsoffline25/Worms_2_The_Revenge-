@@ -82,15 +82,15 @@ public class ButtonCreator{
     public StackPane crearBotonTienda(String texto, Font fuente) {
 
     Image botonImage = new Image(
-        getClass().getResourceAsStream("/Assets/ui/Tienda/botonBaseTienda.png.png")
+        getClass().getResourceAsStream("/Assets/ui/Tienda/botonBaseTienda.png")
     );
     
     Image botonHoverImage = new Image(
-        getClass().getResourceAsStream("/Assets/ui/botonHoverTienda.png")
+        getClass().getResourceAsStream("/Assets/ui/Tienda/botonHoverTienda.png")
     );
     
     Image botonPressedImage = new Image(
-        getClass().getResourceAsStream("/Assets/ui/botonPressedTienda.png")
+        getClass().getResourceAsStream("/Assets/ui/Tienda/botonPressedTienda.png")
     );
 
     ImageView botonView = new ImageView(botonImage);

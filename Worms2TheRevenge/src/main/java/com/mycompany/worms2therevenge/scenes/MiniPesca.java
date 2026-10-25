@@ -22,6 +22,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.text.Font;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import ui.ResolutionManager;
@@ -29,6 +30,9 @@ import entities.FishManager;
 import entities.Hook;
 import entities.Memoria;
 import entities.Player;
+import ui.ButtonCreator;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 public class MiniPesca{
     //Tamaño de la ventana
@@ -47,7 +51,7 @@ public class MiniPesca{
     private GamePlayBase gamePlayBase;
     public MiniPesca(GamePlayBase gamePlayBase){
     this.gamePlayBase = gamePlayBase;
-}
+    }
     //Carnada func
     private void intentarLanzar(Hook hook, Text baitText){
     if (hook.getState() != HookState.SWINGING){
@@ -66,8 +70,16 @@ public class MiniPesca{
         
        //No hay mas pez
         gamePane.setPrefSize(WIDTH, HEIGHT);
-        //Fondo celeste
-        gamePane.setStyle("-fx-background-color: lightblue;");
+        //Fondo con IMAGEN!
+        Image backgroundImage = new Image(
+        getClass().getResource("/Assets/Backgrounds/MiniPesca/background2.png").toExternalForm()
+        );
+        ImageView backgroundView = new ImageView(backgroundImage);
+        backgroundView.setFitWidth(WIDTH);
+        backgroundView.setFitHeight(HEIGHT);
+        backgroundView.setPreserveRatio(false);
+
+        gamePane.getChildren().add(backgroundView);
         
         //Display de dinero
         Text moneyText = new Text();
@@ -117,9 +129,18 @@ public class MiniPesca{
         gamePane.getChildren().add(fish.getSprite());
 }   
         //Tienda maxxing
+        //Tienda fondo
         Pane shopPane = new Pane();
         shopPane.setPrefSize(WIDTH, HEIGHT);
-        shopPane.setStyle("-fx-background-color: white;");
+        Image shopBackgroundImage = new Image(
+        getClass().getResource("/Assets/Backgrounds/MiniPescaTienda/TiendaBackground.png").toExternalForm()
+        );
+        ImageView shopBackgroundView = new ImageView(shopBackgroundImage);
+        shopBackgroundView.setFitWidth(WIDTH);
+        shopBackgroundView.setFitHeight(HEIGHT);
+        shopBackgroundView.setPreserveRatio(false);
+        shopBackgroundView.setMouseTransparent(true);
+        shopPane.getChildren().add(shopBackgroundView);
         
         Text shopTitle = new Text("TIENDA");
         shopTitle.setX(350);
@@ -142,28 +163,25 @@ public class MiniPesca{
         closeShopButton.setLayoutY(100);
         shopPane.getChildren().add(closeShopButton);
         //Productos de la tienda
-        //Reponer peces
-        Button restoreFishButton = new Button("Reponer peces - $10");
-        restoreFishButton.setLayoutX(300);
-        restoreFishButton.setLayoutY(150);
-        restoreFishButton.setPrefWidth(200);
-        restoreFishButton.setPrefHeight(50);
+        Font botonFont = Font.loadFont(getClass().getResourceAsStream("/Assets/Fonts/VT323-Regular.ttf"), 28);
+        ButtonCreator botonmaker = new ButtonCreator();
+        // Reponer peces
+        StackPane restoreFishButton =
+                botonmaker.crearBotonTienda("Reponer peces - $10", botonFont);
+        restoreFishButton.setLayoutX(272);
+        restoreFishButton.setLayoutY(143);
         shopPane.getChildren().add(restoreFishButton);
-        gamePane.getChildren().add(shopPane);
-        shopPane.setVisible(false);
-        //Reintentos
-        Button retryButton = new Button("Comprar reintento - $25");
-        retryButton.setLayoutX(300);
-        retryButton.setLayoutY(220);
-        retryButton.setPrefWidth(200);
-        retryButton.setPrefHeight(50);
+        // Reintentos
+        StackPane retryButton =
+        botonmaker.crearBotonTienda("Compra reintento - $25", botonFont);
+        retryButton.setLayoutX(272);
+        retryButton.setLayoutY(213);
         shopPane.getChildren().add(retryButton);
-        //"Cuchillo"
-        Button attackButton = new Button("Afilar anzuelo - $100");
-        attackButton.setLayoutX(300);
-        attackButton.setLayoutY(290);
-        attackButton.setPrefWidth(200);
-        attackButton.setPrefHeight(50);
+        // Ataque
+        StackPane attackButton =
+        botonmaker.crearBotonTienda("Afilar anzuelo - $100", botonFont);
+        attackButton.setLayoutX(272);
+        attackButton.setLayoutY(283);
         shopPane.getChildren().add(attackButton);
         //Titulo
         Label titulo = new Label("Minijuego de Pesca");
@@ -184,40 +202,62 @@ public class MiniPesca{
         closeShopButton.setOnAction(e -> {
     MiniPesca miniPesca = new MiniPesca(gamePlayBase);
     miniPesca.start(stage, jugador);
+    shopPane.setVisible(false);
     });
         
-        restoreFishButton.setOnAction(e -> {
+    // Reponer peces
+    restoreFishButton.setOnMouseClicked(e -> {
     int price = 10;
+
     if (Memoria.getPlayerMoney() >= price) {
         Memoria.addMoney(-price);
         Memoria.resetCapturedFish();
-        shopMoneyText.setText("Dinero: $" + Memoria.getPlayerMoney());
+
+        shopMoneyText.setText(
+            "Dinero: $" + Memoria.getPlayerMoney()
+        );
+
         Memoria.resetFishSprites();
     }
-    });
-        retryButton.setOnAction(e -> {
-            int price = 25;
-            int cantidad = 2;
-            if (Memoria.getPlayerMoney() >= price) {
-                if (Memoria.compraReintentos(jugador, cantidad)) {
+});
+
+   // Reintentos
+   retryButton.setOnMouseClicked(e -> {
+    int price = 25;
+    int cantidad = 2;
+
+    if (Memoria.getPlayerMoney() >= price) {
+        if (Memoria.compraReintentos(jugador, cantidad)) {
             Memoria.addMoney(-price);
-            shopMoneyText.setText("Dinero: $" + Memoria.getPlayerMoney());
-                gamePlayBase.actualizarIntentos(jugador.getReintentos());
-        }
-    }
-    });
-        attackButton.setOnAction(e -> {
-            int price = 100;
-            int cantidad = 25;
-            if (Memoria.getPlayerMoney() >= price) {
-                if (Memoria.compraAtaque(jugador, cantidad)) {
-                    Memoria.addMoney(-price);
-                    shopMoneyText.setText(
+
+            shopMoneyText.setText(
                 "Dinero: $" + Memoria.getPlayerMoney()
-                    );
+            );
+
+            gamePlayBase.actualizarIntentos(
+                jugador.getReintentos()
+            );
         }
     }
-    });
+});
+
+   // Ataque
+   attackButton.setOnMouseClicked(e -> {
+    int price = 100;
+    int cantidad = 25;
+
+    if (Memoria.getPlayerMoney() >= price) {
+        if (Memoria.compraAtaque(jugador, cantidad)) {
+            Memoria.addMoney(-price);
+
+            shopMoneyText.setText(
+                "Dinero: $" + Memoria.getPlayerMoney()
+            );
+        }
+    }
+});
+   gamePane.getChildren().add(shopPane);
+   shopPane.setVisible(false);
 
         HBox buttons = new HBox(10);
         buttons.setAlignment(Pos.CENTER);

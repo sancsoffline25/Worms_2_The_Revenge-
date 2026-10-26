@@ -125,7 +125,7 @@ public class GamePlayBase{
      Font botonFont = Font.loadFont(getClass().getResourceAsStream("/Assets/Fonts/VT323-Regular.ttf"), 28);
      ButtonCreator botonmaker = new ButtonCreator();
      StackPane botonVolver = botonmaker.crearBoton("Volver", botonFont);
-     StackPane botonMiniPesca = botonmaker.crearBoton("MiniPesca", botonFont);
+     StackPane botonMiniPesca = botonmaker.crearBoton("Ir de Pesca", botonFont);
      StackPane botonSkip = botonmaker.crearBoton("Saltar Dialogo", botonFont);
      
      

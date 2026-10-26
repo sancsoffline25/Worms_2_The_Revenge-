@@ -33,8 +33,11 @@ import entities.Player;
 import ui.ButtonCreator;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import static javafx.scene.text.Font.font;
 
 public class MiniPesca{
+    Font botonFont = Font.loadFont(getClass().getResourceAsStream("/Assets/Fonts/VT323-Regular.ttf"), 28);
+    
     //Tamaño de la ventana
     private final int WIDTH = 800;
     private final int HEIGHT = 600;
@@ -146,6 +149,7 @@ public class MiniPesca{
         shopTitle.setX(350);
         shopTitle.setY(80);
         shopTitle.setStyle("-fx-font-size: 30px;");
+        shopTitle.setFont(botonFont);
         
         shopPane.getChildren().add(shopTitle);
         
@@ -153,6 +157,7 @@ public class MiniPesca{
         shopMoneyText.setX(20);
         shopMoneyText.setY(30);
         shopMoneyText.setStyle("-fx-font-size: 20px;");
+        shopMoneyText.setFont(botonFont);
         shopPane.getChildren().add(shopMoneyText);
         shopMoneyText.setText("Dinero: $" + Memoria.getPlayerMoney());
         
@@ -161,9 +166,10 @@ public class MiniPesca{
         Button closeShopButton = new Button("Cerrar");
         closeShopButton.setLayoutX(700);
         closeShopButton.setLayoutY(100);
+        closeShopButton.setFont(botonFont);
         shopPane.getChildren().add(closeShopButton);
+        
         //Productos de la tienda
-        Font botonFont = Font.loadFont(getClass().getResourceAsStream("/Assets/Fonts/VT323-Regular.ttf"), 28);
         ButtonCreator botonmaker = new ButtonCreator();
         // Reponer peces
         StackPane restoreFishButton =

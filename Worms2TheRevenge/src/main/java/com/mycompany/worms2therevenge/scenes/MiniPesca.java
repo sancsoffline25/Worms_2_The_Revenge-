@@ -33,10 +33,27 @@ import entities.Player;
 import ui.ButtonCreator;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.media.AudioClip;
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
 import static javafx.scene.text.Font.font;
 
 public class MiniPesca{
     Font botonFont = Font.loadFont(getClass().getResourceAsStream("/Assets/Fonts/VT323-Regular.ttf"), 28);
+    private final AudioClip sonidoCaña = new AudioClip(getClass().getResource("/Assets/Sonidos/SFX/SonidoCaña.mp3").toExternalForm());
+    
+    Media AmbientOceanSound = new Media(getClass().getResource("/Assets/Sonidos/SFX/AmbienteMar.mp3").toExternalForm()); //cargo el sonido ambiental
+     MediaPlayer reproductor = new MediaPlayer(AmbientOceanSound); //creo el reproductor que va a reproducirlo
+     
+     private void reproducirAmbiente(){
+        reproductor.setVolume(0.3); //volumen tranqui
+        reproductor.setCycleCount(MediaPlayer.INDEFINITE); //hago que este en loop
+        reproductor.play(); //arranca el sonido ambiental
+    }
+     
+     public void detenerAmbiente(){
+        reproductor.stop();
+    }
     
     //Tamaño de la ventana
     private final int WIDTH = 800;
@@ -62,7 +79,10 @@ public class MiniPesca{
     }
     if (!Memoria.consumirCarnada()){
         baitText.setText("Carnada: 0 - ¡Necesitas más!");
+        sonidoCaña.setVolume(0);
         return;
+    }else{
+        sonidoCaña.setVolume(1);
     }
     baitText.setText("Carnada: " + Memoria.getCarnada());
     hook.startLowering();
@@ -90,12 +110,14 @@ public class MiniPesca{
         moneyText.setX(20);
         moneyText.setY(30);
         moneyText.setStyle("-fx-font-size: 20px;");
+        moneyText.setFont(botonFont);
         gamePane.getChildren().add(moneyText);
         //Display de carnada
         Text baitText = new Text();
         baitText.setX(20);
         baitText.setY(60);
         baitText.setStyle("-fx-font-size: 20px;");
+        baitText.setFont(botonFont);
         baitText.setText("Carnada: " + Memoria.getCarnada());
         gamePane.getChildren().add(baitText);
         
@@ -166,7 +188,6 @@ public class MiniPesca{
         Button closeShopButton = new Button("Cerrar");
         closeShopButton.setLayoutX(700);
         closeShopButton.setLayoutY(100);
-        closeShopButton.setFont(botonFont);
         shopPane.getChildren().add(closeShopButton);
         
         //Productos de la tienda
@@ -196,12 +217,16 @@ public class MiniPesca{
         Button backButton = new Button("Volver");
         Button tiendaButton = new Button("Tienda");
 
-        launchButton.setOnAction(e -> intentarLanzar(hook, baitText));
+        launchButton.setOnAction(e->{
+                intentarLanzar(hook, baitText);
+                sonidoCaña.play();
+                        });
         //Botones y funciones 
-        backButton.setOnAction(e -> {
+        backButton.setOnAction(e->{
+        detenerAmbiente(); 
         stage.close();
     });
-        tiendaButton.setOnAction(e -> {
+        tiendaButton.setOnAction(e->{
         shopMoneyText.setText("Dinero: $" + Memoria.getPlayerMoney());
         shopPane.setVisible(true);
     });
@@ -303,6 +328,7 @@ public class MiniPesca{
         scene.setOnKeyPressed(e -> {
             if (e.getCode() == KeyCode.SPACE){
                 intentarLanzar(hook, baitText);
+                sonidoCaña.play();
             }
         });
 
@@ -314,6 +340,7 @@ public class MiniPesca{
         stage.setResizable(false);
 
         stage.show();
+        reproducirAmbiente();
         long[] lastFrameTime = {-1L};
         AnimationTimer gameLoop = new AnimationTimer() {
 

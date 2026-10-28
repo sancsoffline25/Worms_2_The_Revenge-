@@ -94,6 +94,7 @@ public class GamePlayBase{
      public void detenerAmbiente(){
         reproductor.stop();
     }
+    
      
      
      //StackPanes
@@ -564,7 +565,6 @@ public class GamePlayBase{
     });
     
     botonMiniPesca.setOnMouseClicked(e->{
-        detenerAmbiente();
         viejoSonidos.stopAllDialogues();
         pausa1.stop();
         pausa2.stop();

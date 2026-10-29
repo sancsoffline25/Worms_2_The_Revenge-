@@ -793,7 +793,6 @@ public class GamePlayBase{
         
         
     }
-    //ignora esto 
     public void actualizarIntentos(int cantidad) {
     intentosRestantes.setText("Intentos: " + cantidad);
 }

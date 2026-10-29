@@ -135,7 +135,7 @@ public class MainMenu{
         
         Image fondo = new Image(
         getClass().getResource(
-        "/Assets/Backgrounds/MainMenu/MainMenuBackground2.jpg").toExternalForm()
+        "/Assets/Backgrounds/MainMenu/MainMenuBackground3.jpg").toExternalForm()
         );
 
          BackgroundImage backgroundImage = new BackgroundImage(

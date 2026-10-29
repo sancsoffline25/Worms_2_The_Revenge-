@@ -13,7 +13,7 @@ import javafx.scene.image.Image;
 public class Player{
     
     //Estadisticas Iniciales
-    private int vida = 20; 
+    private int vida = 100; 
     private int reintentos = 3;
     private int ataque = 20;
     

@@ -97,6 +97,8 @@ public class MainMenu{
   
     public void start(Stage stage, Player jugador){
         
+        Image icono = new Image(getClass().getResourceAsStream("/Assets/ui/logo/logo.jpeg"));
+        stage.getIcons().add(icono); //para cambiar el logo de la ventanita
         Image titulosprite = new Image(getClass().getResourceAsStream("/Assets/Sprites/logomenu/worms2logo.png"));
         ImageView titulo = new ImageView(titulosprite); 
         

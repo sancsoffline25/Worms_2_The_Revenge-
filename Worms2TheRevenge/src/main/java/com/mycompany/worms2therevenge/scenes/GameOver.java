@@ -18,6 +18,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Font;
 import javafx.stage.Stage;
 import javafx.animation.FadeTransition;
+import javafx.geometry.Side;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Background;
@@ -95,19 +96,26 @@ public class GameOver {
         VBox creditos = new VBox(20);
         
         //fondo
-        Image fondo = new Image(getClass().getResource("/Assets/Backgrounds/GameOverBossFight/GameOver2.jpg").toExternalForm());
+        Image fondo = new Image(getClass().getResource("/Assets/Backgrounds/GameOverBossFight/GameOver2.jpeg").toExternalForm());
 
         BackgroundImage backgroundImage = new BackgroundImage(
         fondo,
         BackgroundRepeat.NO_REPEAT,
         BackgroundRepeat.NO_REPEAT,
-        BackgroundPosition.CENTER,
+        new BackgroundPosition(
+        Side.LEFT,
+        0,
+        false,
+        Side.TOP,
+        0,
+        false
+        ),
         new BackgroundSize(
-        100, 100,
+        1.0, 1.0,
         true, true,
-        false, true
+        false, false
         )
-        );
+        ); 
         //Label (carteles)
         Label finaleText = new Label("GAME OVER");
         Label programmers = new Label("Fuíste atrapado por el anciano");
